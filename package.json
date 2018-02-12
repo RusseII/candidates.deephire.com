@@ -1,6 +1,7 @@
 {
   "name": "employee-dashboard",
   "version": "0.1.0",
+  "homepage": "https://deephire.io/candidates/",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.0.0",
