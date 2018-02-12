@@ -5,7 +5,6 @@ import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import ReactPlayer from 'react-player'
-import Modal from 'material-ui/Modal';
 
 
 const styles = {
@@ -27,26 +26,26 @@ function SimpleMediaCard(props) {
     return (
         <div>
             <Card className={classes.card}>
-                <CardMedia
+                {/* <CardMedia
                     className={classes.media}
                     image={props.video_thumbnail}
                     title="Press play to see the candidate answer your question! "
 
                 >
                     
-                </CardMedia>
+                </CardMedia> */}
                 <CardContent>
                     <Typography variant="headline" component="h2">
-                        {/* {props.testing} */}
+                        <ReactPlayer width="150" controls url="https://s3.amazonaws.com/deephire/Safeguard+Properties/Marlo/Marlo_Intro_Correct.mp4" />
                     </Typography>
                     <Typography component="p">
                         {props.question_text}
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small" color="primary" onClick={() => handleClick(props.response_url)}>
+                    {/* <Button size="small" color="primary" onClick={() => handleClick(props.response_url)}>
             PLAY
-          </Button>
+          </Button> */}
           {/* <Button size="small" color="primary">
             Learn More
           </Button> */}
