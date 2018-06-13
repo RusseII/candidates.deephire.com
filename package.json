@@ -13,7 +13,8 @@
     "react-dom": "^16.2.0",
     "react-player": "^1.1.2",
     "react-scripts": "1.1.1",
-    "reactstrap": "^5.0.0-beta"
+    "reactstrap": "^5.0.0-beta",
+    "video-react": "^0.11.2"
   },
   "scripts": {
     "start": "react-scripts start",

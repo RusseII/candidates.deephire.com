@@ -1,5 +1,14 @@
 .App {
   text-align: center;
+  background-color: #EEF0F5;
+  font-family: "Source Sans Pro", sans-serif;
+  
+  
+}
+body > #root > div {
+  height: 100vh;
+  font-family: "Source Sans Pro", sans-serif;
+  
 }
 
 .App-logo {
@@ -8,21 +17,29 @@
 }
 
 .App-header {
-  background-color: #217BF6;
+  background-color: rgba(47,105,248,.85);
   height: 200px;
-  padding: 20px;
+  padding: 50px;
+
+
+  
   color: white;
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: 2em;
 }
 
 .App-intro {
   font-size: large;
 }
+.cardContainer {
+border: 1px solid rgba(47,105,248,.85);
+font-family: "Source Sans Pro", sans-serif;
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+}
+* {
+  font-family: "Source Sans Pro", sans-serif;
+ 
+
 }

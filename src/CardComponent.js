@@ -4,53 +4,44 @@ import { withStyles } from 'material-ui/styles';
 import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
-import ReactPlayer from 'react-player'
+import { Player, BigPlayButton } from 'video-react';
+import "video-react/dist/video-react.css"; // import css for video player
+import './App.css';
 
 
 const styles = {
     card: {
-        maxWidth: 345,
+        maxWidth: 600,
     },
     media: {
         height: 200,
     },
 };
 
-function handleClick(videoURL){
-    
+function handleClick(videoURL) {
+
     alert('helo')
-  };
+};
 
 function SimpleMediaCard(props) {
     const { classes } = props;
     return (
-        <div>
-            <Card className={classes.card}>
-                {/* <CardMedia
-                    className={classes.media}
-                    image={props.video_thumbnail}
-                    title="Press play to see the candidate answer your question! "
+        <div style={{ marginBottom: 30 }}>
+            <div className="cardContainer" >
+                <Typography >
+                    <Player poster={props.thumbnail} fluid={true}>
+                        <BigPlayButton position="center" />
+                        <source src={props.videoURL} />
+                    </Player>
+                    <div style={{ backgroundColor: 'rgba(47, 105, 248, .85)', color: 'white', paddingTop: 5, paddingBottom: 5 }}>
+                        Question {props.number + 1}
+                    </div>
+                </Typography>
+            </div>
+            <Typography className="questionText" component="p" style={{ marginTop: 15 }}>
+                {props.question_text}
+            </Typography>
 
-                >
-                    
-                </CardMedia> */}
-                <CardContent>
-                    <Typography variant="headline" component="h2">
-                        <ReactPlayer width="150" controls url="https://s3.amazonaws.com/deephire/Safeguard+Properties/Marlo/Marlo_Intro_Correct.mp4" />
-                    </Typography>
-                    <Typography component="p">
-                        {props.question_text}
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    {/* <Button size="small" color="primary" onClick={() => handleClick(props.response_url)}>
-            PLAY
-          </Button> */}
-          {/* <Button size="small" color="primary">
-            Learn More
-          </Button> */}
-                </CardActions>
-            </Card>
         </div>
     );
 }

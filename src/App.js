@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import logo from './img/logos/deephitewhite.png';
+import logo from './img/logos/deephirewhite.png';
 import { render } from 'react-dom';
 import PropTypes from 'prop-types';
 import ReactPlayer from 'react-player'
-import { Container, Row, Col } from 'reactstrap';
+import { Layout, Container, Row, Col } from 'reactstrap';
 import Button from 'material-ui/Button';
 
 import CardComponent from './CardComponent'
@@ -24,6 +24,7 @@ class App extends Component {
     this.state = {
       questionDataToRender: [],
       questionData: [],
+      number: 0
     };
 
   }
@@ -41,10 +42,10 @@ class App extends Component {
   CleanVariable(res) {
     if (res === undefined)
       return
-    else{
-    var res = res.replace(/%20/g, " ");
-    var res = res.replace(/%40/g, "@");
-    return (res);
+    else {
+      var res = res.replace(/%20/g, " ");
+      var res = res.replace(/%40/g, "@");
+      return (res);
     }
   }
 
@@ -59,13 +60,14 @@ class App extends Component {
       .then(results => {
         return (results.json())
       }).then(data => {
-        let arrayOfResponses = data.map((objKey) => {
-          // console.log(objKey)
+        let arrayOfResponses = data.map((objKey, index) => {
+
           this.setState({ questionData: objKey })
+
           return (
-            <Col xs="auto">
+            <Col sm="4">
               <div key={objKey._id.$oid}>
-                <CardComponent testing="HEY" video={objKey.response_url} question_text={objKey.question_text} />
+                <CardComponent number={index} thumbnail={objKey.thumbnail} videoURL={objKey.response_url} question_text={objKey.question_text} />
               </div>
             </Col>
           )
@@ -80,17 +82,31 @@ class App extends Component {
     return (
 
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Meet {this.state.questionData.user_name}!</h1>
-          <h2 className="App-title"> <Button variant="raised" style={{backgroundColor:"#6DC25C", color: "white"}}> View Resume </Button> </h2>
-        </header>
+
         <Container>
           <Row>
-            {this.state.questionDataToRender}
+            <Col sm="12" md={{ size: 16, offset: 0 }} style={{ paddingTop: 50 }}>
+              <header className="App-header text-center"  >
+                <img src={logo} className="App-logo" alt="logo" style={{ marginTop: -30, marginBottom: 50 }} />
+                <h1 className="App-title">Meet {this.state.questionData.user_name}!</h1>
+                {/* <h2 className="App-title"> <Button variant="raised" style={{ backgroundColor: "#6DC25C", color: "white" }}> View Resume </Button> </h2> */}
+              </header>
+            </Col>
+          </Row>
+          <div style={{ marginTop: 20, marginBottom: 20, color: '#9B9B9B', }}>
+            <b>Interview Videos</b>
+          </div>
+          <Row>
+            <Col sm="12" md={{ size: 16, offset: 0 }}>
+              <Container style={{ backgroundColor: 'white' }}>
+                <Row style={{ paddingTop: 30, paddingBottom: 0, paddingRight: 30, paddingLeft: 30 }}>
+                  {this.state.questionDataToRender}
+                </Row>
+              </Container>
+            </Col>
           </Row>
         </Container>
-      </div>
+      </div >
     );
   }
 }
