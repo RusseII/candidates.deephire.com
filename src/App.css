@@ -1,45 +1,73 @@
 .App {
   text-align: center;
-  background-color: #EEF0F5;
-  font-family: "Source Sans Pro", sans-serif;
+  background-color: #F6F7F8;
+  /* font-family: "Source Sans Pro", sans-serif; */
+
   
   
 }
 body > #root > div {
   height: 100vh;
-  font-family: "Source Sans Pro", sans-serif;
+  /* font-family: "Source Sans Pro", sans-serif; */
   
 }
 
-.App-logo {
-  /* animation: App-logo-spin infinite 20s linear; */
-  height: 80px;
-}
 
-.App-header {
-  background-color: rgba(47,105,248,.85);
-  height: 200px;
-  padding: 50px;
-
-
-  
-  color: white;
-}
-
-.App-title {
-  font-size: 2em;
-}
-
-.App-intro {
-  font-size: large;
-}
 .cardContainer {
-border: 1px solid rgba(47,105,248,.85);
-font-family: "Source Sans Pro", sans-serif;
+border: 1px solid white;
 
+background-color: white;
+display: block;
+border-radius: 5px;
+text-align: left;
+
+
+
+
+margin-block-start: 10px;
 }
+
+.cardContent {
+  padding-left: 3%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+
 * {
-  font-family: "Source Sans Pro", sans-serif;
- 
+  /* font-family: "Source Sans Pro", sans-serif; */
+}
+
+.Collapsible {
+  background-color: white;
+  width: 100%;
+  /* padding-right: 20px; */
+  /* padding-left: 20px; */
+  
+  /* padding-block-end: 20px; */
+  padding-block-start: 20px;
+  
+  background-color: #F6F7F8;
+}
+
+/* .Collapsible__contentInner{
+  background-color: black
+} */
+
+.Collapsible__contentInner:target {
+  background-color: black;
+}
+
+
+
+.Collapsible__contentInner {
+  padding: 10px;
+  border: 1px solid white;
+  border-top: 0;
+    background-color: white;
+     border-bottom-left-radius: 10px;
+     border-bottom-right-radius: 10px;
+     color: #59687c;
+
 
 }
