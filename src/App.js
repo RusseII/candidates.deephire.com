@@ -71,8 +71,12 @@ class App extends Component {
     console.log("submitting comment")
     console.log(data)
 
+    // dev url
+    // var url = 'http://0.0.0.0:3001/v1.0/add_video_comment'
+
     // post it to server
     var url = 'https://api.deephire.io/v1.0/add_video_comment';
+
     fetch(url, {
       method: 'POST',
       headers: {
@@ -81,6 +85,9 @@ class App extends Component {
       },
       body: JSON.stringify(data)
     })
+    // wipe the input text field
+    this.setState({ inputCommentField: '' })
+
 
   }
   toggleUserNameModal() {
@@ -114,6 +121,7 @@ class App extends Component {
 
       // re-render page with the new comment
       this.getComments(this.state.activeQuestion)
+      // store comment to database
       this.submitComments()
     } else {
       // author name has not been collected yet
@@ -324,6 +332,7 @@ class App extends Component {
                     {this.state.comments}
                     <Form reply>
                       <Form.TextArea
+                        value={this.state.inputCommentField}
                         onChange={evt => this.updateInputValueComments(evt)}
                       />
                       <Button
