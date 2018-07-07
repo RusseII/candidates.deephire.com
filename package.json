@@ -30,6 +30,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "build-and-deploy": "npm run build && s3cmd sync build/* s3://candidates.deephire.io && echo '🚀  Deployed!'",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
