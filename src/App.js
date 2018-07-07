@@ -33,14 +33,7 @@ import {
   Input
 } from "reactstrap";
 
-
-
 import { Player, BigPlayButton } from "video-react";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-
-import rightArrow from "@fortawesome/fontawesome-free-solid/faChevronRight";
-import leftArrow from "@fortawesome/fontawesome-free-solid/faChevronLeft";
-
 import { Button, Comment, Form, Header } from "semantic-ui-react";
 
 // import 'semantic-ui-css/semantic.min.css';
@@ -73,7 +66,21 @@ class App extends Component {
     this.submitComments = this.submitComments.bind(this);
   }
   submitComments() {
-    // grab the new comment
+    // grab the updated commentChain from state
+    var data = this.state.candidateData[this.state.activeQuestion]
+    console.log("submitting comment")
+    console.log(data)
+
+    // post it to server
+    var url = 'https://api.deephire.io/v1.0/add_video_comment';
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
 
   }
   toggleUserNameModal() {
@@ -107,6 +114,7 @@ class App extends Component {
 
       // re-render page with the new comment
       this.getComments(this.state.activeQuestion)
+      this.submitComments()
     } else {
       // author name has not been collected yet
       this.toggleUserNameModal()
@@ -158,7 +166,6 @@ class App extends Component {
   // make pagination buttons functional
   handlePaginationButton(e, position) {
     e.persist();
-    console.log("activeQuestion", e.target.id);
     this.setState({
       activeQuestion: e.target.id
     }, () => {
@@ -235,7 +242,6 @@ class App extends Component {
       })
       .then(
       data => {
-        console.log("its running")
         this.setState({
           candidateData: data,
           activeQuestion: 0
@@ -253,7 +259,6 @@ class App extends Component {
     this.setState({
       commentTextInputValue: evt.target.value
     });
-    console.log(evt.target.value)
 
   }
 
@@ -266,7 +271,6 @@ class App extends Component {
   submitUserName(e) {
     this.toggleUserNameModal();
     if (this.state.userNameInputValue) {
-      console.log('submitting the name', this.state.userNameInputValue)
       localStorage.setItem('authorName', this.state.userNameInputValue);
       this.createComment(null)
     }
