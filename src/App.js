@@ -265,7 +265,8 @@ class App extends Component {
 
   updateInputValueComments(evt) {
     this.setState({
-      commentTextInputValue: evt.target.value
+      commentTextInputValue: evt.target.value,
+      inputCommentField: evt.target.value
     });
 
   }
@@ -279,8 +280,8 @@ class App extends Component {
   submitUserName(e) {
     this.toggleUserNameModal();
     if (this.state.userNameInputValue) {
-      localStorage.setItem('authorName', this.state.userNameInputValue);
-      this.createComment(null)
+      localStorage.setItem('authorName', this.state.userNameInputValue), (this.createComment(null));
+      
     }
   }
   render() {
