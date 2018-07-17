@@ -65,6 +65,7 @@ class App extends Component {
     this.updateInputValueComments = this.updateInputValueComments.bind(this);
     this.submitComments = this.submitComments.bind(this);
   }
+  
   submitComments() {
     // grab the updated commentChain from state
     var data = this.state.candidateData[this.state.activeQuestion]
@@ -290,8 +291,7 @@ class App extends Component {
     if (this.state.activeQuestion === null) return <p> Loading questions... </p>;
     if (this.state.requestFailed) return <p>Failed!</p>;
 
-    return (
-      <div className="App">
+    return <div className="App">
         {/* NAVBAR */}
         <Navbar color="light" light expand="md">
           <NavbarBrand href="/">
@@ -301,12 +301,14 @@ class App extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink style={{ color: "black" }} href="/components/">
+                <Button onClick={() => window.openChat()}>
                   Feedback
-                </NavLink>
+                </Button>
               </NavItem>
               <NavItem>
-                <Button basic color='green' onClick={this.toggle}>More Candidates Like This</Button>
+                <Button basic color="green" onClick={this.toggle}>
+                  More Candidates Like This
+                </Button>
               </NavItem>
             </Nav>
           </Collapse>
@@ -319,8 +321,7 @@ class App extends Component {
               <div className="cardContainer">
                 <div className="cardContent">
                   <h1>Meet {this.getName()}!</h1>
-                  <div style={{ marginBottom: 10, marginTop: 10 }}>
-                  </div>
+                  <div style={{ marginBottom: 10, marginTop: 10 }} />
                 </div>
               </div>
               <div style={{ marginTop: 20, marginBottom: 20, color: "#9B9B9B" }}>
@@ -332,17 +333,8 @@ class App extends Component {
                   <Comment.Group>
                     {this.state.comments}
                     <Form reply>
-                      <Form.TextArea
-                        value={this.state.inputCommentField}
-                        onChange={evt => this.updateInputValueComments(evt)}
-                      />
-                      <Button
-                        content="Add Reply"
-                        labelPosition="left"
-                        icon="edit"
-                        primary
-                        onClick={e => this.createComment(e)}
-                      />
+                      <Form.TextArea value={this.state.inputCommentField} onChange={evt => this.updateInputValueComments(evt)} />
+                      <Button content="Add Reply" labelPosition="left" icon="edit" primary onClick={e => this.createComment(e)} />
                     </Form>
                   </Comment.Group>
                 </div>
@@ -354,14 +346,13 @@ class App extends Component {
                 <div className="cardContents">
                   <div style={{ paddingBottom: 20 }}>
                     {" "}
-                    <b style={{ fontSize: "large" }}>Q{Number(this.state.activeQuestion) + 1} - </b>{this.state.candidateData[this.state.activeQuestion]['question_text']}{" "}
+                    <b style={{ fontSize: "large" }}>
+                      Q{Number(this.state.activeQuestion) + 1} -{" "}
+                    </b>
+                    {this.state.candidateData[this.state.activeQuestion]["question_text"]}{" "}
                   </div>
                   <Player ref="player" videoId="video-1">
-                    <source
-                      src={
-                        this.state.candidateData[this.state.activeQuestion]["response_url"]
-                      }
-                    />
+                    <source src={this.state.candidateData[this.state.activeQuestion]["response_url"]} />
                     <BigPlayButton position="center" />
                   </Player>
                   {/* Pagination Buttons */}
@@ -378,16 +369,21 @@ class App extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Top Fit Candidates</ModalHeader>
           <ModalBody>
-            Want to see more candidates just like {this.getName()}? Reach out and we will set you up: steven@deephire.io
-        </ModalBody>
+            Want to see more candidates just like {this.getName()}? Reach
+            out and we will set you up: steven@deephire.io
+          </ModalBody>
           <ModalFooter>
-            <Button basic color='grey' onClick={this.toggle}>Close</Button>
+            <Button basic color="grey" onClick={this.toggle}>
+              Close
+            </Button>
           </ModalFooter>
         </Modal>
 
         {/* ADD USER NAME MODAL  */}
         <Modal isOpen={this.state.userNameModal} toggle={this.toggleUserNameModal}>
-          <ModalHeader toggle={this.toggleUserNameModal}>Add Name to Comment</ModalHeader>
+          <ModalHeader toggle={this.toggleUserNameModal}>
+            Add Name to Comment
+          </ModalHeader>
           <ModalBody>
             Add your name below to post your comment.
             <InputGroup>
@@ -395,12 +391,14 @@ class App extends Component {
             </InputGroup>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.submitUserName} >Submit</Button>{' '}
-            <Button basic color='grey' onClick={this.toggleUserNameModal}>Cancel</Button>
+            <Button color="primary" onClick={this.submitUserName}>
+              Submit
+            </Button> <Button basic color="grey" onClick={this.toggleUserNameModal}>
+              Cancel
+            </Button>
           </ModalFooter>
         </Modal>
-      </div>
-    );
+      </div>;
   }
 }
 
