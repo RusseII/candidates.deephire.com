@@ -18,6 +18,10 @@ jobs:
 
     steps:
       - checkout
+      - run:
+          name: Install aws cli
+          command:
+              sudo apt-get -y -qq install awscli
       # - run:
       #     name: Install dependencies
       #     command: |
