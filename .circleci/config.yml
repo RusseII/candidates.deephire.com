@@ -45,7 +45,7 @@ jobs:
           name: Push to s3
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              CI=false npm run build && aws s3 sync build/* s3://candidates.deephire.io && echo '🚀  Deployed!
+              CI=false npm run build && aws s3 sync build/* s3://candidates.deephire.io && echo '🚀  Deployed!'
             fi
 
 
