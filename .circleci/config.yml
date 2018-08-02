@@ -45,7 +45,7 @@ jobs:
           name: Push to s3
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              yarn run build-and-deploy
+              CI=false yarn run build-and-deploy
             fi
 
 
