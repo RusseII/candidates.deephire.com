@@ -18,11 +18,11 @@ jobs:
 
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --no-cache \
-              s3cmd
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       apk add --no-cache \
+      #         s3cmd
 
       # Download and cache dependencies
       - restore_cache:
