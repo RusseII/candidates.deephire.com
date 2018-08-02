@@ -18,6 +18,11 @@ jobs:
 
     steps:
       - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --no-cache \
+              s3cmd
 
       # Download and cache dependencies
       - restore_cache:
@@ -35,5 +40,13 @@ jobs:
         
       # run tests!
       - run: yarn test
+      
+      - deploy:
+          name: Push to s3
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              yarn run build-and-deploy
+            fi
+
 
 
