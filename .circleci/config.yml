@@ -50,7 +50,7 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               CI=false npm run build
-              aws s3 sync ~/repo/build/* s3://candidates.deephire.io
+              aws s3 sync ~/repo/build/ s3://candidates.deephire.io
             fi
 
       - deploy:
@@ -58,6 +58,6 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" == "develop" ]; then
               CI=false npm run build
-              aws s3 sync ~/repo/build/* s3://dev-candidates.deephire.io
+              aws s3 sync ~/repo/build/ s3://dev-candidates.deephire.io
             fi
 
