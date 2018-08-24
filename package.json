@@ -24,7 +24,7 @@
     "react-responsive-accordion": "^1.0.0",
     "react-scripts": "1.1.1",
     "reactstrap": "^5.0.0-beta",
-    "readable-timestamp": "^0.2.0",
+    "readable-timestamp": "0.2.0",
     "semantic-ui-react": "^0.81.3",
     "video-react": "^0.11.2"
   },

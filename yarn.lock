@@ -5885,7 +5885,7 @@ readable-stream@^2.0.1, readable-stream@^2.0.2, readable-stream@^2.0.6, readable
     string_decoder "~1.0.3"
     util-deprecate "~1.0.1"
 
-readable-timestamp@^0.2.0:
+readable-timestamp@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/readable-timestamp/-/readable-timestamp-0.2.0.tgz#e78d6e0d0f925b5e97127ddacfc6700166abb16c"
 
