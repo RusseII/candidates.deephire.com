@@ -81,14 +81,18 @@ class App extends Component {
   submitComments() {
     // grab the updated commentChain from state
     var data = this.state.candidateData[this.state.activeQuestion]
+    // data["_id"] = data["_id"]["$oid"]
+    
     console.log("submitting comment")
-    console.log(data)
+    console.log("submitting comment", data)
 
     // dev url
     // var url = 'http://0.0.0.0:3001/v1.0/add_video_comment'
 
     // post it to server
-    var url = 'https://api.deephire.io/v1.0/add_video_comment';
+    // var url = 'https://api.deephire.io/v1.0/add_video_comment';
+                            var url = "https://dev-api.deephire.io/v1.0/add_video_comment";
+
 
     fetch(url, {
       method: 'POST',
@@ -252,6 +256,10 @@ class App extends Component {
   }
 
   componentDidMount() {
+                        var id = this.CleanVariable(this.GetURLParameter("id"));
+                        var user_token = this.CleanVariable(this.GetURLParameter("candidate"));
+                        /* test data: 
+=======
 
     this.updateWindowDimensions();
     window.addEventListener('resize', this.updateWindowDimensions);
@@ -260,30 +268,38 @@ class App extends Component {
     var company_token = this.CleanVariable(this.GetURLParameter("company"));
     var user_token = this.CleanVariable(this.GetURLParameter("candidate"));
     /* test data: 
+>>>>>>> 809c986493fd60b9ec8f87ba8ddb63db85a7ccf7
     ?company=436b04b53380061c94c6669fb752c00383a1a4b4dbbc213e4f4602039252ece9:e00821faf1a24d19be748a78b0f5e442&candidate=emerson%20cloud 
-    var company_token = '436b04b53380061c94c6669fb752c00383a1a4b4dbbc213e4f4602039252ece9:e00821faf1a24d19be748a78b0f5e442'
+    var id = '436b04b53380061c94c6669fb752c00383a1a4b4dbbc213e4f4602039252ece9:e00821faf1a24d19be748a78b0f5e442'
     var user_token = 'emerson%20cloud'
     */
-    var url = "https://api.deephire.io/v1.0/get_candidate_videos/";
+                        // var url = "https://api.deephire.io/v1.0/get_candidate_videos/";
+                        var url = "https://dev-api.deephire.io/v1.0/get_candidate_videos/";
 
-    fetch(url + company_token + "/" + user_token)
-      .then(results => {
-        return results.json();
-      })
-      .then(
-      data => {
-        this.setState({
-          candidateData: data,
-          activeQuestion: 0
-        }, () => { this.getComments(this.state.activeQuestion); this.createPaginationButtons() });
-      },
-      () => {
-        this.setState({
-          requestFailed: true
-        });
-      }
-      );
-  }
+                        fetch(url + id + "/" + user_token)
+                          .then(results => {
+                            return results.json();
+                          })
+                          .then(data => {
+                              this.setState(
+                                {
+                                  candidateData: data,
+                                  activeQuestion: 0
+                                },
+                                () => {
+                                  this.getComments(
+                                    this.state
+                                      .activeQuestion
+                                  );
+                                  this.createPaginationButtons();
+                                }
+                              );
+                            }, () => {
+                              this.setState({
+                                requestFailed: true
+                              });
+                            });
+                      }
 
   updateInputValueComments(evt) {
     this.setState({
