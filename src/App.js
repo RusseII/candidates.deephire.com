@@ -208,6 +208,8 @@ class App extends Component {
   }
 
   getName() {
+        console.log("getName all data", this.state.candidateData);
+
     return this.state.candidateData[0]["user_name"];
   }
   // toggle signup email modal
