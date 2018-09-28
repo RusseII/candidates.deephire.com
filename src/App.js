@@ -369,7 +369,7 @@ class App extends Component {
                   </div>
                   <div className='player-wrapper'>
 
-                  <ReactPlayer           className='react-player' height="100%" width="100%"
+                  <ReactPlayer          controls className='react-player' height="100%" width="100%"
 
         url={this.state.candidateData[this.state.activeQuestion]["response_url"]}  />
         </div>
