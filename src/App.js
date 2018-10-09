@@ -38,9 +38,12 @@ import { Button, Comment, Form, Header } from "semantic-ui-react";
 
 // import 'semantic-ui-css/semantic.min.css';
 
-import "video-react/dist/video-react.css"; // import css for video player
+// import "video-react/dist/video-react.css"; // import css for video player
 import "./App.css";
+
 var readableTime = require('readable-timestamp');
+var Vimeo = require('react-vimeo');
+
 
 class App extends Component {
   constructor(props) {
@@ -172,7 +175,7 @@ class App extends Component {
   // load the new source video for the video player
   componentDidUpdate(prevProps, prevState) {
     if (this.state.activeQuestion != prevState.activeQuestion) {
-      this.refs.player.load();
+      // this.refs.player.load();
     }
   }
 
@@ -357,17 +360,19 @@ class App extends Component {
               {/* Video Player Card */}
               <div style={{ padding: 12 }} className="cardContainer">
                 <div className="cardContents">
-                  <div style={{ paddingBottom: 20 }}>
+                  <div style={{paddingBottom: 20 }}>
                     {" "}
                     <b style={{ fontSize: "large" }}>
                       Q{Number(this.state.activeQuestion) + 1} -{" "}
                     </b>
                     {this.state.candidateData[this.state.activeQuestion]["question_text"]}{" "}
                   </div>
-                  <Player ref="player" videoId="video-1">
-                    <source src={this.state.candidateData[this.state.activeQuestion]["response_url"]} />
-                    <BigPlayButton position="center" />
-                  </Player>
+                  <div className='player-wrapper'>
+
+                  <ReactPlayer          controls className='react-player' height="100%" width="100%"
+
+        url={this.state.candidateData[this.state.activeQuestion]["response_url"]}  />
+        </div>
                   {/* Pagination Buttons */}
                   <Pagination size="lg" aria-label="question navigation">
                     {this.state.paginationButtons}
@@ -414,5 +419,7 @@ class App extends Component {
       </div>;
   }
 }
+
+
 
 export default App;
