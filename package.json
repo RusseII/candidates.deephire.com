@@ -1,7 +1,7 @@
 {
   "name": "employee-dashboard",
   "version": "0.1.0",
-  "homepage": "https://candidates.deephire.io",
+  "homepage": "https://candidates.deephire.com",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome": "1.1.8",
@@ -32,7 +32,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build-and-deploy": "npm run build && s3cmd sync build/* s3://candidates.deephire.io && echo '🚀  Deployed!'",
+    "build-and-deploy": "npm run build && s3cmd sync build/* s3://candidates.deephire.com && echo '🚀  Deployed!'",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-scripts eject"

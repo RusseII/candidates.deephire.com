@@ -80,8 +80,8 @@ class App extends Component {
     // var url = 'http://0.0.0.0:3001/v1.0/add_video_comment'
 
     // post it to server
-    // var url = 'https://api.deephire.io/v1.0/add_video_comment';
-                            var url = "https://api.deephire.io/v1.0/add_video_comment";
+    // var url = 'https://localhost:3001/v1.0/add_video_comment';
+                            var url = "http://localhost:3001/v1.0/add_video_comment";
 
 
     fetch(url, {
@@ -251,8 +251,8 @@ class App extends Component {
     var id = '436b04b53380061c94c6669fb752c00383a1a4b4dbbc213e4f4602039252ece9:e00821faf1a24d19be748a78b0f5e442'
     var user_token = 'emerson%20cloud'
     */
-                        // var url = "https://api.deephire.io/v1.0/get_candidate_videos/";
-                        var url = "https://api.deephire.io/v1.0/get_candidate_videos/";
+                        // var url = "https://localhost:3001/v1.0/get_candidate_videos/";
+                        var url = "http://localhost:3001/v1.0/get_candidate_videos/";
 
                         fetch(url + id + "/" + user_token)
                           .then(results => {
@@ -403,7 +403,7 @@ class App extends Component {
           <ModalHeader toggle={this.toggle}>Top Fit Candidates</ModalHeader>
           <ModalBody>
             Want to see more candidates just like {this.getName()}? Reach
-            out and we will set you up: steven@deephire.io
+            out and we will set you up: steven@deephire.com
           </ModalBody>
           <ModalFooter>
             <Button basic color="grey" onClick={this.toggle}>
