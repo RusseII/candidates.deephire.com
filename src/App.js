@@ -42,7 +42,6 @@ import { Button, Comment, Form, Header } from "semantic-ui-react";
 import "./App.css";
 
 var readableTime = require('readable-timestamp');
-var Vimeo = require('react-vimeo');
 
 
 class App extends Component {
@@ -369,7 +368,7 @@ class App extends Component {
                   </div>
                   <div className='player-wrapper'>
 
-                  <ReactPlayer          controls className='react-player' height="100%" width="100%"
+                  <ReactPlayer   onError={() => this.setState({errorModal: true})}  preload    controls className='react-player' height="100%" width="100%"
 
         url={this.state.candidateData[this.state.activeQuestion]["response_url"]}  />
         </div>
@@ -382,6 +381,22 @@ class App extends Component {
             </Col>
           </Row>
         </Container>
+
+
+
+ <Modal isOpen={this.state.errorModal}>
+          <ModalHeader >Videos Still Processing</ModalHeader>
+          <ModalBody>
+            The video is still processing, it can take up to 15 minutes to finish.
+          
+            If you have any questions, send me a message on the bottom right. 
+          </ModalBody>
+          <ModalFooter>
+            <Button basic color="grey" onClick={() => this.setState({errorModal: false})}>
+              Close
+            </Button>
+          </ModalFooter>
+        </Modal>
 
         {/* SOURCING TOOL EMAIL MODAL */}
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
