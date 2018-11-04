@@ -388,7 +388,7 @@ class App extends Component {
           <ModalHeader toggle={this.toggle}>Top Fit Candidates</ModalHeader>
           <ModalBody>
             Want to see more candidates just like {this.getName()}? Reach
-            out and we will set you up: steven@deephire.io
+            out and we will set you up: steven@deephire.com
           </ModalBody>
           <ModalFooter>
             <Button basic color="grey" onClick={this.toggle}>
