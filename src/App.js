@@ -81,7 +81,7 @@ class App extends Component {
 
     // post it to server
     // var url = 'https://localhost:3001/v1.0/add_video_comment';
-                            var url = "http://localhost:3001/v1.0/add_video_comment";
+                            var url = "https://api.deephire.com/v1.0/add_video_comment";
 
 
     fetch(url, {
@@ -252,7 +252,7 @@ class App extends Component {
     var user_token = 'emerson%20cloud'
     */
                         // var url = "https://localhost:3001/v1.0/get_candidate_videos/";
-                        var url = "http://localhost:3001/v1.0/get_candidate_videos/";
+                        var url = "https://api.deephire.com/v1.0/get_candidate_videos/";
 
                         fetch(url + id + "/" + user_token)
                           .then(results => {
