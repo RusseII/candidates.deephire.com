@@ -1,48 +1,32 @@
 import React, { Component } from "react";
-import logo from "./img/logos/horizontalresize.png";
 import { render } from "react-dom";
-import PropTypes from "prop-types";
 import ReactPlayer from "react-player";
+
 import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Layout,
-  Container,
-  Row,
+  Card,
   Col,
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Tooltip,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
+  Row,
+  Icon,
+  Table,
+  Button,
+  Rate,
+  Checkbox,
+  Radio,
   Input
-} from "reactstrap";
+} from "antd";
 
-import { Player, BigPlayButton } from "video-react";
-import { Button, Comment, Form, Header } from "semantic-ui-react";
-
-// import 'semantic-ui-css/semantic.min.css';
-
-// import "video-react/dist/video-react.css"; // import css for video player
 import "./App.css";
+const { TextArea } = Input;
 
-var readableTime = require('readable-timestamp');
+const RadioGroup = Radio.Group;
 
+const columns = [
+  {
+    title: "Questions",
+    dataIndex: "question_text",
+    key: "question_text"
+  }
+];
 
 class App extends Component {
   constructor(props) {
@@ -50,391 +34,296 @@ class App extends Component {
 
     this.state = {
       activeQuestion: null,
-      modal: false,
-      userNameModal: false,
-      comments: []
+      shortListIndex: 0
     };
-
-    this.getName = this.getName.bind(this);
-    this.createPaginationButtons = this.createPaginationButtons.bind(this);
-    this.handlePaginationButton = this.handlePaginationButton.bind(this);
-    this.getComments = this.getComments.bind(this)
-    this.createComment = this.createComment.bind(this)
-    this.toggle = this.toggle.bind(this);
-    this.toggleUserNameModal = this.toggleUserNameModal.bind(this);
-    this.submitUserName = this.submitUserName.bind(this);
-    this.updateInputValue = this.updateInputValue.bind(this);
-    this.updateInputValueComments = this.updateInputValueComments.bind(this);
-    this.submitComments = this.submitComments.bind(this);
-  }
-  
-  submitComments() {
-    // grab the updated commentChain from state
-    var data = this.state.candidateData[this.state.activeQuestion]
-    // data["_id"] = data["_id"]["$oid"]
-    
-    console.log("submitting comment")
-    console.log("submitting comment", data)
-
-    // dev url
-    // var url = 'http://0.0.0.0:3001/v1.0/add_video_comment'
-
-    // post it to server
-    // var url = 'https://localhost:3001/v1.0/add_video_comment';
-                            var url = "https://api.deephire.com/v1.0/add_video_comment";
-
-
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data)
-    })
-    // wipe the input text field
-    this.setState({ inputCommentField: '' })
-
-
-  }
-  toggleUserNameModal() {
-    this.setState({
-      userNameModal: !this.state.userNameModal
-    });
-
   }
 
-  createComment(e) {
-    if (localStorage.getItem('authorName')) {
-      // grab all the comment information
-      var time = new Date();
-      var messageObject = {
-        'message': this.state.commentTextInputValue,
-        'author': localStorage.getItem('authorName'),
-        'timestamp': time.toString()
-      }
-      // add new comment to the candidateData state variable
-      var data = this.state.candidateData
-      var commentChain = this.state.candidateData[this.state.activeQuestion]['comments']
-      // if not comments have existed for this question, initialize the comments array
-      if (!commentChain) {
-        commentChain = []
-      }
-      // add comment to chain
-      commentChain.push(messageObject)
-      data[this.state.activeQuestion]['comments'] = commentChain
-      // set state with new comment
-      this.setState({ candidateData: data })
+  componentDidMount() {
+    const shortList = this.CleanVariable(this.GetURLParameter("shortlist"));
 
-      // re-render page with the new comment
-      this.getComments(this.state.activeQuestion)
-      // store comment to database
-      this.submitComments()
+    if (shortList) {
+      this.getShortList(shortList);
     } else {
-      // author name has not been collected yet
-      this.toggleUserNameModal()
+      var id = this.CleanVariable(this.GetURLParameter("id"));
+      var userToken = this.CleanVariable(this.GetURLParameter("candidate"));
+      this.setState({ id, userToken });
     }
+    // var url = "https://localhost:3001/v1.0/get_candidate_videos/";
+    this.getVideosOld(id, userToken);
   }
 
-  getComments(activeQuestion) {
-    var comments = []
+  getShortList(shortlist_id) {
+    // const shortListData = {
+    //   email: "Russell",
+    //   interviews: [
+    //     [
+    //       {
+    //         _id: { $oid: "5bb9533971feb40765377204" },
+    //         company_id: "5bb9164b7001ec000831d1ab",
+    //         interview_name: "Hackathon Student Developer (Intern)",
+    //         python_datetime: "2018-10-06 20:28:41",
+    //         question_text: "Tell me about yourself ",
+    //         response_url: "https://vimeo.com/293754846/e7e1ac1dfa",
+    //         timestamp: 1538872124,
+    //         user_id: "facebook|1488094364584669",
+    //         user_name: "Aron Gates"
+    //       },
+    //       {
+    //         _id: { $oid: "5bb9537d71feb4076537807c" },
+    //         company_id: "5bb9164b7001ec000831d1ab",
+    //         interview_name: "Hackathon Student Developer (Intern)",
+    //         python_datetime: "2018-10-06 20:29:49",
+    //         question_text: "What project are you working on? ",
+    //         response_url: "https://vimeo.com/293754904/40b1ea37fb",
+    //         timestamp: 1538872192,
+    //         user_id: "facebook|1488094364584669",
+    //         user_name: "Aron Gates"
+    //       },
+    //       {
+    //         _id: { $oid: "5bb953cc71feb4076537911d" },
+    //         company_id: "5bb9164b7001ec000831d1ab",
+    //         interview_name: "Hackathon Student Developer (Intern)",
+    //         python_datetime: "2018-10-06 20:31:07",
+    //         question_text: "Is a lazy developer a good developer? ",
+    //         response_url: "https://vimeo.com/293754983/922c451d2e",
+    //         timestamp: 1538872270,
+    //         user_id: "facebook|1488094364584669",
+    //         user_name: "Aron Gates"
+    //       },
+    //       {
+    //         _id: { $oid: "5bb9546b71feb4076537b157" },
+    //         company_id: "5bb9164b7001ec000831d1ab",
+    //         interview_name: "Hackathon Student Developer (Intern)",
+    //         python_datetime: "2018-10-06 20:33:47",
+    //         question_text: "What is your favorite project you've worked on? ",
+    //         response_url: "https://vimeo.com/293755094/b22c0cde17",
+    //         timestamp: 1538872429,
+    //         user_id: "facebook|1488094364584669",
+    //         user_name: "Aron Gates"
+    //       },
+    //       {
+    //         _id: { $oid: "5bb954e071feb4076537c9aa" },
+    //         company_id: "5bb9164b7001ec000831d1ab",
+    //         interview_name: "Hackathon Student Developer (Intern)",
+    //         python_datetime: "2018-10-06 20:35:44",
+    //         question_text:
+    //           "Name a time you've had to work through a team conflict. ",
+    //         response_url: "https://vimeo.com/293755195/d2bda019d0",
+    //         timestamp: 1538872547,
+    //         user_id: "facebook|1488094364584669",
+    //         user_name: "Aron Gates"
+    //       }
+    //     ],
+    //     [
+    //       {
+    //         _id: { $oid: "5bbf996f22541899c14d12c2" },
+    //         candidate_email: "rratcliffe57@yahoo.com",
+    //         company_id: "5bbf9950744689000836437d",
+    //         interview_name: "Russell Fix Vimeo Loading Error",
+    //         python_datetime: "2018-10-11 14:41:51",
+    //         question_text: "Does it work?",
+    //         response_url: "https://vimeo.com/294641644/079dfdd390",
+    //         timestamp: 1539283311,
+    //         user_id: "facebook|1948115908830936",
+    //         user_name: "Russell Ratcliffe"
+    //       },
+    //       {
+    //         _id: { $oid: "5bbf997b22541899c14d14d1" },
+    //         candidate_email: "rratcliffe57@yahoo.com",
+    //         comments: [
+    //           {
+    //             author: "Tester",
+    //             message: "Testing\n",
+    //             timestamp:
+    //               "Thu Oct 11 2018 15:54:03 GMT-0400 (Eastern Daylight Time)"
+    //           },
+    //           {
+    //             author: "Tester",
+    //             message: "Testing\n",
+    //             timestamp:
+    //               "Thu Oct 11 2018 15:54:05 GMT-0400 (Eastern Daylight Time)"
+    //           },
+    //           {
+    //             author: "Tester",
+    //             message: "Testing\n",
+    //             timestamp:
+    //               "Thu Oct 11 2018 15:54:10 GMT-0400 (Eastern Daylight Time)"
+    //           }
+    //         ],
+    //         company_id: "5bbf9950744689000836437d",
+    //         interview_name: "Russell Fix Vimeo Loading Error",
+    //         python_datetime: "2018-10-11 14:42:03",
+    //         question_text: "I sure hope so!",
+    //         response_url: "https://vimeo.com/294641673/3199415111",
+    //         timestamp: 1539283322,
+    //         user_id: "facebook|1948115908830936",
+    //         user_name: "Russell Ratcliffe"
+    //       }
+    //     ]
+    //   ]
+    // };
+    const url = "https://api.deephire.com/v1.0/get_shortlist/";
+        // const url = "http://localhost:3001/v1.0/get_shortlist/";
 
-    // if no comments has existed yet
-    if (!this.state.candidateData[activeQuestion]['comments']) {
-      this.setState({ comments: 'No one has commented on this video yet! Share your thoughts below.' })
-      return
-    }
-    // loop over all existing comments and create commenting objects
-    // TODO make this nicer by separating Comments into its own component, and pass in props
-    for (var i = 0; i < this.state.candidateData[activeQuestion]['comments'].length; i++) {
-      var dateObj = new Date(this.state.candidateData[activeQuestion]['comments'][i]['timestamp'])
-      var displayTime = (readableTime(dateObj))
-      comments.push(
-        <Comment>
-          <Comment.Content>
-            <Comment.Author as="a">
-              {this.state.candidateData[activeQuestion]['comments'][i]['author']}
-            </Comment.Author>
-            <Comment.Metadata>
-              <div>
-                {displayTime}
-              </div>
-            </Comment.Metadata>
-            <Comment.Text>
-              {this.state.candidateData[activeQuestion]['comments'][i]['message']}
-            </Comment.Text>
-          </Comment.Content>
-        </Comment>
+    // this.setState({ shortListData, activeQuestion: 0 });
+
+    fetch(`${url + shortlist_id}`)
+      .then(results => results.json())
+      .then(
+        data => {
+          this.setState({ shortListData: data, activeQuestion: 0 });
+        },
+        () => {
+          this.setState({ requestFailed: true });
+        }
       );
-    }
-    // update state with the comments
-    this.setState({ comments: comments })
+
+    // return { email: "Russell", interviews: [{}, {}] };
   }
 
-  // load the new source video for the video player
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.activeQuestion != prevState.activeQuestion) {
-      // this.refs.player.load();
-    }
-  }
+  getVideosOld(id, userToken) {
+    const url = "https://api.deephire.com/v1.0/get_candidate_videos/";
 
-  // make pagination buttons functional
-  handlePaginationButton(e, position) {
-    e.persist();
-    this.setState({
-      activeQuestion: e.target.id
-    }, () => {
-      this.getComments(e.target.id)
-    });
-  }
-
-  // create buttons for pagination
-  createPaginationButtons() {
-    var paginationButtons = [];
-    for (var i = 0; i < this.state.candidateData.length; i++) {
-      paginationButtons.push(
-        <PaginationItem>
-          <PaginationLink
-            href="#"
-            id={i}
-            onClick={e => this.handlePaginationButton(e, i)}
-          >
-            {i + 1}
-          </PaginationLink>
-        </PaginationItem>
+    fetch(`${url + id}/${userToken}`)
+      .then(results => results.json())
+      .then(
+        data => {
+          this.setState({ candidateData: data, activeQuestion: 0 });
+        },
+        () => {
+          this.setState({ requestFailed: true });
+        }
       );
-    }
-    this.setState({
-      paginationButtons: paginationButtons
-    });
   }
+
+  openInterview = () => {
+    // const { company_id, user_id } = data;
+    // const {$oid} = _id
+    // console.log($oid)
+    const url = `https://candidates.deephire.com/?id=${
+      this.state.id
+    }&candidate=${this.state.userToken}`;
+
+    window.open(url, "_blank");
+  };
 
   getName() {
-        console.log("getName all data", this.state.candidateData);
-
-    return this.state.candidateData[0]["user_name"];
-  }
-  // toggle signup email modal
-  toggle() {
-    this.setState({
-      modal: !this.state.modal
-    });
+    return this.state.candidateData[0].user_name;
   }
 
-
-  // pull URL GET parameters
   GetURLParameter(sParam) {
-    var sPageURL = window.location.search.substring(1);
-    var sURLVariables = sPageURL.split("&");
-    for (var i = 0; i < sURLVariables.length; i++) {
-      var sParameterName = sURLVariables[i].split("=");
+    const sPageURL = window.location.search.substring(1);
+    const sURLVariables = sPageURL.split("&");
+    for (let i = 0; i < sURLVariables.length; i++) {
+      const sParameterName = sURLVariables[i].split("=");
       if (sParameterName[0] == sParam) {
         return sParameterName[1];
       }
     }
+    return null;
   }
+
   // find %20, %40 in a string and replaces with a ' ' and '@' respectively
   CleanVariable(res) {
-    if (res === undefined) return;
-    else {
-      var res = res.replace(/%20/g, " ");
-      var res = res.replace(/%40/g, "@");
-      return res;
+    // if (res === null) return;
+    if (res == undefined) return;
+
+    var res = res.replace(/%20/g, " ");
+    var res = res.replace(/%40/g, "@");
+    return res;
+  }
+
+  back() {
+     if (this.state.shortListIndex > 0){
+    this.setState({ shortListIndex: this.state.shortListIndex - 1 });
+    }
+
+  }
+  submitAndContinue() {
+    if (this.state.shortListIndex + 1 < this.state.shortListData.interviews.length){
+    this.setState({ shortListIndex: this.state.shortListIndex + 1 });
     }
   }
-
-  componentDidMount() {
-                        var id = this.CleanVariable(this.GetURLParameter("id"));
-                        var user_token = this.CleanVariable(this.GetURLParameter("candidate"));
-                        /* test data: 
-    ?company=436b04b53380061c94c6669fb752c00383a1a4b4dbbc213e4f4602039252ece9:e00821faf1a24d19be748a78b0f5e442&candidate=emerson%20cloud 
-    var id = '436b04b53380061c94c6669fb752c00383a1a4b4dbbc213e4f4602039252ece9:e00821faf1a24d19be748a78b0f5e442'
-    var user_token = 'emerson%20cloud'
-    */
-                        // var url = "https://localhost:3001/v1.0/get_candidate_videos/";
-                        var url = "https://api.deephire.com/v1.0/get_candidate_videos/";
-
-                        fetch(url + id + "/" + user_token)
-                          .then(results => {
-                            return results.json();
-                          })
-                          .then(data => {
-                              this.setState(
-                                {
-                                  candidateData: data,
-                                  activeQuestion: 0
-                                },
-                                () => {
-                                  this.getComments(
-                                    this.state
-                                      .activeQuestion
-                                  );
-                                  this.createPaginationButtons();
-                                }
-                              );
-                            }, () => {
-                              this.setState({
-                                requestFailed: true
-                              });
-                            });
-                      }
-
-  updateInputValueComments(evt) {
+  onChange = e => {
+    console.log("radio checked", e.target.value);
     this.setState({
-      commentTextInputValue: evt.target.value,
-      inputCommentField: evt.target.value
+      value: e.target.value
     });
-
-  }
-
-  updateInputValue(evt) {
-    this.setState({
-      userNameInputValue: evt.target.value
-    });
-  }
-
-  submitUserName(e) {
-    this.toggleUserNameModal();
-    if (this.state.userNameInputValue) {
-      localStorage.setItem('authorName', this.state.userNameInputValue), (this.createComment(null));
-      
-    }
-  }
+  };
   render() {
-    if (!this.state.candidateData) return <p>Loading...</p>;
-    if (this.state.comments === null) return <p> Loading! </p>;
-    if (this.state.activeQuestion === null) return <p> Loading questions... </p>;
-    if (this.state.requestFailed) return <p>Failed!</p>;
+    var {
+      candidateData,
+      comments,
+      activeQuestion,
+      requestFailed,
+      shortListData
+    } = this.state;
 
-    return <div className="App">
-        {/* NAVBAR */}
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">
-            <img style={{ height: 34, width: 133.45 }} src={logo} />
-          </NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <Button onClick={() => window.openChat()}>
-                  Feedback
-                </Button>
-              </NavItem>
-              <NavItem>
-                <Button basic color="green" onClick={this.toggle}>
-                  More Candidates Like This
-                </Button>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
+    console.log(shortListData, "SSH");
 
-        <Container fluid>
-          <Row>
-            <Col xs="4">
-              {/* Meet Candidate Card */}
-              <div className="cardContainer">
-                <div className="cardContent">
-                  <h1>Meet {this.getName()}!</h1>
-                  <div style={{ marginBottom: 10, marginTop: 10 }} />
-                </div>
-              </div>
-              <div style={{ marginTop: 20, marginBottom: 20, color: "#9B9B9B" }}>
-                <b>Comments</b>
-              </div>
-              {/* Comments Card */}
-              <div className="comments cardContainer">
-                <div className="cardContent" style={{ padding: 10 }}>
-                  <Comment.Group>
-                    {this.state.comments}
-                    <Form reply>
-                      <Form.TextArea value={this.state.inputCommentField} onChange={evt => this.updateInputValueComments(evt)} />
-                      <Button content="Add Reply" labelPosition="left" icon="edit" primary onClick={e => this.createComment(e)} />
-                    </Form>
-                  </Comment.Group>
-                </div>
-              </div>
-            </Col>
-            <Col xs="8">
-              {/* Video Player Card */}
-              <div style={{ padding: 12 }} className="cardContainer">
-                <div className="cardContents">
-                  <div style={{paddingBottom: 20 }}>
-                    {" "}
-                    <b style={{ fontSize: "large" }}>
-                      Q{Number(this.state.activeQuestion) + 1} -{" "}
-                    </b>
-                    {this.state.candidateData[this.state.activeQuestion]["question_text"]}{" "}
-                  </div>
-                  <div className='player-wrapper'>
+    if (shortListData) {
+       candidateData = shortListData.interviews[this.state.shortListIndex];
+      
+      // console.log(candidateData);
+      // this.setState({ candidateData });
+    } else if (!candidateData) return <p>Loading...</p>;
+    else if (comments === null) return <p> Loading! </p>;
+    else if (activeQuestion === null) return <p> Loading questions... </p>;
+    else if (requestFailed) return <p>Failed!</p>;
+    else if (candidateData.length === 0) {
+      return <p>There is no data for this user, please message our support</p>;
+    } 
+      var { response_url: responseUrl, question_text } = candidateData[
+        activeQuestion
+      ];
 
-                  <ReactPlayer   onError={() => this.setState({errorModal: true})}  preload    controls className='react-player' height="100%" width="100%"
-
-        url={this.state.candidateData[this.state.activeQuestion]["response_url"]}  />
-        </div>
-                  {/* Pagination Buttons */}
-                  <Pagination size="lg" aria-label="question navigation">
-                    {this.state.paginationButtons}
-                  </Pagination>
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-
-
-
- <Modal isOpen={this.state.errorModal}>
-          <ModalHeader >Videos Still Processing</ModalHeader>
-          <ModalBody>
-            The video is still processing, it can take up to 15 minutes to finish.
-          
-            If you have any questions, send me a message on the bottom right. 
-          </ModalBody>
-          <ModalFooter>
-            <Button basic color="grey" onClick={() => this.setState({errorModal: false})}>
-              Close
+      console.log(ReactPlayer.canPlay(responseUrl));
+      console.log(candidateData, activeQuestion);
+    
+    return <Row style={{ backgroundColor: "#F0F2F5", padding: "20px" }} gutter={24}>
+        <Col span={8}>
+          <Card style={{ marginBottom: "20px" }} hoverable title={candidateData[0].user_name}>
+            <Rate allowClear={false} defaultValue={3} /> <br /> <br />
+            <RadioGroup onChange={this.onChange} value={this.state.value}>
+              <Radio value={1}>Yes Interview</Radio>
+              <Radio value={2}>Maybe Interview</Radio>
+              <Radio value={3}>No Interview</Radio>
+            </RadioGroup>
+            <br />
+            <br />
+            <TextArea placeholder="Why?" autosize />
+            <br />
+            <br />
+            {this.state.shortListIndex>0 &&
+            <Button style={{marginRight:"20px"}} onClick={() => this.back()} type="primary">
+            <Icon type="left" />
+          </Button>}
+            <Button onClick={() => this.submitAndContinue()} type="primary">
+              Submit & Continue
+              <Icon type="right" />
             </Button>
-          </ModalFooter>
-        </Modal>
+          </Card>
 
-        {/* SOURCING TOOL EMAIL MODAL */}
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Top Fit Candidates</ModalHeader>
-          <ModalBody>
-            Want to see more candidates just like {this.getName()}? Reach
-            out and we will set you up: steven@deephire.com
-          </ModalBody>
-          <ModalFooter>
-            <Button basic color="grey" onClick={this.toggle}>
-              Close
-            </Button>
-          </ModalFooter>
-        </Modal>
-
-        {/* ADD USER NAME MODAL  */}
-        <Modal isOpen={this.state.userNameModal} toggle={this.toggleUserNameModal}>
-          <ModalHeader toggle={this.toggleUserNameModal}>
-            Add Name to Comment
-          </ModalHeader>
-          <ModalBody>
-            Add your name below to post your comment.
-            <InputGroup>
-              <Input onChange={evt => this.updateInputValue(evt)} placeholder="Steven Gates" />
-            </InputGroup>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.submitUserName}>
-              Submit
-            </Button> <Button basic color="grey" onClick={this.toggleUserNameModal}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        </Modal>
-      </div>;
+          <Card hoverable title="Questions">
+            <Table showHeader={false} onRow={(record, index) => ({ onClick: () => {
+                  this.setState({ activeQuestion: index });
+                } })} rowClassName={(record, index) => (index === activeQuestion ? "selected" : "")} pagination={false} bordered dataSource={candidateData} columns={columns} />
+          </Card>
+        </Col>
+        <Col span={16}>
+          {/* <Button shape="circle" icon="search" /> */}
+          <Card title={question_text}>
+            {/* // actions={[<Icon type="setting" />, <Icon type="share-alt" />]} */}
+            <div className="playerWrapper">
+              <ReactPlayer onError={() => this.setState({
+                    errorinVid: true
+                  })} preload controls playing className="reactPlayer" height="100%" width="100%" url={responseUrl // onEnded={() => this.setState({activeQuestion: activeQuestion + 1})}
+                } />
+            </div>
+          </Card>
+        </Col>
+      </Row>;
   }
 }
-
-
 
 export default App;
