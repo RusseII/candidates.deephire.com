@@ -34,7 +34,8 @@ class App extends Component {
 
     this.state = {
       activeQuestion: null,
-      shortListIndex: 0
+      shortListIndex: 0,
+      rating: 3
     };
   }
 
@@ -163,7 +164,7 @@ class App extends Component {
     //   ]
     // };
     const url = "https://api.deephire.com/v1.0/get_shortlist/";
-        // const url = "http://localhost:3001/v1.0/get_shortlist/";
+        // const url = "http://localhost:3001/v1y.0/get_shortlist/";
 
     // this.setState({ shortListData, activeQuestion: 0 });
 
@@ -235,13 +236,14 @@ class App extends Component {
 
   back() {
      if (this.state.shortListIndex > 0){
-    this.setState({ shortListIndex: this.state.shortListIndex - 1 });
+    this.setState({ rating: 3, value: "", text: "",activeQuestion: 0, shortListIndex: this.state.shortListIndex - 1  });
+    
     }
 
   }
   submitAndContinue() {
     if (this.state.shortListIndex + 1 < this.state.shortListData.interviews.length){
-    this.setState({ shortListIndex: this.state.shortListIndex + 1 });
+    this.setState({ rating: 3, value: "", text: "", activeQuestion: 0, shortListIndex: this.state.shortListIndex + 1 });
     }
   }
   onChange = e => {
@@ -250,6 +252,10 @@ class App extends Component {
       value: e.target.value
     });
   };
+
+ handleChange= event => {
+    this.setState({text: event.target.value});
+  }
   render() {
     var {
       candidateData,
@@ -280,10 +286,11 @@ class App extends Component {
       console.log(ReactPlayer.canPlay(responseUrl));
       console.log(candidateData, activeQuestion);
     
+
     return <Row style={{ backgroundColor: "#F0F2F5", padding: "20px" }} gutter={24}>
         <Col span={8}>
           <Card style={{ marginBottom: "20px" }} hoverable title={candidateData[0].user_name}>
-            <Rate allowClear={false} defaultValue={3} /> <br /> <br />
+            <Rate allowClear={false} defaultValue={this.state.rating} /> <br /> <br />
             <RadioGroup onChange={this.onChange} value={this.state.value}>
               <Radio value={1}>Yes Interview</Radio>
               <Radio value={2}>Maybe Interview</Radio>
@@ -291,7 +298,7 @@ class App extends Component {
             </RadioGroup>
             <br />
             <br />
-            <TextArea placeholder="Why?" autosize />
+            <TextArea onChange={this.handleChange} value={this.state.text}  placeholder="Why?" autosize />
             <br />
             <br />
             {this.state.shortListIndex>0 &&
