@@ -12,13 +12,16 @@ import {
   Rate,
   Checkbox,
   Radio,
-  Input
+  Input,
+  Layout
 } from "antd";
 
 import "./App.css";
 const { TextArea } = Input;
 
 const RadioGroup = Radio.Group;
+const Header = Layout.Header;
+
 
 const columns = [
   {
@@ -54,115 +57,6 @@ class App extends Component {
   }
 
   getShortList(shortlist_id) {
-    // const shortListData = {
-    //   email: "Russell",
-    //   interviews: [
-    //     [
-    //       {
-    //         _id: { $oid: "5bb9533971feb40765377204" },
-    //         company_id: "5bb9164b7001ec000831d1ab",
-    //         interview_name: "Hackathon Student Developer (Intern)",
-    //         python_datetime: "2018-10-06 20:28:41",
-    //         question_text: "Tell me about yourself ",
-    //         response_url: "https://vimeo.com/293754846/e7e1ac1dfa",
-    //         timestamp: 1538872124,
-    //         user_id: "facebook|1488094364584669",
-    //         user_name: "Aron Gates"
-    //       },
-    //       {
-    //         _id: { $oid: "5bb9537d71feb4076537807c" },
-    //         company_id: "5bb9164b7001ec000831d1ab",
-    //         interview_name: "Hackathon Student Developer (Intern)",
-    //         python_datetime: "2018-10-06 20:29:49",
-    //         question_text: "What project are you working on? ",
-    //         response_url: "https://vimeo.com/293754904/40b1ea37fb",
-    //         timestamp: 1538872192,
-    //         user_id: "facebook|1488094364584669",
-    //         user_name: "Aron Gates"
-    //       },
-    //       {
-    //         _id: { $oid: "5bb953cc71feb4076537911d" },
-    //         company_id: "5bb9164b7001ec000831d1ab",
-    //         interview_name: "Hackathon Student Developer (Intern)",
-    //         python_datetime: "2018-10-06 20:31:07",
-    //         question_text: "Is a lazy developer a good developer? ",
-    //         response_url: "https://vimeo.com/293754983/922c451d2e",
-    //         timestamp: 1538872270,
-    //         user_id: "facebook|1488094364584669",
-    //         user_name: "Aron Gates"
-    //       },
-    //       {
-    //         _id: { $oid: "5bb9546b71feb4076537b157" },
-    //         company_id: "5bb9164b7001ec000831d1ab",
-    //         interview_name: "Hackathon Student Developer (Intern)",
-    //         python_datetime: "2018-10-06 20:33:47",
-    //         question_text: "What is your favorite project you've worked on? ",
-    //         response_url: "https://vimeo.com/293755094/b22c0cde17",
-    //         timestamp: 1538872429,
-    //         user_id: "facebook|1488094364584669",
-    //         user_name: "Aron Gates"
-    //       },
-    //       {
-    //         _id: { $oid: "5bb954e071feb4076537c9aa" },
-    //         company_id: "5bb9164b7001ec000831d1ab",
-    //         interview_name: "Hackathon Student Developer (Intern)",
-    //         python_datetime: "2018-10-06 20:35:44",
-    //         question_text:
-    //           "Name a time you've had to work through a team conflict. ",
-    //         response_url: "https://vimeo.com/293755195/d2bda019d0",
-    //         timestamp: 1538872547,
-    //         user_id: "facebook|1488094364584669",
-    //         user_name: "Aron Gates"
-    //       }
-    //     ],
-    //     [
-    //       {
-    //         _id: { $oid: "5bbf996f22541899c14d12c2" },
-    //         candidate_email: "rratcliffe57@yahoo.com",
-    //         company_id: "5bbf9950744689000836437d",
-    //         interview_name: "Russell Fix Vimeo Loading Error",
-    //         python_datetime: "2018-10-11 14:41:51",
-    //         question_text: "Does it work?",
-    //         response_url: "https://vimeo.com/294641644/079dfdd390",
-    //         timestamp: 1539283311,
-    //         user_id: "facebook|1948115908830936",
-    //         user_name: "Russell Ratcliffe"
-    //       },
-    //       {
-    //         _id: { $oid: "5bbf997b22541899c14d14d1" },
-    //         candidate_email: "rratcliffe57@yahoo.com",
-    //         comments: [
-    //           {
-    //             author: "Tester",
-    //             message: "Testing\n",
-    //             timestamp:
-    //               "Thu Oct 11 2018 15:54:03 GMT-0400 (Eastern Daylight Time)"
-    //           },
-    //           {
-    //             author: "Tester",
-    //             message: "Testing\n",
-    //             timestamp:
-    //               "Thu Oct 11 2018 15:54:05 GMT-0400 (Eastern Daylight Time)"
-    //           },
-    //           {
-    //             author: "Tester",
-    //             message: "Testing\n",
-    //             timestamp:
-    //               "Thu Oct 11 2018 15:54:10 GMT-0400 (Eastern Daylight Time)"
-    //           }
-    //         ],
-    //         company_id: "5bbf9950744689000836437d",
-    //         interview_name: "Russell Fix Vimeo Loading Error",
-    //         python_datetime: "2018-10-11 14:42:03",
-    //         question_text: "I sure hope so!",
-    //         response_url: "https://vimeo.com/294641673/3199415111",
-    //         timestamp: 1539283322,
-    //         user_id: "facebook|1948115908830936",
-    //         user_name: "Russell Ratcliffe"
-    //       }
-    //     ]
-    //   ]
-    // };
     const url = "https://api.deephire.com/v1.0/get_shortlist/";
         // const url = "http://localhost:3001/v1y.0/get_shortlist/";
 
@@ -269,7 +163,8 @@ class App extends Component {
 
     if (shortListData) {
        candidateData = shortListData.interviews[this.state.shortListIndex];
-      
+       var { hideInfo } = shortListData
+       console.log(shortListData)
       // console.log(candidateData);
       // this.setState({ candidateData });
     } else if (!candidateData) return <p>Loading...</p>;
@@ -287,49 +182,68 @@ class App extends Component {
       console.log(candidateData, activeQuestion);
     
 
-    return <Row style={{ backgroundColor: "#F0F2F5", padding: "20px" }} gutter={24}>
-        <Col span={8}>
-          <Card style={{ marginBottom: "20px" }} hoverable title={candidateData[0].user_name}>
-            <Rate allowClear={false} defaultValue={this.state.rating} /> <br /> <br />
-            <RadioGroup onChange={this.onChange} value={this.state.value}>
-              <Radio value={1}>Yes Interview</Radio>
-              <Radio value={2}>Maybe Interview</Radio>
-              <Radio value={3}>No Interview</Radio>
-            </RadioGroup>
-            <br />
-            <br />
-            <TextArea onChange={this.handleChange} value={this.state.text}  placeholder="Why?" autosize />
-            <br />
-            <br />
-            {this.state.shortListIndex>0 &&
-            <Button style={{marginRight:"20px"}} onClick={() => this.back()} type="primary">
-            <Icon type="left" />
-          </Button>}
-            <Button onClick={() => this.submitAndContinue()} type="primary">
-              Submit & Continue
-              <Icon type="right" />
-            </Button>
-          </Card>
+    return <div style={{ backgroundColor: "#F0F2F5", padding: "0px" }}>
+        <Header style={{ backgroundColor: "white" }}>
+          {" "}
+          <Row type="flex" style={{ height: "60%" }} justify="space-between">
+            <Col>Shared by: Tempo</Col>
+            <Col>
+              <img src="https://s3.amazonaws.com/deephire/importantImages/suzanneTempoLogo.png" alt="Forge" height="100%" />
+            </Col>
+          </Row>
+        </Header>
 
-          <Card hoverable title="Questions">
+        {/* <Row style={{ backgroundColor: "#F0F2F5", padding: "20px" }} gutter={24}>
+    <Card hoverable title="Questions">
             <Table showHeader={false} onRow={(record, index) => ({ onClick: () => {
                   this.setState({ activeQuestion: index });
                 } })} rowClassName={(record, index) => (index === activeQuestion ? "selected" : "")} pagination={false} bordered dataSource={candidateData} columns={columns} />
           </Card>
-        </Col>
-        <Col span={16}>
-          {/* <Button shape="circle" icon="search" /> */}
-          <Card title={question_text}>
-            {/* // actions={[<Icon type="setting" />, <Icon type="share-alt" />]} */}
-            <div className="playerWrapper">
-              <ReactPlayer onError={() => this.setState({
-                    errorinVid: true
-                  })} preload controls playing className="reactPlayer" height="100%" width="100%" url={responseUrl // onEnded={() => this.setState({activeQuestion: activeQuestion + 1})}
-                } />
-            </div>
-          </Card>
-        </Col>
-      </Row>;
+    </Row> */}
+
+        <Row style={{ backgroundColor: "#F0F2F5", padding: "20px" }} gutter={24}>
+          <Col span={8}>
+            <Card style={{ marginBottom: "20px" }} hoverable title={hideInfo ? "A Candidate" : candidateData[0].user_name}>
+              <Rate allowClear={false} defaultValue={this.state.rating} /> <br /> <br />
+              <RadioGroup onChange={this.onChange} value={this.state.value}>
+                <Radio value={1}>Yes Interview</Radio>
+                <Radio value={2}>Maybe Interview</Radio>
+                <Radio value={3}>No Interview</Radio>
+              </RadioGroup>
+              <br />
+              <br />
+              <TextArea onChange={this.handleChange} value={this.state.text} placeholder="Why?" autosize />
+              <br />
+              <br />
+              {this.state.shortListIndex > 0 && <Button style={{ marginRight: "20px" }} onClick={() => this.back()} type="primary">
+                  <Icon type="left" />
+                </Button>}
+              <Button onClick={() => this.submitAndContinue()} type="primary">
+                Submit & Continue
+                <Icon type="right" />
+              </Button>
+            </Card>
+
+            <Card hoverable title="Questions">
+              <Table showHeader={false} onRow={(record, index) => ({ onClick: () => {
+                    this.setState({ activeQuestion: index });
+                  } })} rowClassName={(record, index) => (index === activeQuestion ? "selected" : "")} pagination={false} bordered dataSource={candidateData} columns={columns} />
+            </Card>
+          </Col>
+          <Col span={16}>
+            {/* <Button shape="circle" icon="search" /> */}
+            <Card title={question_text}>
+              {/* // actions={[<Icon type="setting" />, <Icon type="share-alt" />]} */}
+              <div className="playerWrapper">
+                <ReactPlayer onError={() => this.setState({
+                      errorinVid: true
+                    })} preload controls playing className="reactPlayer" height="100%" width="100%" url={responseUrl // onEnded={() => this.setState({activeQuestion: activeQuestion + 1})}
+                  } />
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      </div>;
   }
 }
 
