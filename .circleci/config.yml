@@ -50,6 +50,8 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               CI=false npm run build
               aws s3 sync ~/repo/build/ s3://candidates.deephire.com
+              aws cloudfront create-invalidation --distribution-id E15F8KSHCV50HR  --paths "/*"
+
             fi
 
       - deploy:
