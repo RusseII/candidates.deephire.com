@@ -17,10 +17,15 @@ jobs:
     working_directory: ~/repo
 
     steps:
-      - checkout
+      - checkout       
       - run:
           name: Install aws cli
-          command: sudo apt-get -y -qq install awscli
+          command: |
+            sudo apt-get install python-dev python-pip
+            sudo pip install awscli
+      - run:
+          name: AWS cloudfront
+          command: aws configure set preview.cloudfront true
       # - run:
       #     name: Install dependencies
       #     command: |
@@ -45,10 +50,7 @@ jobs:
       # run tests!
       - run: yarn test
       
-      - run:
-          name: AWS cloudfront
-          command: aws configure set preview.cloudfront true
-
+      
       - deploy:
           name: Push to s3 PROD
           command: |
