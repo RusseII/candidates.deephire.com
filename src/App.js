@@ -68,7 +68,7 @@ class App extends Component {
       .then(results => results.json())
       .then(
         data => {
-          console.log(data, "shortlist endpoint data", data.interviews[0].question_text, data.interviews, data.interviews[this.state.shortListIndex].response_url);
+          // console.log(data, "shortlist endpoint data", data.interviews[0].question_text, data.interviews, data.interviews[this.state.shortListIndex].response_url);
           this.setState({
             shortListData: data,
             activeQuestion: 0,
@@ -171,7 +171,7 @@ class App extends Component {
     }
   }
   onChange = e => {
-    console.log("radio checked", e.target.value);
+    // console.log("radio checked", e.target.value);
     this.setState({
       value: e.target.value
     });
@@ -183,12 +183,12 @@ class App extends Component {
   render() {
     var { candidateData, comments, activeQuestion, requestFailed, shortListData, currentQuestionText, videoUrl } = this.state;
 
-    console.log(shortListData, "SSH");
+    // console.log(shortListData, "SSH");
 
     if (shortListData) {
       candidateData = shortListData.interviews[this.state.shortListIndex];
       var { hideInfo } = shortListData;
-      console.log(shortListData);
+      // console.log(shortListData);
     } 
     else if (!candidateData) return <p>Loading...</p>;
     else if (comments === null) return <p> Loading! </p>;
@@ -201,8 +201,8 @@ class App extends Component {
       activeQuestion
     ];
 
-    console.log(ReactPlayer.canPlay(responseUrl));
-    console.log(candidateData, activeQuestion);
+    // console.log(ReactPlayer.canPlay(responseUrl));
+    // console.log(candidateData, activeQuestion);
 
     return <div style={{ backgroundColor: "#F0F2F5", padding: "0px" }}>
         <Header style={{ backgroundColor: "white" }}>
@@ -228,11 +228,11 @@ class App extends Component {
 
         <Row style={{ backgroundColor: "#F0F2F5", padding: "20px" }} gutter={24}>
           <Col span={8}>
-            <InfoCard userName={hideInfo ? "A Candidate" : candidateData[0].user_name} setVideoData={this.setVideoData} />
+          <InfoCard userId={candidateData[0].user_id} userName={hideInfo ? "A Candidate" : candidateData[0].user_name} setVideoData={this.setVideoData} />
 
             <Card style={{ marginBottom: "20px" }} hoverable title="Questions">
               <Table showHeader={false} onRow={(record, index) => ({ onClick: () => {
-                    console.log(record, "record");
+                    // console.log(record, "record");
                     this.setVideoData(record.response_url, question_text);
                     this.setState({ activeQuestion: index });
                   } })} rowClassName={(record, index) => (index === activeQuestion ? "selected" : "")} pagination={false} bordered dataSource={candidateData} columns={columns} />
