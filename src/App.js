@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import ReactPlayer from "react-player";
+import InfoCard from "./components/InfoCard";
+
 
 import {
   Card,
@@ -21,7 +23,6 @@ const { TextArea } = Input;
 
 const RadioGroup = Radio.Group;
 const Header = Layout.Header;
-
 
 const columns = [
   {
@@ -57,8 +58,9 @@ class App extends Component {
   }
 
   getShortList(shortlist_id) {
+    const { shortListIndex } = this.state
     const url = "https://api.deephire.com/v1.0/get_shortlist/";
-        // const url = "http://localhost:3001/v1y.0/get_shortlist/";
+    // const url = "http://localhost:3001/v1y.0/get_shortlist/";
 
     // this.setState({ shortListData, activeQuestion: 0 });
 
@@ -66,7 +68,17 @@ class App extends Component {
       .then(results => results.json())
       .then(
         data => {
-          this.setState({ shortListData: data, activeQuestion: 0 });
+          // console.log(data, "shortlist endpoint data", data.interviews[0].question_text, data.interviews, data.interviews[this.state.shortListIndex].response_url);
+          this.setState({
+            shortListData: data,
+            activeQuestion: 0,
+            currentQuestionText:
+              data.interviews[this.state.shortListIndex][0]
+                .question_text,
+            videoUrl:
+              data.interviews[this.state.shortListIndex][0]
+                .response_url
+          });
         },
         () => {
           this.setState({ requestFailed: true });
@@ -128,59 +140,69 @@ class App extends Component {
     return res;
   }
 
-  back() {
-     if (this.state.shortListIndex > 0){
-    this.setState({ rating: 3, value: "", text: "",activeQuestion: 0, shortListIndex: this.state.shortListIndex - 1  });
-    
-    }
+   setVideoData = (videoUrl, currentQuestionText) => {
+    this.setState({ videoUrl, currentQuestionText });
+  };
 
+
+  back() {
+    if (this.state.shortListIndex > 0) {
+      this.setState({
+        rating: 3,
+        value: "",
+        text: "",
+        activeQuestion: 0,
+        shortListIndex: this.state.shortListIndex - 1
+      });
+    }
   }
   submitAndContinue() {
-    if (this.state.shortListIndex + 1 < this.state.shortListData.interviews.length){
-    this.setState({ rating: 3, value: "", text: "", activeQuestion: 0, shortListIndex: this.state.shortListIndex + 1 });
+    if (
+      this.state.shortListIndex + 1 <
+      this.state.shortListData.interviews.length
+    ) {
+      this.setState({
+        rating: 3,
+        value: "",
+        text: "",
+        activeQuestion: 0,
+        shortListIndex: this.state.shortListIndex + 1
+      });
     }
   }
   onChange = e => {
-    console.log("radio checked", e.target.value);
+    // console.log("radio checked", e.target.value);
     this.setState({
       value: e.target.value
     });
   };
 
- handleChange= event => {
-    this.setState({text: event.target.value});
-  }
+  handleChange = event => {
+    this.setState({ text: event.target.value });
+  };
   render() {
-    var {
-      candidateData,
-      comments,
-      activeQuestion,
-      requestFailed,
-      shortListData
-    } = this.state;
+    var { candidateData, comments, activeQuestion, requestFailed, shortListData, currentQuestionText, videoUrl } = this.state;
 
-    console.log(shortListData, "SSH");
+    // console.log(shortListData, "SSH");
 
     if (shortListData) {
-       candidateData = shortListData.interviews[this.state.shortListIndex];
-       var { hideInfo } = shortListData
-       console.log(shortListData)
-      // console.log(candidateData);
-      // this.setState({ candidateData });
-    } else if (!candidateData) return <p>Loading...</p>;
+      candidateData = shortListData.interviews[this.state.shortListIndex];
+      var { hideInfo } = shortListData;
+      // console.log(shortListData);
+    } 
+    else if (!candidateData) return <p>Loading...</p>;
     else if (comments === null) return <p> Loading! </p>;
     else if (activeQuestion === null) return <p> Loading questions... </p>;
     else if (requestFailed) return <p>Failed!</p>;
     else if (candidateData.length === 0) {
       return <p>There is no data for this user, please message our support</p>;
-    } 
-      var { response_url: responseUrl, question_text } = candidateData[
-        activeQuestion
-      ];
+    }
+    var { response_url: responseUrl, question_text } = candidateData[
+      activeQuestion
+    ];
 
-      console.log(ReactPlayer.canPlay(responseUrl));
-      console.log(candidateData, activeQuestion);
-    
+    // console.log(ReactPlayer.canPlay(responseUrl));
+    // console.log(candidateData, activeQuestion);
 
     return <div style={{ backgroundColor: "#F0F2F5", padding: "0px" }}>
         <Header style={{ backgroundColor: "white" }}>
@@ -193,17 +215,30 @@ class App extends Component {
           </Row>
         </Header>
 
-        {/* <Row style={{ backgroundColor: "#F0F2F5", padding: "20px" }} gutter={24}>
-    <Card hoverable title="Questions">
-            <Table showHeader={false} onRow={(record, index) => ({ onClick: () => {
-                  this.setState({ activeQuestion: index });
-                } })} rowClassName={(record, index) => (index === activeQuestion ? "selected" : "")} pagination={false} bordered dataSource={candidateData} columns={columns} />
-          </Card>
-    </Row> */}
+        <Row style={{ backgroundColor: "#F0F2F5", padding: "20px 20px 0px 20px" }} gutter={0}>
+          <Button onClick={this.goToCandidates} type="secondary">
+            <Icon type="left" />
+            Back to Candidates
+          </Button>
+          <Button style={{ float: "right" }} onClick={() => window.open("https://goo.gl/forms/AJWubChCpv8Al2rj2", "_blank")} type="primary">
+            Book This Candidate Now
+            <Icon type="schedule" />
+          </Button>
+        </Row>
 
         <Row style={{ backgroundColor: "#F0F2F5", padding: "20px" }} gutter={24}>
           <Col span={8}>
-            <Card style={{ marginBottom: "20px" }} hoverable title={hideInfo ? "A Candidate" : candidateData[0].user_name}>
+          <InfoCard userId={candidateData[0].user_id} userName={hideInfo ? "A Candidate" : candidateData[0].user_name} setVideoData={this.setVideoData} />
+
+            <Card style={{ marginBottom: "20px" }} hoverable title="Questions">
+              <Table showHeader={false} onRow={(record, index) => ({ onClick: () => {
+                    // console.log(record, "record");
+                    this.setVideoData(record.response_url, question_text);
+                    this.setState({ activeQuestion: index });
+                  } })} rowClassName={(record, index) => (index === activeQuestion ? "selected" : "")} pagination={false} bordered dataSource={candidateData} columns={columns} />
+            </Card>
+
+            <Card style={{ marginBottom: "20px" }} hoverable title="Leave Feedback">
               <Rate allowClear={false} defaultValue={this.state.rating} /> <br /> <br />
               <RadioGroup onChange={this.onChange} value={this.state.value}>
                 <Radio value={1}>Yes Interview</Radio>
@@ -219,26 +254,19 @@ class App extends Component {
                   <Icon type="left" />
                 </Button>}
               <Button onClick={() => this.submitAndContinue()} type="primary">
-                Submit & Continue
+                Leave FeedBack
                 <Icon type="right" />
               </Button>
-            </Card>
-
-            <Card hoverable title="Questions">
-              <Table showHeader={false} onRow={(record, index) => ({ onClick: () => {
-                    this.setState({ activeQuestion: index });
-                  } })} rowClassName={(record, index) => (index === activeQuestion ? "selected" : "")} pagination={false} bordered dataSource={candidateData} columns={columns} />
             </Card>
           </Col>
           <Col span={16}>
             {/* <Button shape="circle" icon="search" /> */}
-            <Card title={question_text}>
+            <Card title={currentQuestionText}>
               {/* // actions={[<Icon type="setting" />, <Icon type="share-alt" />]} */}
               <div className="playerWrapper">
                 <ReactPlayer onError={() => this.setState({
                       errorinVid: true
-                    })} preload controls playing className="reactPlayer" height="100%" width="100%" url={responseUrl // onEnded={() => this.setState({activeQuestion: activeQuestion + 1})}
-                  } />
+                    })} preload controls playing className="reactPlayer" height="100%" width="100%" url={videoUrl} />
               </div>
             </Card>
           </Col>
