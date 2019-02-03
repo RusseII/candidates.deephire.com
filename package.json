@@ -1,45 +1,39 @@
 {
-  "name": "employee-dashboard",
-  "version": "0.1.0",
-  "homepage": "https://candidates.deephire.com",
   "private": true,
-  "dependencies": {
-    "@fortawesome/fontawesome": "1.1.8",
-    "@fortawesome/fontawesome-free-solid": "5.0.13",
-    "@fortawesome/react-fontawesome": "0.0.20",
-    "@material-ui/core": "^1.0.0",
-    "animejs": "2.2.0",
-    "antd": "^3.7.3",
-    "bootstrap": "^4.0.0",
-    "create-react-class": "^15.6.3",
-    "css-loader": "^0.28.9",
-    "flexbox-react": "^4.4.0",
-    "font-awesome": "4.7.0",
-    "material-ui": "^1.0.0-beta.32",
-    "react": "^16.2.0",
-    "react-bootstrap": "^0.32.1",
-    "react-collapsible": "^2.2.0",
-    "react-dom": "^16.2.0",
-    "react-flexview": "^3.0.1",
-    "react-player": "^1.6.6",
-    "react-responsive-accordion": "^1.0.0",
-    "react-scripts": "1.1.1",
-    "react-vimeo": "^2.0.0",
-    "reactstrap": "^5.0.0-beta",
-    "readable-timestamp": "0.2.0",
-    "semantic-ui-react": "^0.81.3",
-    "video-react": "^0.11.2"
-  },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build-and-deploy": "npm run build && s3cmd sync build/* s3://candidates.deephire.com && echo '🚀  Deployed!'",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "umi dev",
+    "build": "umi build",
+    "test": "umi test",
+    "lint": "eslint --ext .js src mock tests",
+    "precommit": "lint-staged"
+  },
+  "dependencies": {
+    "qs": "6.6.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-player": "1.9.3"
   },
   "devDependencies": {
-    "babel-plugin-import": "^1.8.0",
-    "babel-plugin-root-import": "6.1.0",
-    "react-app-rewired": "^1.5.2"
+    "babel-eslint": "^9.0.0",
+    "eslint": "^5.4.0",
+    "eslint-config-umi": "^1.4.0",
+    "eslint-plugin-flowtype": "^2.50.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.2",
+    "react-test-renderer": "^16.7.0",
+    "umi": "^2.4.2",
+    "umi-plugin-react": "^1.4.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "engines": {
+    "node": ">=8.0.0"
   }
 }
