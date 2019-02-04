@@ -4,13 +4,12 @@ import InfoCard from '../components/InfoCard';
 import qs from 'qs';
 import { router } from 'umi';
 
-import { Card, Col, Row, Icon, Table, Button, Rate, Radio, Input, Layout } from 'antd';
+import { Card, Col, Row, Icon, Table, Button, Rate, Radio, Input } from 'antd';
 
 import './App.css';
 const { TextArea } = Input;
 
 const RadioGroup = Radio.Group;
-const Header = Layout.Header;
 
 const toShortlist = id => router.push(`/shortlist?shortlist=${id}`);
 
@@ -35,7 +34,6 @@ class App extends Component {
 
   componentDidMount() {
     const { location } = this.props;
-    console.log('parse', qs.parse(location.search));
     const shortListId = qs.parse(location.search)['?shortlist'];
     const num = qs.parse(location.search)['num'];
     this.setState({ shortListId });
@@ -45,17 +43,11 @@ class App extends Component {
 
   getShortList(shortlistId, num) {
     const url = 'https://a.deephire.com/v1/shortlists/';
-    console.log(url);
-    // const url = "http://localhost:3001/v1y.0/get_shortlist/";
 
     fetch(`${url + shortlistId}`)
       .then(results => results.json())
       .then(
         data => {
-          console.log(num, 'num');
-          console.log(data[0]);
-          console.log(data[0].interviews[num]);
-
           this.setState({
             candidateData: data[0].interviews[num],
             activeQuestion: 0,
@@ -67,8 +59,6 @@ class App extends Component {
           this.setState({ requestFailed: true });
         }
       );
-
-    // return { email: "Russell", interviews: [{}, {}] };
   }
 
   setVideoData = (videoUrl, currentQuestionText) => {
@@ -86,19 +76,8 @@ class App extends Component {
       });
     }
   }
-  // submitAndContinue() {
-  //   if (this.state.shortListIndex + 1 < this.state.candidateData.responses.length) {
-  //     this.setState({
-  //       rating: 3,
-  //       value: '',
-  //       text: '',
-  //       activeQuestion: 0,
-  //       shortListIndex: this.state.shortListIndex + 1,
-  //     });
-  //   }
-  // }
+
   onChange = e => {
-    // console.log("radio checked", e.target.value);
     this.setState({
       value: e.target.value,
     });
@@ -114,22 +93,14 @@ class App extends Component {
       candidateData,
       currentQuestionText,
       videoUrl,
-      num,
-      id,
+      
     } = this.state;
 
     if (!candidateData) return null;
 
     const { hideInfo } = candidateData;
 
-    // else if (requestFailed) return <p>Failed!</p>;
-    // else if (candidateData.length === 0) {
-    //   return <p>There is no data for this user, please message our support</p>;
-    // }
     var { question } = candidateData.responses[activeQuestion];
-
-    // console.log(ReactPlayer.canPlay(responseUrl));
-    // console.log(candidateData, activeQuestion);
 
     return (
       <div>
@@ -161,7 +132,6 @@ class App extends Component {
                 showHeader={false}
                 onRow={(record, index) => ({
                   onClick: () => {
-                    // console.log(record, "record");
                     this.setVideoData(record.response, question);
                     this.setState({ activeQuestion: index });
                   },
@@ -203,9 +173,7 @@ class App extends Component {
             </Card>
           </Col>
           <Col span={16}>
-            {/* <Button shape="circle" icon="search" /> */}
             <Card title={currentQuestionText}>
-              {/* // actions={[<Icon type="setting" />, <Icon type="share-alt" />]} */}
               <div className="playerWrapper">
                 <ReactPlayer
                   onError={() =>

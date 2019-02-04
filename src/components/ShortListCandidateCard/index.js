@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, Icon, Row, Col, Statistic, Rate, Tooltip } from 'antd';
+import { Card, Icon, Row, Col, Rate, Tooltip } from 'antd';
 import styles from './index.less';
 
 const ShortListAnalyticsCard = ({ item }) => (
@@ -52,8 +52,7 @@ const ShortListAnalyticsCard = ({ item }) => (
     <div className={styles.subtitle}>{item.candidateEmail}</div>
 
     <Row type="flex" justify="start" gutter={24}>
-      <Col>
-      </Col>
+      <Col />
       <Col>
         <div className={styles.statHeading}>Rating Provided</div>
         <Rate disabled defaultValue={item.rating} />
