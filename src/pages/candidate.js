@@ -3,6 +3,7 @@ import ReactPlayer from 'react-player';
 import InfoCard from '../components/InfoCard';
 import qs from 'qs';
 import { router } from 'umi';
+import { trackAnalytics } from '@/services/api';
 
 import { Card, Col, Row, Icon, Table, Button, Rate, Radio, Input } from 'antd';
 
@@ -36,7 +37,7 @@ class App extends Component {
     const { location } = this.props;
     const shortListId = qs.parse(location.search)['?shortlist'];
     const num = qs.parse(location.search)['num'];
-    this.setState({ shortListId });
+    this.setState({ shortListId, num });
 
     this.getShortList(shortListId, num);
   }
@@ -49,7 +50,7 @@ class App extends Component {
       .then(
         data => {
           this.setState({
-            candidateData: data[0].interviews[num],
+            shortlistData: data[0],
             activeQuestion: 0,
             currentQuestionText: data[0].interviews[num].responses[0].question,
             videoUrl: data[0].interviews[num].responses[0].response,
@@ -77,6 +78,28 @@ class App extends Component {
     }
   }
 
+  // saveCandidateClick = () => {
+  //   const { shortlistData, num, id } = this.state;
+  //   if (shortlistData.interviews[num]['clicks'])
+  //     shortlistData.interviews[num]['clicks'].push('timestamp');
+  //   else {
+  //     shortlistData.interviews[num]['clicks'] = ['timestamp'];
+  //   }
+  //   this.setState({ shortlistData });
+  //   trackAnalytics(id, shortlistData);
+  // };
+
+  saveQuestionClick = () => {
+    const { shortlistData, num, shortListId, activeQuestion } = this.state;
+    if (shortlistData.interviews[num].responses[activeQuestion]['clicks'])
+      shortlistData.interviews[num].responses[activeQuestion]['clicks'].push(new Date().toString());
+    else {
+      shortlistData.interviews[num].responses[activeQuestion]['clicks'] = [new Date().toString()];
+    }
+    this.setState({ shortlistData });
+    trackAnalytics(shortListId, shortlistData);
+  };
+
   onChange = e => {
     this.setState({
       value: e.target.value,
@@ -88,15 +111,16 @@ class App extends Component {
   };
   render() {
     var {
+      num,
       shortListId,
       activeQuestion,
-      candidateData,
+      shortlistData,
       currentQuestionText,
       videoUrl,
-      
     } = this.state;
 
-    if (!candidateData) return null;
+    if (!shortlistData) return null;
+    const candidateData = shortlistData.interviews[num];
 
     const { hideInfo } = candidateData;
 
@@ -134,6 +158,7 @@ class App extends Component {
                   onClick: () => {
                     this.setVideoData(record.response, question);
                     this.setState({ activeQuestion: index });
+                    this.saveQuestionClick();
                   },
                 })}
                 rowClassName={(record, index) => (index === activeQuestion ? 'selected' : '')}

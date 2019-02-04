@@ -2,14 +2,17 @@
 import { List } from 'antd';
 import { router } from 'umi';
 import ShortListCandidateCard from '@/components/ShortListCandidateCard';
-import { fetchShortlist } from '@/services/api';
+import { fetchShortlist, trackAnalytics } from '@/services/api';
 import styles from '@/global.less';
 
 import qs from 'qs';
 
 import React, { Component } from 'react';
 
-const viewCandidate = (id, i) => router.push(`candidate?shortlist=${id}&num=${i}`);
+const viewCandidate = (id, i) => {
+  this.saveCandidateClick(i);
+  router.push(`candidate?shortlist=${id}&num=${i}`);
+};
 
 export default class Shortlist extends Component {
   state = { shortListData: null };
@@ -20,6 +23,17 @@ export default class Shortlist extends Component {
     console.log(id);
     fetchShortlist(id).then(r => this.setState({ shortListData: r[0], id }));
   }
+
+  saveCandidateClick = index => {
+    const { shortlistData, id } = this.state;
+    if (shortlistData.interviews[index]['clicks'])
+      shortlistData.interviews[index]['clicks'].push(new Date().toString());
+    else {
+      shortlistData.interviews[index]['clicks'] = [new Date().toString()];
+    }
+    this.setState({ shortlistData });
+    trackAnalytics(id, shortlistData);
+  };
 
   render() {
     const { shortListData, id } = this.state;
