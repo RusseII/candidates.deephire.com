@@ -54,6 +54,9 @@ class App extends Component {
             activeQuestion: 0,
             currentQuestionText: data[0].interviews[num].responses[0].question,
             videoUrl: data[0].interviews[num].responses[0].response,
+            text: data[0].interviews[num].text,
+            value: data[0].interviews[num].value,
+            rating: data[0].interviews[num].rating
           });
         },
         () => {
@@ -78,16 +81,6 @@ class App extends Component {
     }
   }
 
-  // saveCandidateClick = () => {
-  //   const { shortlistData, num, id } = this.state;
-  //   if (shortlistData.interviews[num]['clicks'])
-  //     shortlistData.interviews[num]['clicks'].push('timestamp');
-  //   else {
-  //     shortlistData.interviews[num]['clicks'] = ['timestamp'];
-  //   }
-  //   this.setState({ shortlistData });
-  //   trackAnalytics(id, shortlistData);
-  // };
 
   saveQuestionClick = () => {
     const { shortlistData, num, shortListId, activeQuestion } = this.state;
@@ -101,6 +94,7 @@ class App extends Component {
   };
 
   onChange = e => {
+    console.log(e.target.value);
     this.setState({
       value: e.target.value,
     });
@@ -108,6 +102,16 @@ class App extends Component {
 
   handleChange = event => {
     this.setState({ text: event.target.value });
+  };
+
+  storeFeedback = () => {
+    const { shortlistData, num, shortListId, text, rating, value } = this.state;
+    shortlistData.interviews[num]['feedback'] = text;
+    shortlistData.interviews[num]['rating'] = rating;
+    shortlistData.interviews[num]['interest'] = value;
+
+    this.setState({ shortlistData });
+    trackAnalytics(shortListId, shortlistData);
   };
   render() {
     var {
@@ -118,7 +122,6 @@ class App extends Component {
       currentQuestionText,
       videoUrl,
     } = this.state;
-
     if (!shortlistData) return null;
     const candidateData = shortlistData.interviews[num];
 
@@ -170,7 +173,12 @@ class App extends Component {
             </Card>
 
             <Card style={{ marginBottom: '20px' }} hoverable title="Leave Feedback">
-              <Rate allowClear={false} defaultValue={this.state.rating} /> <br /> <br />
+              <Rate
+                onChange={n => this.setState({ rating: n })}
+                allowClear={false}
+                defaultValue={this.state.rating}
+              />{' '}
+              <br /> <br />
               <RadioGroup onChange={this.onChange} value={this.state.value}>
                 <Radio value={1}>Yes Interview</Radio>
                 <Radio value={2}>Maybe Interview</Radio>
@@ -191,7 +199,7 @@ class App extends Component {
                   <Icon type="left" />
                 </Button>
               )}
-              <Button onClick={() => this.submitAndContinue()} type="primary">
+              <Button onClick={() => this.storeFeedback()} type="primary">
                 Leave FeedBack
                 <Icon type="right" />
               </Button>
