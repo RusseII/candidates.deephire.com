@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import ReactPlayer from 'react-player';
-import InfoCard from '../../components/InfoCard';
+import InfoCard from '../components/InfoCard';
 import qs from "qs"
 
-import { Card, Col, Row, Icon, Table, Button, Rate, Checkbox, Radio, Input, Layout } from 'antd';
+import { Card, Col, Row, Icon, Table, Button, Rate, Radio, Input, Layout } from 'antd';
 
 import './App.css';
 const { TextArea } = Input;

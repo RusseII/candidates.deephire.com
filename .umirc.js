@@ -5,10 +5,10 @@ export default {
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     ['umi-plugin-react', {
-      antd: false,
+      antd: true,
       dva: false,
       dynamicImport: false,
-      title: 'umni2',
+      title: 'DeepHire',
       dll: false,
       routes: {
         exclude: [
