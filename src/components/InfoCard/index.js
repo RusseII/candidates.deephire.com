@@ -1,14 +1,6 @@
 import React from 'react';
 
-import { Button, Card, Row, Icon, List, Popconfirm } from 'antd';
-
-import styles from './index.less';
-
-const youTubeLinks = [
-  "https://www.youtube.com/watch?v=aMk5j0xV1Rw",
-    "https://www.youtube.com/watch?v=5EGacrmhxn8",'https://www.youtube.com/watch?v=aMk5j0xV1Rw',
-    'https://www.youtube.com/watch?v=5EGacrmhxn8',
-];
+import { Button, Card } from 'antd';
 
 
 
@@ -16,10 +8,7 @@ class InfoCard extends React.Component {
     state = { modalVisible: false };
 
 
-    // componentWillReceiveProps(props) {
-    //     const { candidateProfileData } = props;
-    //     this.setState({ candidateProfileData });
-    // }
+
 
     componentDidMount() {
         const {  userId } = this.props;
