@@ -50,7 +50,7 @@ class App extends Component {
       .then(
         data => {
           this.setState({
-            shortlistData: data[0],
+            shortListData: data[0],
             activeQuestion: 0,
             currentQuestionText: data[0].interviews[num].responses[0].question,
             videoUrl: data[0].interviews[num].responses[0].response,
@@ -83,14 +83,14 @@ class App extends Component {
 
 
   saveQuestionClick = () => {
-    const { shortlistData, num, shortListId, activeQuestion } = this.state;
-    if (shortlistData.interviews[num].responses[activeQuestion]['clicks'])
-      shortlistData.interviews[num].responses[activeQuestion]['clicks'].push(new Date().toString());
+    const { shortListData, num, shortListId, activeQuestion } = this.state;
+    if (shortListData.interviews[num].responses[activeQuestion]['clicks'])
+      shortListData.interviews[num].responses[activeQuestion]['clicks'].push(new Date().toString());
     else {
-      shortlistData.interviews[num].responses[activeQuestion]['clicks'] = [new Date().toString()];
+      shortListData.interviews[num].responses[activeQuestion]['clicks'] = [new Date().toString()];
     }
-    this.setState({ shortlistData });
-    trackAnalytics(shortListId, shortlistData);
+    this.setState({ shortListData });
+    trackAnalytics(shortListId, shortListData);
   };
 
   onChange = e => {
@@ -105,25 +105,25 @@ class App extends Component {
   };
 
   storeFeedback = () => {
-    const { shortlistData, num, shortListId, text, rating, value } = this.state;
-    shortlistData.interviews[num]['feedback'] = text;
-    shortlistData.interviews[num]['rating'] = rating;
-    shortlistData.interviews[num]['interest'] = value;
+    const { shortListData, num, shortListId, text, rating, value } = this.state;
+    shortListData.interviews[num]['feedback'] = text;
+    shortListData.interviews[num]['rating'] = rating;
+    shortListData.interviews[num]['interest'] = value;
 
-    this.setState({ shortlistData });
-    trackAnalytics(shortListId, shortlistData);
+    this.setState({ shortListData });
+    trackAnalytics(shortListId, shortListData);
   };
   render() {
     var {
       num,
       shortListId,
       activeQuestion,
-      shortlistData,
+      shortListData,
       currentQuestionText,
       videoUrl,
     } = this.state;
-    if (!shortlistData) return null;
-    const candidateData = shortlistData.interviews[num];
+    if (!shortListData) return null;
+    const candidateData = shortListData.interviews[num];
 
     const { hideInfo } = candidateData;
 

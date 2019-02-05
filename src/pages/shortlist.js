@@ -21,24 +21,25 @@ export default class Shortlist extends Component {
     fetchShortlist(id).then(r => this.setState({ shortListData: r[0], id }));
   }
 
-   viewCandidate = (id, i) => {
+  viewCandidate = (id, i) => {
     this.saveCandidateClick(i);
     router.push(`candidate?shortlist=${id}&num=${i}`);
   };
 
   saveCandidateClick = index => {
-    const { shortlistData, id } = this.state;
-    if (shortlistData.interviews[index]['clicks'])
-      shortlistData.interviews[index]['clicks'].push(new Date().toString());
+    const { shortListData, id } = this.state;
+    if (shortListData.interviews[index]['clicks'])
+      shortListData.interviews[index]['clicks'].push(new Date().toString());
     else {
-      shortlistData.interviews[index]['clicks'] = [new Date().toString()];
+      shortListData.interviews[index]['clicks'] = [new Date().toString()];
     }
-    this.setState({ shortlistData });
-    trackAnalytics(id, shortlistData);
+    this.setState({ shortListData });
+    trackAnalytics(id, shortListData);
   };
 
   render() {
     const { shortListData, id } = this.state;
+    console.log(shortListData);
     if (!shortListData) return null;
 
     return (
