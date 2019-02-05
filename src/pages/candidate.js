@@ -3,6 +3,7 @@ import ReactPlayer from 'react-player';
 import InfoCard from '../components/InfoCard';
 import qs from 'qs';
 import { router } from 'umi';
+import { trackAnalytics } from '@/services/api';
 
 import { Card, Col, Row, Icon, Table, Button, Rate, Radio, Input } from 'antd';
 
@@ -36,7 +37,7 @@ class App extends Component {
     const { location } = this.props;
     const shortListId = qs.parse(location.search)['?shortlist'];
     const num = qs.parse(location.search)['num'];
-    this.setState({ shortListId });
+    this.setState({ shortListId, num });
 
     this.getShortList(shortListId, num);
   }
@@ -49,10 +50,13 @@ class App extends Component {
       .then(
         data => {
           this.setState({
-            candidateData: data[0].interviews[num],
+            shortListData: data[0],
             activeQuestion: 0,
             currentQuestionText: data[0].interviews[num].responses[0].question,
             videoUrl: data[0].interviews[num].responses[0].response,
+            text: data[0].interviews[num].text,
+            value: data[0].interviews[num].value,
+            rating: data[0].interviews[num].rating
           });
         },
         () => {
@@ -77,7 +81,20 @@ class App extends Component {
     }
   }
 
+
+  saveQuestionClick = () => {
+    const { shortListData, num, shortListId, activeQuestion } = this.state;
+    if (shortListData.interviews[num].responses[activeQuestion]['clicks'])
+      shortListData.interviews[num].responses[activeQuestion]['clicks'].push(new Date().toString());
+    else {
+      shortListData.interviews[num].responses[activeQuestion]['clicks'] = [new Date().toString()];
+    }
+    this.setState({ shortListData });
+    trackAnalytics(shortListId, shortListData);
+  };
+
   onChange = e => {
+    console.log(e.target.value);
     this.setState({
       value: e.target.value,
     });
@@ -86,17 +103,27 @@ class App extends Component {
   handleChange = event => {
     this.setState({ text: event.target.value });
   };
+
+  storeFeedback = () => {
+    const { shortListData, num, shortListId, text, rating, value } = this.state;
+    shortListData.interviews[num]['feedback'] = text;
+    shortListData.interviews[num]['rating'] = rating;
+    shortListData.interviews[num]['interest'] = value;
+
+    this.setState({ shortListData });
+    trackAnalytics(shortListId, shortListData);
+  };
   render() {
     var {
+      num,
       shortListId,
       activeQuestion,
-      candidateData,
+      shortListData,
       currentQuestionText,
       videoUrl,
-      
     } = this.state;
-
-    if (!candidateData) return null;
+    if (!shortListData) return null;
+    const candidateData = shortListData.interviews[num];
 
     const { hideInfo } = candidateData;
 
@@ -134,6 +161,7 @@ class App extends Component {
                   onClick: () => {
                     this.setVideoData(record.response, question);
                     this.setState({ activeQuestion: index });
+                    this.saveQuestionClick();
                   },
                 })}
                 rowClassName={(record, index) => (index === activeQuestion ? 'selected' : '')}
@@ -145,7 +173,12 @@ class App extends Component {
             </Card>
 
             <Card style={{ marginBottom: '20px' }} hoverable title="Leave Feedback">
-              <Rate allowClear={false} defaultValue={this.state.rating} /> <br /> <br />
+              <Rate
+                onChange={n => this.setState({ rating: n })}
+                allowClear={false}
+                defaultValue={this.state.rating}
+              />{' '}
+              <br /> <br />
               <RadioGroup onChange={this.onChange} value={this.state.value}>
                 <Radio value={1}>Yes Interview</Radio>
                 <Radio value={2}>Maybe Interview</Radio>
@@ -166,7 +199,7 @@ class App extends Component {
                   <Icon type="left" />
                 </Button>
               )}
-              <Button onClick={() => this.submitAndContinue()} type="primary">
+              <Button onClick={() => this.storeFeedback()} type="primary">
                 Leave FeedBack
                 <Icon type="right" />
               </Button>
