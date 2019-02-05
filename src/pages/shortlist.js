@@ -2,27 +2,66 @@
 import { List } from 'antd';
 import { router } from 'umi';
 import ShortListCandidateCard from '@/components/ShortListCandidateCard';
-import { fetchShortlist } from '@/services/api';
+import { fetchShortlist, trackAnalytics } from '@/services/api';
 import styles from '@/global.less';
 
 import qs from 'qs';
+import moment from 'moment';
 
 import React, { Component } from 'react';
 
-const viewCandidate = (id, i) => router.push(`candidate?shortlist=${id}&num=${i}`);
+
 
 export default class Shortlist extends Component {
   state = { shortListData: null };
+
+  saveShortListClick = () => {
+    const { shortListData, id } = this.state;
+    let current = new moment();
+
+    if (shortListData['clicks']) {
+      let prev = moment(shortListData['clicks'][0]);
+      if (moment.duration(current.diff(prev)).as('minutes') > '30') {
+        shortListData['clicks'].push(current.format());
+      }
+    }
+    else {
+      shortListData['clicks'] = [current.format()];
+    }
+    this.setState({ shortListData });
+    trackAnalytics(id, shortListData);
+  }
 
   componentDidMount() {
     const { location } = this.props;
     const id = qs.parse(location.search)['?shortlist'];
     console.log(id);
-    fetchShortlist(id).then(r => this.setState({ shortListData: r[0], id }));
+    fetchShortlist(id).then(r =>
+      this.setState({
+        shortListData: r[0], id
+      }, () => { this.saveShortListClick() })
+    );
   }
+
+  viewCandidate = (id, i) => {
+    this.saveCandidateClick(i);
+    router.push(`candidate?shortlist=${id}&num=${i}`);
+  };
+
+  saveCandidateClick = index => {
+    const { shortListData, id } = this.state;
+    if (shortListData.interviews[index]['clicks'])
+      shortListData.interviews[index]['clicks'].push(new Date().toString());
+    else {
+      shortListData.interviews[index]['clicks'] = [new Date().toString()];
+    }
+    this.setState({ shortListData });
+    trackAnalytics(id, shortListData);
+  };
 
   render() {
     const { shortListData, id } = this.state;
+    console.log(shortListData);
     if (!shortListData) return null;
 
     return (
@@ -34,7 +73,7 @@ export default class Shortlist extends Component {
           //   loading={loading}
           dataSource={shortListData.interviews}
           renderItem={(item, index) => (
-            <List.Item onClick={() => viewCandidate(id, index)} key={item.id}>
+            <List.Item onClick={() => this.viewCandidate(id, index)} key={item.id}>
               <ShortListCandidateCard item={item} />
             </List.Item>
           )}

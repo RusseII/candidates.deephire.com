@@ -66,13 +66,13 @@ const ShortListAnalyticsCard = ({ item }) => (
           </Col>
         </Row>
       ) : (
-        item.feedback.map(feedback => (
+        // item.feedback.map(feedback => (
           <Row>
             <Col span={24}>
-              <div className={styles.candidateFeedback}>{feedback}</div>
+              <div className={styles.candidateFeedback}>{item.feedback}</div>
             </Col>
           </Row>
-        ))
+        // ))
       )}
     </div>
   </Card>
