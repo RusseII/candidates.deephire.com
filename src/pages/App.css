@@ -62,8 +62,8 @@ body > #root > div {
 .playerWrapper {
   position: relative;
   padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
-  // margin-left: 13%;
-  // margin-right: 13%;
+  /* // margin-left: 13%;
+  // margin-right: 13%; */
 }
 
 .reactPlayer {
