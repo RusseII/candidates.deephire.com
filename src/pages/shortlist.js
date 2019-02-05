@@ -9,10 +9,7 @@ import qs from 'qs';
 
 import React, { Component } from 'react';
 
-const viewCandidate = (id, i) => {
-  this.saveCandidateClick(i);
-  router.push(`candidate?shortlist=${id}&num=${i}`);
-};
+
 
 export default class Shortlist extends Component {
   state = { shortListData: null };
@@ -23,6 +20,11 @@ export default class Shortlist extends Component {
     console.log(id);
     fetchShortlist(id).then(r => this.setState({ shortListData: r[0], id }));
   }
+
+   viewCandidate = (id, i) => {
+    this.saveCandidateClick(i);
+    router.push(`candidate?shortlist=${id}&num=${i}`);
+  };
 
   saveCandidateClick = index => {
     const { shortlistData, id } = this.state;
@@ -48,7 +50,7 @@ export default class Shortlist extends Component {
           //   loading={loading}
           dataSource={shortListData.interviews}
           renderItem={(item, index) => (
-            <List.Item onClick={() => viewCandidate(id, index)} key={item.id}>
+            <List.Item onClick={() => this.viewCandidate(id, index)} key={item.id}>
               <ShortListCandidateCard item={item} />
             </List.Item>
           )}
