@@ -6,6 +6,7 @@ import { fetchShortlist, trackAnalytics } from '@/services/api';
 import styles from '@/global.less';
 
 import qs from 'qs';
+import moment from 'moment';
 
 import React, { Component } from 'react';
 
@@ -14,11 +15,32 @@ import React, { Component } from 'react';
 export default class Shortlist extends Component {
   state = { shortListData: null };
 
+  saveShortListClick = () => {
+    const { shortListData, id } = this.state;
+    let current = new moment();
+
+    if (shortListData['clicks']) {
+      let prev = moment(shortListData['clicks'][0]);
+      if (moment.duration(current.diff(prev)).as('minutes') > '30') {
+        shortListData['clicks'].push(current.format());
+      }
+    }
+    else {
+      shortListData['clicks'] = [current.format()];
+    }
+    this.setState({ shortListData });
+    trackAnalytics(id, shortListData);
+  }
+
   componentDidMount() {
     const { location } = this.props;
     const id = qs.parse(location.search)['?shortlist'];
     console.log(id);
-    fetchShortlist(id).then(r => this.setState({ shortListData: r[0], id }));
+    fetchShortlist(id).then(r =>
+      this.setState({
+        shortListData: r[0], id
+      }, () => { this.saveShortListClick() })
+    );
   }
 
   viewCandidate = (id, i) => {
