@@ -12,7 +12,10 @@ export const fetchShortlist = id => {
 export const trackAnalytics = (id, data) => {
   return fetch(`${apiUrl}shortlists/${id}`, {
     method: 'PUT',
-    body: JSON.stringify(data),
+    body: JSON.stringify(data), headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
   })
     .then(response => response.json())
     .then(data => data);
