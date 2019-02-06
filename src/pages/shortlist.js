@@ -10,8 +10,6 @@ import moment from 'moment';
 
 import React, { Component } from 'react';
 
-
-
 export default class Shortlist extends Component {
   state = { shortListData: null };
 
@@ -20,26 +18,35 @@ export default class Shortlist extends Component {
     let current = new moment();
 
     if (shortListData['clicks']) {
-      let prev = moment(shortListData['clicks'][0]);
+      const len = shortListData['clicks'].length
+      let prev = moment(shortListData['clicks'][len]);
       if (moment.duration(current.diff(prev)).as('minutes') > '30') {
         shortListData['clicks'].push(current.format());
       }
-    }
-    else {
+      else {
+        shortListData['clicks'][len]=current.format();
+      }
+    } else {
       shortListData['clicks'] = [current.format()];
     }
     this.setState({ shortListData });
     trackAnalytics(id, shortListData);
-  }
+  };
 
   componentDidMount() {
     const { location } = this.props;
     const id = qs.parse(location.search)['?shortlist'];
     console.log(id);
     fetchShortlist(id).then(r =>
-      this.setState({
-        shortListData: r[0], id
-      }, () => { this.saveShortListClick() })
+      this.setState(
+        {
+          shortListData: r[0],
+          id,
+        },
+        () => {
+          this.saveShortListClick();
+        }
+      )
     );
   }
 
