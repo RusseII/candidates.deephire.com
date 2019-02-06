@@ -19,12 +19,12 @@ export default class Shortlist extends Component {
 
     if (shortListData['clicks']) {
       const len = shortListData['clicks'].length
-      let prev = moment(shortListData['clicks'][len]);
+      let prev = moment(shortListData['clicks'][len - 1]);
       if (moment.duration(current.diff(prev)).as('minutes') > '30') {
         shortListData['clicks'].push(current.format());
       }
       else {
-        shortListData['clicks'][len]=current.format();
+        shortListData['clicks'][len - 1] = current.format();
       }
     } else {
       shortListData['clicks'] = [current.format()];
