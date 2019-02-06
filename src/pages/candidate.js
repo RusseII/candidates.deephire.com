@@ -4,9 +4,9 @@ import InfoCard from '../components/InfoCard';
 import qs from 'qs';
 import { router } from 'umi';
 import { trackAnalytics } from '@/services/api';
-import "@/global.css"
+import '@/global.css';
 
-import { Card, Col, Row, Icon, Table, Button, Rate, Radio, Input } from 'antd';
+import { Card, Col, Row, Icon, Table, Button, Rate, Radio, Input, message } from 'antd';
 
 import './App.css';
 const { TextArea } = Input;
@@ -56,8 +56,8 @@ class App extends Component {
             currentQuestionText: data[0].interviews[num].responses[0].question,
             videoUrl: data[0].interviews[num].responses[0].response,
             text: data[0].interviews[num].text,
-            value: data[0].interviews[num].value,
-            rating: data[0].interviews[num].rating
+            value: data[0].interviews[num].interest,
+            rating: data[0].interviews[num].rating,
           });
         },
         () => {
@@ -69,19 +69,6 @@ class App extends Component {
   setVideoData = (videoUrl, currentQuestionText) => {
     this.setState({ videoUrl, currentQuestionText });
   };
-
-  back() {
-    if (this.state.shortListIndex > 0) {
-      this.setState({
-        rating: 3,
-        value: '',
-        text: '',
-        activeQuestion: 0,
-        shortListIndex: this.state.shortListIndex - 1,
-      });
-    }
-  }
-
 
   saveQuestionClick = () => {
     const { shortListData, num, shortListId, activeQuestion } = this.state;
@@ -95,20 +82,31 @@ class App extends Component {
   };
 
   onChange = e => {
-    console.log(e.target.value);
     this.setState({
       value: e.target.value,
     });
+    this.storeFeedback();
   };
 
   handleChange = event => {
     this.setState({ text: event.target.value });
+    this.storeFeedback();
   };
 
-  storeFeedback = () => {
+  leaveRating = rating => {
+    this.setState({ rating });
+    this.storeFeedback(rating);
+  };
+
+  leaveFeedBackButton = () => {
+    message.success('Feedback Submitted');
+    this.storeFeedback();
+  };
+
+  storeFeedback = (r = null) => {
     const { shortListData, num, shortListId, text, rating, value } = this.state;
     shortListData.interviews[num]['feedback'] = text;
-    shortListData.interviews[num]['rating'] = rating;
+    shortListData.interviews[num]['rating'] = r ? r : rating;
     shortListData.interviews[num]['interest'] = value;
 
     this.setState({ shortListData });
@@ -122,13 +120,12 @@ class App extends Component {
       shortListData,
       currentQuestionText,
       videoUrl,
+      value,
     } = this.state;
     if (!shortListData) return null;
     const candidateData = shortListData.interviews[num];
 
     const { hideInfo } = candidateData;
-
-    var { question } = candidateData.responses[activeQuestion];
 
     return (
       <div>
@@ -175,12 +172,12 @@ class App extends Component {
 
             <Card style={{ marginBottom: '20px' }} hoverable title="Leave Feedback">
               <Rate
-                onChange={n => this.setState({ rating: n })}
+                onChange={this.leaveRating}
                 allowClear={false}
                 defaultValue={this.state.rating}
               />{' '}
               <br /> <br />
-              <RadioGroup onChange={this.onChange} value={this.state.value}>
+              <RadioGroup onChange={this.onChange} value={value}>
                 <Radio value={1}>Yes Interview</Radio>
                 <Radio value={2}>Maybe Interview</Radio>
                 <Radio value={3}>No Interview</Radio>
@@ -195,12 +192,7 @@ class App extends Component {
               />
               <br />
               <br />
-              {this.state.shortListIndex > 0 && (
-                <Button style={{ marginRight: '20px' }} onClick={() => this.back()} type="primary">
-                  <Icon type="left" />
-                </Button>
-              )}
-              <Button onClick={() => this.storeFeedback()} type="primary">
+              <Button onClick={() => this.leaveFeedBackButton()} type="primary">
                 Leave FeedBack
                 <Icon type="right" />
               </Button>

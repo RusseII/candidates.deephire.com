@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, Icon, Row, Col, Rate, Tooltip } from 'antd';
+import { Card, Row, Col, Rate } from 'antd';
 import styles from './index.less';
 
 const ShortListAnalyticsCard = ({ item }) => (
