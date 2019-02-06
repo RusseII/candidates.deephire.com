@@ -16,7 +16,7 @@ const ShortListAnalyticsCard = ({ item }) => (
       <Col>
         <div className={styles.title}>{item.userName}</div>
       </Col>
-      <Col>
+      {/* <Col>
         {item.interview === 'yes' && (
           <Tooltip title="I want to interview this candidate">
             <Icon type="check-circle" style={{ fontSize: '24px', color: '#08c', marginTop: 5 }} />
@@ -46,7 +46,7 @@ const ShortListAnalyticsCard = ({ item }) => (
             />
           </Tooltip>
         )}
-      </Col>
+      </Col> */}
     </Row>
 
     <div className={styles.subtitle}>{item.candidateEmail}</div>
