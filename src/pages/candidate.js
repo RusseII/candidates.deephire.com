@@ -4,6 +4,7 @@ import InfoCard from '../components/InfoCard';
 import qs from 'qs';
 import { router } from 'umi';
 import { trackAnalytics } from '@/services/api';
+import "@/global.css"
 
 import { Card, Col, Row, Icon, Table, Button, Rate, Radio, Input } from 'antd';
 
@@ -159,7 +160,7 @@ class App extends Component {
                 showHeader={false}
                 onRow={(record, index) => ({
                   onClick: () => {
-                    this.setVideoData(record.response, question);
+                    this.setVideoData(record.response, record.question);
                     this.setState({ activeQuestion: index });
                     this.saveQuestionClick();
                   },

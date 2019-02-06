@@ -3,7 +3,7 @@ import { List } from 'antd';
 import { router } from 'umi';
 import ShortListCandidateCard from '@/components/ShortListCandidateCard';
 import { fetchShortlist, trackAnalytics } from '@/services/api';
-import styles from '@/global.less';
+import styles from '@/global.css';
 
 import qs from 'qs';
 import moment from 'moment';
