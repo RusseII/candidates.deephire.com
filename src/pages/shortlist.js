@@ -29,14 +29,13 @@ export default class Shortlist extends Component {
       let prev = moment(shortListData['clicks'][len - 1]);
       if (moment.duration(current.diff(prev)).as('minutes') > '30') {
         shortListData['clicks'].push(current.format());
-        sendEmail(emailMsg)
+        sendEmail(emailMsg);
       } else {
         shortListData['clicks'][len - 1] = current.format();
       }
     } else {
       shortListData['clicks'] = [current.format()];
-      sendEmail(emailMsg)
-
+      sendEmail(emailMsg);
     }
     this.setState({ shortListData });
     trackAnalytics(id, shortListData);
@@ -79,23 +78,20 @@ export default class Shortlist extends Component {
     const { shortListData, id } = this.state;
     console.log(shortListData);
     if (!shortListData) return null;
+    const { hideInfo } = shortListData;
 
     return (
       <div>
         <Card>
           <Row type="flex">
             <Col>
-              <div className={styles.pageHeader}>
-                Short List of Candidates
-              </div>
+              <div className={styles.pageHeader}>Short List of Candidates</div>
             </Col>
             <Col>
               <div className={styles.divider}>|</div>
             </Col>
             <Col>
-              <div className={styles.pageSubHeading}>
-                Created by {shortListData.createdBy}
-              </div>
+              <div className={styles.pageSubHeading}>Created by {shortListData.createdBy}</div>
             </Col>
           </Row>
         </Card>
@@ -107,8 +103,9 @@ export default class Shortlist extends Component {
             //   loading={loading}
             dataSource={shortListData.interviews}
             renderItem={(item, index) => (
-              <List.Item onClick={() => this.viewCandidate(id, index)} key={item.id}>
-                <ShortListCandidateCard item={item} />
+              <List.Item onClick={() => this.viewCandidate(id, index)} key={index}>
+              
+                <ShortListCandidateCard hideInfo={hideInfo} item={item} index={index + 1} />
               </List.Item>
             )}
           />
