@@ -19,7 +19,7 @@ export default class BasicLayout extends Component {
 
   render() {
 
-    const {shortListData} = this.this.state
+    const {shortListData} = this.state
     if (!shortListData) return null
     return (
       <div style={{ backgroundColor: '#F0F2F5', padding: '0px' }}>
