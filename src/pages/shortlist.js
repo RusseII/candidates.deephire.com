@@ -2,7 +2,7 @@
 import { List } from 'antd';
 import { router } from 'umi';
 import ShortListCandidateCard from '@/components/ShortListCandidateCard';
-import { fetchShortlist, trackAnalytics } from '@/services/api';
+import { fetchShortlist, trackAnalytics, sendEmail } from '@/services/api';
 import styles from '@/global.css';
 
 import qs from 'qs';
@@ -15,19 +15,28 @@ export default class Shortlist extends Component {
 
   saveShortListClick = () => {
     const { shortListData, id } = this.state;
+    const { createdBy, name } = shortListData;
+
+    const emailMsg = {
+      recipients: [createdBy],
+      subject: `${name} viewd your shortlist`,
+      message: `${name} just opened your shortlist. Log into https://recruiter.deephire.com to view their analytics.`,
+    };
     let current = new moment();
 
     if (shortListData['clicks']) {
-      const len = shortListData['clicks'].length
+      const len = shortListData['clicks'].length;
       let prev = moment(shortListData['clicks'][len - 1]);
       if (moment.duration(current.diff(prev)).as('minutes') > '30') {
         shortListData['clicks'].push(current.format());
-      }
-      else {
+        sendEmail(emailMsg)
+      } else {
         shortListData['clicks'][len - 1] = current.format();
       }
     } else {
       shortListData['clicks'] = [current.format()];
+      sendEmail(emailMsg)
+
     }
     this.setState({ shortListData });
     trackAnalytics(id, shortListData);
