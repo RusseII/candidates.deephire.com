@@ -5,6 +5,8 @@ import { fetchShortlist } from '@/services/api';
 const Header = Layout.Header;
 
 export default class BasicLayout extends Component {
+  state = { shortListData: null };
+
   componentDidMount() {
     const { location } = this.props;
     const id = qs.parse(location.search)['?shortlist'];
@@ -18,17 +20,17 @@ export default class BasicLayout extends Component {
   }
 
   render() {
-
-    const {shortListData} = this.state
-    if (!shortListData) return null
+    const { shortListData } = this.state;
+    if (!shortListData) return null;
+    console.log(shortListData.createdBy);
     return (
       <div style={{ backgroundColor: '#F0F2F5', padding: '0px' }}>
         <Header style={{ backgroundColor: 'white' }}>
           {' '}
           <Row type="flex" style={{ height: '60%' }} justify="space-between">
-            <Col>Shared by: Tempo</Col>
+            <Col>Shared by: {shortListData.createdBy === 'mskalak@allectiomedical.com' ? "Allectio Medical": "Tempo"}</Col>
             <Col>
-              {shortListData.sharedBy === 'mskalak@allectiomedical.com' ? (
+              {shortListData.createdBy === 'mskalak@allectiomedical.com' ? (
                 <img
                   src="https://s3.amazonaws.com/deephire/allectio.png"
                   alt="Allectio Medical"
