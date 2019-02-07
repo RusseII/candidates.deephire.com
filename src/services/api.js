@@ -24,7 +24,7 @@ export const trackAnalytics = (id, data) => {
 
 
 export const sendEmail = (data) => {
-  return fetch(`${apiUrl}emails/`, {
+  return fetch(`${apiUrl}emails`, {
     method: 'POST',
     body: JSON.stringify(data), headers: {
       'Accept': 'application/json',
