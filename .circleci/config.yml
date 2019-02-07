@@ -31,5 +31,5 @@ jobs:
           name: Push to s3 DEVELOP
           command: |
             if [ "${CIRCLE_BRANCH}" == "develop" ]; then
-
+              CI=false yarn && yarn build
             fi
