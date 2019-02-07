@@ -1,9 +1,9 @@
 // import styles from './ShortListAnalytics.less';
-import { List } from 'antd';
+import { List, Card, Row, Col } from 'antd';
 import { router } from 'umi';
 import ShortListCandidateCard from '@/components/ShortListCandidateCard';
 import { fetchShortlist, trackAnalytics, sendEmail } from '@/services/api';
-import styles from '@/global.css';
+import styles from './shortlist.css';
 
 import qs from 'qs';
 import moment from 'moment';
@@ -81,19 +81,38 @@ export default class Shortlist extends Component {
     if (!shortListData) return null;
 
     return (
-      <div className={styles.cardList}>
-        <List
-          rowKey="id"
-          style={{ marginTop: 24 }}
-          grid={{ gutter: 24, xl: 3, lg: 2, md: 1, sm: 1, xs: 1 }}
-          //   loading={loading}
-          dataSource={shortListData.interviews}
-          renderItem={(item, index) => (
-            <List.Item onClick={() => this.viewCandidate(id, index)} key={item.id}>
-              <ShortListCandidateCard item={item} />
-            </List.Item>
-          )}
-        />
+      <div>
+        <Card>
+          <Row type="flex">
+            <Col>
+              <div className={styles.pageHeader}>
+                Short List of Candidates
+              </div>
+            </Col>
+            <Col>
+              <div className={styles.divider}>|</div>
+            </Col>
+            <Col>
+              <div className={styles.pageSubHeading}>
+                Created by {shortListData.createdBy}
+              </div>
+            </Col>
+          </Row>
+        </Card>
+        <div className={styles.cardList}>
+          <List
+            rowKey="id"
+            style={{ marginTop: 24 }}
+            grid={{ gutter: 24, xl: 3, lg: 2, md: 1, sm: 1, xs: 1 }}
+            //   loading={loading}
+            dataSource={shortListData.interviews}
+            renderItem={(item, index) => (
+              <List.Item onClick={() => this.viewCandidate(id, index)} key={item.id}>
+                <ShortListCandidateCard item={item} />
+              </List.Item>
+            )}
+          />
+        </div>
       </div>
     );
   }

@@ -17,8 +17,11 @@ function BasicLayout(props) {
           </Col>
         </Row>
       </Header>
-      <div style={{height: "100vh", padding: "20px"}}>
-      {props.children}
+      <div>
+
+      </div>
+      <div style={{ height: "100vh", padding: "20px" }}>
+        {props.children}
       </div>
     </div>
   );
