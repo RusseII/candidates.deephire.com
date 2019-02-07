@@ -18,6 +18,9 @@ export default class BasicLayout extends Component {
   }
 
   render() {
+
+    const {shortListData} = this.this.state
+    if (!shortListData) return null
     return (
       <div style={{ backgroundColor: '#F0F2F5', padding: '0px' }}>
         <Header style={{ backgroundColor: 'white' }}>
@@ -25,7 +28,7 @@ export default class BasicLayout extends Component {
           <Row type="flex" style={{ height: '60%' }} justify="space-between">
             <Col>Shared by: Tempo</Col>
             <Col>
-              {this.state.shortListData.sharedBy === 'mskalak@allectiomedical.com' ? (
+              {shortListData.sharedBy === 'mskalak@allectiomedical.com' ? (
                 <img
                   src="https://s3.amazonaws.com/deephire/allectio.png"
                   alt="Allectio Medical"
