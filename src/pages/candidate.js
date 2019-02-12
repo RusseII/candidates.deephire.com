@@ -13,6 +13,20 @@ const { TextArea } = Input;
 
 const RadioGroup = Radio.Group;
 
+// TODO REMOVE CUSTOM CODE FOR SUZANNE START
+const customCode = shortListData =>
+  shortListData.createdBy === 'suzanne@spectrumconsultancy.co.uk' && (
+    <Button
+      style={{ float: 'right' }}
+      onClick={() => window.open('https://goo.gl/forms/AJWubChCpv8Al2rj2', '_blank')}
+      type="primary"
+    >
+      Book This Candidate Now
+      <Icon type="schedule" />
+    </Button>
+  );
+// TODO REMOVE CUSTOM CODE FOR SUZANNE END
+
 const toShortlist = id => router.push(`/shortlist?shortlist=${id}`);
 
 const columns = [
@@ -134,18 +148,14 @@ class App extends Component {
             <Icon type="left" />
             Back to Candidates
           </Button>
-          <Button
-            style={{ float: 'right' }}
-            onClick={() => window.open('https://goo.gl/forms/AJWubChCpv8Al2rj2', '_blank')}
-            type="primary"
-          >
-            Book This Candidate Now
-            <Icon type="schedule" />
-          </Button>
+
+          {/* TODO REMOVE CUSTOM CODE FOR SUZANNE  START*/}
+          {customCode(shortListData)}
+          {/* TODO REMOVE CUSTOM CODE FOR SUZANNE END */}
         </Row>
 
-        <Row style={{ backgroundColor: '#F0F2F5', padding: '20px' }} gutter={24}>
-          <Col span={8}>
+        <Row type="flex" style={{ backgroundColor: '#F0F2F5', padding: '20px' }} gutter={24}>
+          <Col xs={{ span: 24, order: 2 }} sm={24} md={8} lg={8} xl={8}>
             <InfoCard
               userId={candidateData.userId}
               userName={hideInfo ? 'A Candidate' : candidateData.userName}
@@ -198,8 +208,14 @@ class App extends Component {
               </Button>
             </Card>
           </Col>
-          <Col span={16}>
-            <Card title={currentQuestionText}>
+          <Col
+            xs={{ span: 24, order: 1 }}
+            sm={{ span: 24, order: 1 }}
+            md={{ span: 16, order: 2 }}
+            lg={{ span: 16, order: 2 }}
+            xl={{ span: 16, order: 2 }}
+          >
+            <Card style={{ marginBottom: 20 }} title={currentQuestionText}>
               <div className="playerWrapper">
                 <ReactPlayer
                   onError={() =>

@@ -27,20 +27,20 @@ export default class BasicLayout extends Component {
       <div style={{ backgroundColor: '#F0F2F5', padding: '0px' }}>
         <Header style={{ backgroundColor: 'white' }}>
           {' '}
-          <Row type="flex" style={{ height: '60%' }} justify="space-between">
+          <Row type="flex" style={{ height: '60px' }} justify="space-between">
             <Col>Shared by: {shortListData.createdBy === 'mskalak@allectiomedical.com' ? "Allectio Medical": "Tempo"}</Col>
             <Col>
               {shortListData.createdBy === 'mskalak@allectiomedical.com' ? (
                 <img
                   src="https://s3.amazonaws.com/deephire/allectio.png"
                   alt="Allectio Medical"
-                  height="100%"
+                  height="50px"
                 />
               ) : (
                 <img
                   src="https://s3.amazonaws.com/deephire/importantImages/suzanneTempoLogo.png"
                   alt="Forge"
-                  height="100%"
+                  height="50px"
                 />
               )}
             </Col>
