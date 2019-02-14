@@ -21,15 +21,19 @@ export default class BasicLayout extends Component {
 
   render() {
     let { shortListData } = this.state;
-    if (!shortListData) shortListData = {}
-;
+    if (!shortListData) shortListData = {};
     console.log(shortListData.createdBy);
     return (
       <div style={{ backgroundColor: '#F0F2F5', padding: '0px' }}>
         <Header style={{ backgroundColor: 'white' }}>
           {' '}
           <Row type="flex" style={{ height: '60px' }} justify="space-between">
-            <Col>Shared by: {shortListData.createdBy === 'mskalak@allectiomedical.com' ? "Allectio Medical": "Tempo"}</Col>
+            <Col>
+              Shared by:{' '}
+              {shortListData.createdBy === 'mskalak@allectiomedical.com'
+                ? 'Allectio Medical'
+                : 'Tempo'}
+            </Col>
             <Col>
               {shortListData.createdBy === 'mskalak@allectiomedical.com' ? (
                 <img

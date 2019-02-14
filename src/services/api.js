@@ -1,3 +1,5 @@
+require("isomorphic-fetch");
+
 const apiUrl = 'https://a.deephire.com/v1/';
 // const apiUrl = 'http://localhost:3000/v1/';
 

@@ -9,6 +9,7 @@ import '@/global.css';
 import { Card, Col, Row, Icon, Table, Button, Rate, Radio, Input, message } from 'antd';
 
 import './App.css';
+require('isomorphic-fetch');
 const { TextArea } = Input;
 
 const RadioGroup = Radio.Group;
