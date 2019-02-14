@@ -3612,6 +3612,10 @@ es5-imcompatible-versions@^0.1.25:
   version "0.1.28"
   resolved "https://registry.yarnpkg.com/es5-imcompatible-versions/-/es5-imcompatible-versions-0.1.28.tgz#986c0edcf28ecb0fe85a7635daa14f2365782e72"
 
+es6-promise@4.2.5:
+  version "4.2.5"
+  resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.5.tgz#da6d0d5692efb461e082c14817fe2427d8f5d054"
+
 escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
