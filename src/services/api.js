@@ -1,5 +1,6 @@
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
+import fetch from 'isomorphic-fetch';
+// require('es6-promise').polyfill();
+// require('isomorphic-fetch');
 
 const apiUrl = 'https://a.deephire.com/v1/';
 // const apiUrl = 'http://localhost:3000/v1/';

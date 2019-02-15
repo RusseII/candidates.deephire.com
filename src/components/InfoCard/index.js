@@ -1,8 +1,10 @@
 import React from 'react';
 
 import { Button, Card } from 'antd';
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
+
+import fetch from 'isomorphic-fetch';
+// require('es6-promise').polyfill();
+// require('isomorphic-fetch');
 
 class InfoCard extends React.Component {
   state = { modalVisible: false };
