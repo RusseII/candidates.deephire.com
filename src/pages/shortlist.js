@@ -19,8 +19,8 @@ export default class Shortlist extends Component {
 
     const emailMsg = {
       recipients: [createdBy],
-      subject: `${name} viewd your shortlist`,
-      message: `${name} just opened your shortlist. Log into https://recruiter.deephire.com to view their analytics.`,
+      subject: `${name} viewed your shortlist`,
+      message: `${name} just opened your shortlist. Log onto https://recruiter.deephire.com to view their analytics.`,
     };
     let current = new moment();
 
