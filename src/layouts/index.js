@@ -32,7 +32,7 @@ export default class BasicLayout extends Component {
               Shared by:{' '}
               {shortListData.createdBy === 'mskalak@allectiomedical.com'
                 ? 'Allectio Medical'
-                : 'Tempo'}
+                : shortListData.createdBy === 'dbrennan@assistinghands.com' ? "Assisting Hands":'Tempo'}
             </Col>
             <Col>
               {shortListData.createdBy === 'mskalak@allectiomedical.com' ? (
@@ -41,13 +41,21 @@ export default class BasicLayout extends Component {
                   alt="Allectio Medical"
                   height="50px"
                 />
-              ) : (
+              ) : 
+                
+                shortListData.createdBy === 'dbrennan@assistinghands.com' ? 
+
+              (
                 <img
-                  src="https://s3.amazonaws.com/deephire/importantImages/suzanneTempoLogo.png"
-                  alt="Forge"
+                  src="https://s3.amazonaws.com/deephire/logos/AssistingHandsLogo.jpg"
+                  alt="assistingHands"
                   height="50px"
                 />
-              )}
+                  ) : <img
+                    src="https://s3.amazonaws.com/deephire/importantImages/suzanneTempoLogo.png"
+                    alt="Forge"
+                    height="50px"
+                  />}
             </Col>
           </Row>
         </Header>
