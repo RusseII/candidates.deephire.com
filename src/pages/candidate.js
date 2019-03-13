@@ -6,7 +6,7 @@ import { router } from 'umi';
 import { trackAnalytics } from '@/services/api';
 import '@/global.css';
 
-import { Card, Col, Row, Icon, Table, Button, Rate, Radio, Input, message } from 'antd';
+import { Upload, Card, Col, Row, Icon, Table, Button, Rate, Radio, Input, message } from 'antd';
 
 import './App.css';
 import fetch from 'isomorphic-fetch';
@@ -30,6 +30,27 @@ const customCode = shortListData =>
     </Button>
   );
 // TODO REMOVE CUSTOM CODE FOR SUZANNE END
+
+
+
+const props = {
+  action: '//jsonplaceholder.typicode.com/posts/',
+  onChange({ file, fileList }) {
+    if (file.status !== 'uploading') {
+      console.log(file, fileList);
+    }
+  },
+  defaultFileList: [{
+    uid: '1',
+    name: 'Russell_Resume.pdf',
+    url: 'https://www.quimpercornouaillefc.com/wp-content/uploads/2018/09/resume-linkedin-simple-elegant-linkedin-resume-madiesolution-com-linkedin-url-on-resume.png',
+  }, {
+    uid: '2',
+    name: 'Russell_Cover_Letter.pdf',
+      url: 'http://blogs.vault.com/media/2869818/cover_letter_2_660x854.jpg',
+  }],
+};
+
 
 const toShortlist = id => router.push(`/shortlist?shortlist=${id}`);
 
@@ -182,6 +203,10 @@ class App extends Component {
                 dataSource={candidateData.responses}
                 columns={columns}
               />
+              {shortListId != null && num != null &&
+              <Upload {...props}/>}
+                
+            
             </Card>
 
             <Card style={{ marginBottom: '20px' }} hoverable title="Leave Feedback">
