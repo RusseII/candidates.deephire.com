@@ -43,7 +43,7 @@ const props = {
   defaultFileList: [{
     uid: '1',
     name: 'Russell_Resume.pdf',
-    url: 'https://www.quimpercornouaillefc.com/wp-content/uploads/2018/09/resume-linkedin-simple-elegant-linkedin-resume-madiesolution-com-linkedin-url-on-resume.png',
+    url: 'https://s3-us-west-2.amazonaws.com/landing.deephire.com/Resume.pdf',
   }, {
     uid: '2',
     name: 'Russell_Cover_Letter.pdf',
