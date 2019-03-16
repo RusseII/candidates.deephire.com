@@ -5,18 +5,15 @@ import { fetchShortlist, fetchCompanyInfo } from '@/services/api';
 const Header = Layout.Header;
 
 const BasicLayout = ({ location, children }) => {
-  const [shortListData, setShortListData] = useState({});
   const [companyInfo, setCompanyInfo] = useState({ companyName: 'Loading...', logo: '' });
   const id = qs.parse(location.search)['?shortlist'];
 
   useEffect(() => {
     fetchShortlist(id).then(r => {
-      setShortListData(r[0]);
       fetchCompanyInfo(r[0].createdBy).then(r => setCompanyInfo(r || {}));
     });
   }, []);
 
-  console.log(companyInfo);
   return (
     <div style={{ backgroundColor: '#F0F2F5', padding: '0px' }}>
       <Header style={{ backgroundColor: 'white' }}>
