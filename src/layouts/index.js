@@ -1,28 +1,21 @@
 import { Col, Row, Layout } from 'antd';
-import React, { Component } from 'react';
+import React, {  useState, useEffect } from 'react';
 import qs from 'qs';
 import { fetchShortlist } from '@/services/api';
 const Header = Layout.Header;
 
-export default class BasicLayout extends Component {
-  state = { shortListData: null };
+const BasicLayout = ({ location, children }) => {
+  const [shortListData, setShortListData] = useState({})
+  const id = qs.parse(location.search)['?shortlist'];
 
-  componentDidMount() {
-    const { location } = this.props;
-    const id = qs.parse(location.search)['?shortlist'];
-    console.log(id);
+
+  useEffect(() => {
     fetchShortlist(id).then(r =>
-      this.setState({
-        shortListData: r[0],
-        id,
-      })
-    );
-  }
+        setShortListData(r[0])
+        
+      )
+  }, [])
 
-  render() {
-    let { shortListData } = this.state;
-    if (!shortListData) shortListData = {};
-    console.log(shortListData.createdBy);
     return (
       <div style={{ backgroundColor: '#F0F2F5', padding: '0px' }}>
         <Header style={{ backgroundColor: 'white' }}>
@@ -60,8 +53,9 @@ export default class BasicLayout extends Component {
           </Row>
         </Header>
         <div />
-        <div style={{ height: '100vh', padding: '20px' }}>{this.props.children}</div>
+        <div style={{ height: '100vh', padding: '20px' }}>{children}</div>
       </div>
     );
   }
-}
+
+  export default BasicLayout
