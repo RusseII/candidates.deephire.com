@@ -203,7 +203,7 @@ class App extends Component {
                 dataSource={candidateData.responses}
                 columns={columns}
               />
-              {shortListId != null && num != null &&
+              {candidateData.candidateEmail === "russell@deephire.com" &&
               <Upload {...props}/>}
                 
             
