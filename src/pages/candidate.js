@@ -33,23 +33,23 @@ const customCode = shortListData =>
 
 
 
-const props = {
-  action: '//jsonplaceholder.typicode.com/posts/',
-  onChange({ file, fileList }) {
-    if (file.status !== 'uploading') {
-      console.log(file, fileList);
-    }
-  },
-  defaultFileList: [{
-    uid: '1',
-    name: 'Russell_Resume.pdf',
-    url: 'https://s3-us-west-2.amazonaws.com/landing.deephire.com/Resume.pdf',
-  }, {
-    uid: '2',
-    name: 'Russell_Cover_Letter.pdf',
-      url: 'http://blogs.vault.com/media/2869818/cover_letter_2_660x854.jpg',
-  }],
-};
+// const props = {
+//   action: '//jsonplaceholder.typicode.com/posts/',
+//   onChange({ file, fileList }) {
+//     if (file.status !== 'uploading') {
+//       console.log(file, fileList);
+//     }
+//   },
+//   defaultFileList: [{
+//     uid: '1',
+//     name: 'Russell_Resume.pdf',
+//     url: 'https://s3-us-west-2.amazonaws.com/landing.deephire.com/Resume.pdf',
+//   }, {
+//     uid: '2',
+//     name: 'Russell_Cover_Letter.pdf',
+//       url: 'http://blogs.vault.com/media/2869818/cover_letter_2_660x854.jpg',
+//   }],
+// };
 
 
 const toShortlist = id => router.push(`/shortlist?shortlist=${id}`);
@@ -203,8 +203,8 @@ class App extends Component {
                 dataSource={candidateData.responses}
                 columns={columns}
               />
-              {shortListId != null && num != null &&
-              <Upload {...props}/>}
+              {/* {shortListId != null && num != null &&
+              <Upload {...props}/>} */}
                 
             
             </Card>
