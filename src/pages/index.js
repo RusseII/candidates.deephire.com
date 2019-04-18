@@ -18,8 +18,8 @@ export default class Shortlist extends Component {
       <div className={styles.normal}>
         <div className={styles.welcome} />
         <ul className={styles.list}>
-          <li>Hmm... Howed you get here??</li>
-          <li>Email me at Russell@deephire.com if you are lost!</li>
+          <li>Hmm... How did you get here??</li>
+          <li>Email me at russell@deephire.com if you are lost!</li>
         </ul>
       </div>
     );
