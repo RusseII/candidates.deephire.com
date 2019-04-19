@@ -44,3 +44,9 @@ export const sendEmail = data => {
     .then(response => response.json())
     .then(data => data);
 };
+
+export const getCandidateProfile = id => {
+  return fetch(`${apiUrl}candidates/${id}`)
+    .then(response => response.json())
+    .then(data => data);
+};
