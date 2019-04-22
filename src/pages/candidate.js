@@ -208,7 +208,7 @@ class App extends Component {
               <br />
               <br />
               <Button onClick={() => this.leaveFeedBackButton()} type="primary">
-                Leave FeedBack
+                Leave Feedback
                 <Icon type="right" />
               </Button>
             </Card>
