@@ -32,17 +32,23 @@ export const trackAnalytics = (id, data) => {
     .then(data => data);
 };
 
-export const sendEmail = data => {
-  return fetch(`${apiUrl}emails`, {
+export const sendEmail = (id, clientName, clientEmail, createdBy) => {
+  var data = {
+    type: 'shortListViewed',
+    id,
+    clientName,
+    recipients: [createdBy || 'noemail@deephire.com'],
+    clientEmail,
+  };
+
+  fetch(`${apiUrl}emails`, {
     method: 'POST',
-    body: JSON.stringify(data),
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-  })
-    .then(response => response.json())
-    .then(data => data);
+    body: JSON.stringify(data),
+  });
 };
 
 export const getCandidateProfile = id => {
