@@ -15,13 +15,9 @@ export default class Shortlist extends Component {
 
   saveShortListClick = () => {
     const { shortListData, id } = this.state;
-    const { createdBy, name } = shortListData;
+    const { createdBy, name, email } = shortListData;
 
-    const emailMsg = {
-      recipients: [createdBy],
-      subject: `${name} viewed your shortlist`,
-      message: `${name} just opened your shortlist. Log onto https://recruiter.deephire.com to view their analytics.`,
-    };
+  
     let current = new moment();
 
     if (shortListData['clicks']) {
@@ -29,13 +25,13 @@ export default class Shortlist extends Component {
       let prev = moment(shortListData['clicks'][len - 1]);
       if (moment.duration(current.diff(prev)).as('minutes') > '30') {
         shortListData['clicks'].push(current.format());
-        sendEmail(emailMsg);
+        sendEmail(id, name, email, createdBy);
       } else {
         shortListData['clicks'][len - 1] = current.format();
       }
     } else {
       shortListData['clicks'] = [current.format()];
-      sendEmail(emailMsg);
+      sendEmail(id, name, email, createdBy);
     }
     this.setState({ shortListData });
     trackAnalytics(id, shortListData);
@@ -104,7 +100,6 @@ export default class Shortlist extends Component {
             dataSource={shortListData.interviews}
             renderItem={(item, index) => (
               <List.Item onClick={() => this.viewCandidate(id, index)} key={index}>
-              
                 <ShortListCandidateCard hideInfo={hideInfo} item={item} index={index + 1} />
               </List.Item>
             )}
