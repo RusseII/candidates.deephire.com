@@ -1,6 +1,7 @@
 import { Col, Row, Layout } from 'antd';
 import React, { useState, useEffect } from 'react';
 import qs from 'qs';
+import styles from './index.css'
 import { fetchShortlist, fetchCompanyInfo } from '@/services/api';
 const Header = Layout.Header;
 
@@ -15,10 +16,9 @@ const BasicLayout = ({ location, children }) => {
   }, []);
 
   return (
-    <div style={{ backgroundColor: '#F0F2F5', padding: '0px' }}>
+    <div style={{ backgroundColor: '#F0F2F5' }}>
       <Header style={{ backgroundColor: 'white' }}>
-        {' '}
-        <Row type="flex" style={{ height: '60px' }} justify="space-between">
+        <Row type="flex" justify="space-between">
           <Col>Shared by: {companyInfo.companyName || 'DeepHire'}</Col>
           <Col>
             <img
@@ -30,7 +30,7 @@ const BasicLayout = ({ location, children }) => {
         </Row>
       </Header>
       <div />
-      <div style={{ height: '100vh', padding: '20px' }}>{children}</div>
+      <div className={styles.container}> {children}</div>
     </div>
   );
 };
