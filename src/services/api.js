@@ -3,12 +3,16 @@ import fetch from 'isomorphic-fetch';
 // require('isomorphic-fetch');
 
 const apiUrl = 'https://a.deephire.com/v1/';
+// const apiUrl = 'https://dev-a.deephire.com/v1/';
+
 // const apiUrl = 'http://localhost:3000/v1/';
 
-export const fetchShortlist = id => {
-  return fetch(`${apiUrl}shortlists/${id}`)
-    .then(response => response.json())
-    .then(data => data);
+export const fetchShortlist = async id => {
+  const resp = await fetch(`${apiUrl}shortlists/${id}`);
+  if (resp.ok) {
+    return await resp.json();
+  }
+  return null;
 };
 
 export const fetchCompanyInfo = id => {
