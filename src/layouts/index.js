@@ -1,8 +1,8 @@
-import { Col, Row, Layout } from 'antd';
-import React, { useState, useEffect } from 'react';
+import { fetchCompanyInfo, fetchShortlist } from '@/services/api';
+import { Col, Layout, Row } from 'antd';
 import qs from 'qs';
-import styles from './index.css'
-import { fetchShortlist, fetchCompanyInfo } from '@/services/api';
+import React, { useEffect, useState } from 'react';
+import styles from './index.css';
 const Header = Layout.Header;
 
 const BasicLayout = ({ location, children }) => {
@@ -11,7 +11,9 @@ const BasicLayout = ({ location, children }) => {
 
   useEffect(() => {
     fetchShortlist(id).then(r => {
+      if (r) {
       fetchCompanyInfo(r[0].createdBy).then(r => setCompanyInfo(r || {}));
+      }
     });
   }, []);
 
