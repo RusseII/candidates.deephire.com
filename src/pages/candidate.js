@@ -163,7 +163,7 @@ class App extends Component {
           <Col xs={{ span: 24, order: 2 }} sm={24} md={8} lg={8} xl={8}>
             <InfoCard
               userId={candidateData.userId}
-              userName={hideInfo ? 'A Candidate' : candidateData.userName}
+              userName={hideInfo === true ? candidateData.userName : 'A Candidate'}
               setVideoData={this.setVideoData}
             />
 
@@ -185,7 +185,7 @@ class App extends Component {
               />
             </Card>
 
-            <Card style={{ marginBottom: '20px' }} hoverable title="Leave Feedback">
+            <Card style={{ marginBottom: '20px' }} hoverable title="Please Indicate Next Steps?">
               <Rate
                 onChange={this.leaveRating}
                 allowClear={false}
@@ -202,13 +202,13 @@ class App extends Component {
               <TextArea
                 onChange={this.handleChange}
                 value={this.state.text}
-                placeholder="Why?"
+                placeholder="What did you think of this candidate?"
                 autosize
               />
               <br />
               <br />
               <Button onClick={() => this.leaveFeedBackButton()} type="primary">
-                Leave Feedback
+                Submit Next Steps
                 <Icon type="right" />
               </Button>
             </Card>
