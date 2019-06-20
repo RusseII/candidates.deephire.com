@@ -185,7 +185,7 @@ class App extends Component {
               />
             </Card>
 
-            <Card style={{ marginBottom: '20px' }} hoverable title="Please Indicate Next Steps?">
+            <Card style={{ marginBottom: '20px' }} hoverable title="Please Indicate Next Steps">
               <Rate
                 onChange={this.leaveRating}
                 allowClear={false}
