@@ -33,9 +33,8 @@ class InfoCard extends React.Component {
 
   render() {
     const { userName, setVideoData, userId: candidateEmail } = this.props;
-    const { candidateProfileData } = this.state;
+    const { candidateProfileData = {} } = this.state;
 
-    if (!candidateProfileData) return null;
     const { youTubeLinks } = candidateProfileData;
 
     return (
