@@ -6,7 +6,7 @@ import { router } from 'umi';
 import { trackAnalytics } from '@/services/api';
 import '@/global.css';
 
-import {  Card, Col, Row, Icon, Table, Button, Rate, Radio, Input, message } from 'antd';
+import { Card, Col, Row, Icon, Table, Button, Rate, Radio, Input, message } from 'antd';
 
 import './App.css';
 import fetch from 'isomorphic-fetch';
@@ -30,7 +30,6 @@ const customCode = shortListData =>
     </Button>
   );
 // TODO REMOVE CUSTOM CODE FOR SUZANNE END
-
 
 const toShortlist = id => router.push(`/shortlist?shortlist=${id}`);
 
@@ -148,6 +147,7 @@ class App extends Component {
 
     return (
       <div>
+        {(shortListData.interviews.length !== 1) &&
         <Row style={{ backgroundColor: '#F0F2F5', padding: '20px 20px 0px 20px' }} gutter={0}>
           <Button onClick={() => toShortlist(shortListId)} type="secondary">
             <Icon type="left" />
@@ -157,8 +157,7 @@ class App extends Component {
           {/* TODO REMOVE CUSTOM CODE FOR SUZANNE  START*/}
           {customCode(shortListData)}
           {/* TODO REMOVE CUSTOM CODE FOR SUZANNE END */}
-        </Row>
-
+        </Row>}
         <Row type="flex" style={{ backgroundColor: '#F0F2F5', padding: '20px' }} gutter={24}>
           <Col xs={{ span: 24, order: 2 }} sm={24} md={8} lg={8} xl={8}>
             <InfoCard
