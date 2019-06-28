@@ -17,7 +17,6 @@ export default class Shortlist extends Component {
     const { shortListData, id } = this.state;
     const { createdBy, name, email } = shortListData;
 
-  
     let current = new moment();
 
     if (shortListData['clicks']) {
@@ -41,7 +40,7 @@ export default class Shortlist extends Component {
     const { location } = this.props;
     const id = qs.parse(location.search)['?shortlist'];
     console.log(id);
-    fetchShortlist(id).then(r =>
+    fetchShortlist(id).then(r => {
       this.setState(
         {
           shortListData: r[0],
@@ -50,8 +49,13 @@ export default class Shortlist extends Component {
         () => {
           this.saveShortListClick();
         }
-      )
-    );
+      );
+      if (r[0] && r[0].interviews) {
+        if (r[0].interviews.length === 1) {
+          this.viewCandidate(id, 0);
+        }
+      }
+    });
   }
 
   viewCandidate = (id, i) => {
