@@ -49,6 +49,7 @@ class App extends Component {
       activeQuestion: null,
       shortListIndex: 0,
       rating: 3,
+      playing: false,
     };
   }
 
@@ -139,30 +140,32 @@ class App extends Component {
       currentQuestionText,
       videoUrl,
       value,
+      playing,
     } = this.state;
     if (!shortListData) return null;
     const candidateData = shortListData.interviews[num];
 
-    const { hideInfo } = candidateData;
-
+    const { hideInfo } = shortListData;
+    console.log(candidateData, hideInfo);
     return (
       <div>
-        {(shortListData.interviews.length !== 1) &&
-        <Row style={{ backgroundColor: '#F0F2F5', padding: '20px 20px 0px 20px' }} gutter={0}>
-          <Button onClick={() => toShortlist(shortListId)} type="secondary">
-            <Icon type="left" />
-            Back to Candidates
-          </Button>
+        {shortListData.interviews.length !== 1 && (
+          <Row style={{ backgroundColor: '#F0F2F5', padding: '20px 20px 0px 20px' }} gutter={0}>
+            <Button onClick={() => toShortlist(shortListId)} type="secondary">
+              <Icon type="left" />
+              Back to Candidates
+            </Button>
 
-          {/* TODO REMOVE CUSTOM CODE FOR SUZANNE  START*/}
-          {customCode(shortListData)}
-          {/* TODO REMOVE CUSTOM CODE FOR SUZANNE END */}
-        </Row>}
+            {/* TODO REMOVE CUSTOM CODE FOR SUZANNE  START*/}
+            {customCode(shortListData)}
+            {/* TODO REMOVE CUSTOM CODE FOR SUZANNE END */}
+          </Row>
+        )}
         <Row type="flex" style={{ backgroundColor: '#F0F2F5', padding: '20px' }} gutter={24}>
           <Col xs={{ span: 24, order: 2 }} sm={24} md={8} lg={8} xl={8}>
             <InfoCard
               userId={candidateData.userId}
-              userName={hideInfo === true ? candidateData.userName : 'A Candidate'}
+              userName={hideInfo === true ? 'A Candidate' : candidateData.userName}
               setVideoData={this.setVideoData}
             />
 
@@ -172,7 +175,7 @@ class App extends Component {
                 onRow={(record, index) => ({
                   onClick: () => {
                     this.setVideoData(record.response, record.question);
-                    this.setState({ activeQuestion: index });
+                    this.setState({ activeQuestion: index, playing: true });
                     this.saveQuestionClick();
                   },
                 })}
@@ -229,7 +232,7 @@ class App extends Component {
                   }
                   preload
                   controls
-                  playing
+                  playing={playing}
                   className="reactPlayer"
                   height="100%"
                   width="100%"
