@@ -49,6 +49,7 @@ class App extends Component {
       activeQuestion: null,
       shortListIndex: 0,
       rating: 3,
+      playing: false,
     };
   }
 
@@ -139,6 +140,7 @@ class App extends Component {
       currentQuestionText,
       videoUrl,
       value,
+      playing,
     } = this.state;
     if (!shortListData) return null;
     const candidateData = shortListData.interviews[num];
@@ -173,7 +175,7 @@ class App extends Component {
                 onRow={(record, index) => ({
                   onClick: () => {
                     this.setVideoData(record.response, record.question);
-                    this.setState({ activeQuestion: index });
+                    this.setState({ activeQuestion: index, playing: true });
                     this.saveQuestionClick();
                   },
                 })}
@@ -230,7 +232,7 @@ class App extends Component {
                   }
                   preload
                   controls
-                  playing
+                  playing={playing}
                   className="reactPlayer"
                   height="100%"
                   width="100%"
