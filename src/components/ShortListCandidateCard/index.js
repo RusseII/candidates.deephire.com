@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, Row, Col, Rate, Tooltip, Icon } from 'antd';
+import { Card, Row, Col, Rate, Tooltip, Icon, Avatar } from 'antd';
 import styles from './index.less';
 
 const ShortListAnalyticsCard = ({ item, hideInfo, index }) => (
@@ -11,6 +11,8 @@ const ShortListAnalyticsCard = ({ item, hideInfo, index }) => (
     subTitle={hideInfo ? `Candidate ${item.key}` : item.userName}
     bordered={false}
     style={{ backgroundColor: '#fff' }}
+    title="Click to View Candidate"
+    extra={ <Avatar shape="circle" size="large" icon="user" src={ item.responses[0].thumbnail100x100 }/>}
   >
     {console.log(item)}
     <Row type="flex" justify="start" gutter={24}>
