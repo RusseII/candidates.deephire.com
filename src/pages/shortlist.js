@@ -15,7 +15,7 @@ export default class Shortlist extends Component {
 
   saveShortListClick = () => {
     const { shortListData, id } = this.state;
-    const { createdBy, name, email } = shortListData;
+    const { createdBy, name, email, description } = shortListData;
 
     let current = new moment();
 
@@ -24,13 +24,13 @@ export default class Shortlist extends Component {
       let prev = moment(shortListData['clicks'][len - 1]);
       if (moment.duration(current.diff(prev)).as('minutes') > '30') {
         shortListData['clicks'].push(current.format());
-        sendEmail(id, name, email, createdBy);
+        sendEmail(id, name, email, createdBy, description);
       } else {
         shortListData['clicks'][len - 1] = current.format();
       }
     } else {
       shortListData['clicks'] = [current.format()];
-      sendEmail(id, name, email, createdBy);
+      sendEmail(id, name, email, createdBy, description);
     }
     this.setState({ shortListData });
     trackAnalytics(id, shortListData);
