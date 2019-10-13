@@ -3,13 +3,14 @@ import ReactPlayer from 'react-player';
 import InfoCard from '../components/InfoCard';
 import qs from 'qs';
 import { router } from 'umi';
-import { trackAnalytics } from '@/services/api';
+import { trackAnalytics, sendEmail } from '@/services/api';
 import '@/global.css';
 
 import { Card, Col, Row, Icon, Table, Button, Rate, Radio, Input, message } from 'antd';
 
 import './App.css';
 import fetch from 'isomorphic-fetch';
+
 // require('es6-promise').polyfill();
 // require('isomorphic-fetch');
 
@@ -50,6 +51,7 @@ class App extends Component {
       shortListIndex: 0,
       rating: 3,
       playing: false,
+      feedbackEmailSent: false,
     };
   }
 
@@ -120,6 +122,11 @@ class App extends Component {
   leaveFeedBackButton = () => {
     message.success('Feedback Submitted');
     this.storeFeedback();
+    if (this.state.feedbackEmailSent === false) {
+      this.setState({ feedbackEmailSent: true });
+      const { id, name, email, createdBy, description } = this.state.shortListData;
+      sendEmail('feeback-left-on-share-link', id, name, email, createdBy, description);
+    }
   };
 
   storeFeedback = (r = null) => {
