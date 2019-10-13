@@ -58,12 +58,12 @@ export default class Shortlist extends Component {
     });
   }
 
-  viewCandidate = (id, i) => {
-    this.saveCandidateClick(i);
+  viewCandidate = async (id, i) => {
+    await this.saveCandidateClick(i);
     router.push(`candidate?shortlist=${id}&num=${i}`);
   };
 
-  saveCandidateClick = index => {
+  saveCandidateClick = async index => {
     const { shortListData, id } = this.state;
     if (shortListData.interviews[index]['clicks'])
       shortListData.interviews[index]['clicks'].push(new Date().toString());
@@ -71,7 +71,7 @@ export default class Shortlist extends Component {
       shortListData.interviews[index]['clicks'] = [new Date().toString()];
     }
     this.setState({ shortListData });
-    trackAnalytics(id, shortListData);
+    await trackAnalytics(id, shortListData);
   };
 
   render() {
