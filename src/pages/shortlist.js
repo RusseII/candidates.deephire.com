@@ -24,13 +24,13 @@ export default class Shortlist extends Component {
       let prev = moment(shortListData['clicks'][len - 1]);
       if (moment.duration(current.diff(prev)).as('minutes') > '30') {
         shortListData['clicks'].push(current.format());
-        sendEmail(id, name, email, createdBy, description);
+        sendEmail('share-link-has-been-viewed', id, name, email, createdBy, description);
       } else {
         shortListData['clicks'][len - 1] = current.format();
       }
     } else {
       shortListData['clicks'] = [current.format()];
-      sendEmail(id, name, email, createdBy, description);
+      sendEmail('share-link-has-been-viewed', id, name, email, createdBy, description);
     }
     this.setState({ shortListData });
     trackAnalytics(id, shortListData);
