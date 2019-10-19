@@ -42,6 +42,8 @@ const columns = [
   },
 ];
 
+const fb = qs.parse(window.location.search)['feedback'];
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -59,6 +61,7 @@ class App extends Component {
     const { location } = this.props;
     const shortListId = qs.parse(location.search)['?shortlist'];
     const num = qs.parse(location.search)['num'];
+
     this.setState({ shortListId, num });
 
     this.getShortList(shortListId, num);
@@ -194,33 +197,35 @@ class App extends Component {
               />
             </Card>
 
-            <Card style={{ marginBottom: '20px' }} hoverable title="Please Indicate Next Steps">
-              <Rate
-                onChange={this.leaveRating}
-                allowClear={false}
-                defaultValue={this.state.rating}
-              />{' '}
-              <br /> <br />
-              <RadioGroup onChange={this.onChange} value={value}>
-                <Radio value={1}>Yes Interview</Radio>
-                <Radio value={2}>Maybe Interview</Radio>
-                <Radio value={3}>No Interview</Radio>
-              </RadioGroup>
-              <br />
-              <br />
-              <TextArea
-                onChange={this.handleChange}
-                value={this.state.text}
-                placeholder="What did you think of this candidate?"
-                autosize
-              />
-              <br />
-              <br />
-              <Button onClick={() => this.leaveFeedBackButton()} type="primary">
-                Submit Next Steps
-                <Icon type="right" />
-              </Button>
-            </Card>
+            {fb !== '0' && (
+              <Card style={{ marginBottom: '20px' }} hoverable title="Please Indicate Next Steps">
+                <Rate
+                  onChange={this.leaveRating}
+                  allowClear={false}
+                  defaultValue={this.state.rating}
+                />{' '}
+                <br /> <br />
+                <RadioGroup onChange={this.onChange} value={value}>
+                  <Radio value={1}>Yes Interview</Radio>
+                  <Radio value={2}>Maybe Interview</Radio>
+                  <Radio value={3}>No Interview</Radio>
+                </RadioGroup>
+                <br />
+                <br />
+                <TextArea
+                  onChange={this.handleChange}
+                  value={this.state.text}
+                  placeholder="What did you think of this candidate?"
+                  autosize
+                />
+                <br />
+                <br />
+                <Button onClick={() => this.leaveFeedBackButton()} type="primary">
+                  Submit Next Steps
+                  <Icon type="right" />
+                </Button>
+              </Card>
+            )}
           </Col>
           <Col
             xs={{ span: 24, order: 1 }}
