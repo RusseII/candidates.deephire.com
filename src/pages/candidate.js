@@ -127,8 +127,8 @@ class App extends Component {
     this.storeFeedback();
     if (this.state.feedbackEmailSent === false) {
       this.setState({ feedbackEmailSent: true });
-      const { id, name, email, createdBy, description } = this.state.shortListData;
-      sendEmail('feeback-left-on-share-link', id, name, email, createdBy, description);
+      const { _id, name, email, createdBy, description } = this.state.shortListData;
+      sendEmail('feeback-left-on-share-link', _id, name, email, createdBy, description);
     }
   };
 
