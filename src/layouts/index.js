@@ -12,7 +12,7 @@ const BasicLayout = ({ location, children }) => {
   useEffect(() => {
     fetchShortlist(id).then(r => {
       if (r) {
-      fetchCompanyInfo(r[0].createdBy).then(r => setCompanyInfo(r || {}));
+        fetchCompanyInfo(r[0].companyId).then(r => setCompanyInfo(r || {}));
       }
     });
   }, []);
