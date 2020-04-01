@@ -12,7 +12,7 @@ const ShortListAnalyticsCard = ({ item, hideInfo, index }) => (
     bordered={false}
     style={{ backgroundColor: '#fff' }}
     title="Click to View Candidate"
-    extra={ <Avatar shape="circle" size="large" icon="user" src={ item.responses[0].thumbnail100x100 }/>}
+    extra={ <Avatar shape="circle" size="large" icon="user" src={ item.responses?.[0].thumbnail100x100 }/>}
   >
     {console.log(item)}
     <Row type="flex" justify="start" gutter={24}>

@@ -75,13 +75,13 @@ class App extends Component {
       .then(
         data => {
           this.setState({
-            shortListData: data[0],
+            shortListData: data?.[0],
             activeQuestion: 0,
-            currentQuestionText: data[0].interviews[num].responses[0].question,
-            videoUrl: data[0].interviews[num].responses[0].response,
-            text: data[0].interviews[num].text,
-            value: data[0].interviews[num].interest,
-            rating: data[0].interviews[num].rating,
+            currentQuestionText: data?.[0]?.interviews[num]?.responses?.[0]?.question,
+            videoUrl: data[0]?.interviews?.[num]?.responses?.[0]?.response ? data[0]?.interviews[num]?.responses?.[0]?.response : data[0].interviews[num].liveInterviewData.recordingUrl.splice(-1)[0],
+            text: data?.[0]?.interviews[num]?.text,
+            value: data?.[0]?.interviews[num]?.interest,
+            rating: data?.[0]?.interviews[num]?.rating,
           });
         },
         () => {
@@ -153,10 +153,9 @@ class App extends Component {
       playing,
     } = this.state;
     if (!shortListData) return null;
-    const candidateData = shortListData.interviews[num];
+    const candidateData = shortListData?.interviews?.[num];
 
     const { hideInfo } = shortListData;
-    console.log(candidateData, hideInfo);
     return (
       <div>
         {shortListData.interviews.length !== 1 && (
@@ -174,12 +173,11 @@ class App extends Component {
         <Row type="flex" style={{ backgroundColor: '#F0F2F5', padding: '20px' }} gutter={24}>
           <Col xs={{ span: 24, order: 2 }} sm={24} md={8} lg={8} xl={8}>
             <InfoCard
-              userId={candidateData.userId}
-              userName={hideInfo === true ? 'A Candidate' : candidateData.userName}
+              userId={candidateData?.userId ? candidateData.userId : candidateData?.liveInterviewData.candidateEmail}
+              userName={hideInfo === true ? 'A Candidate' : (candidateData?.userName) ?  candidateData.userName:candidateData?.liveInterviewData.candidateName }
               setVideoData={this.setVideoData}
             />
-
-            <Card style={{ marginBottom: '20px' }} hoverable title="Questions">
+            {candidateData?.responses && <Card style={{ marginBottom: '20px' }} hoverable title="Questions">
               <Table
                 showHeader={false}
                 onRow={(record, index) => ({
@@ -196,6 +194,7 @@ class App extends Component {
                 columns={columns}
               />
             </Card>
+  }
 
             {fb !== '0' && (
               <Card style={{ marginBottom: '20px' }} hoverable title="Please Indicate Next Steps">
