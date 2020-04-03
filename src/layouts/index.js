@@ -1,9 +1,14 @@
 import { fetchCompanyInfo, fetchShortlist } from '@/services/api';
 import { Col, Layout, Row } from 'antd';
+import * as Sentry from '@sentry/browser';
+
 import qs from 'qs';
 import React, { useEffect, useState } from 'react';
 import styles from './index.css';
 const Header = Layout.Header;
+
+Sentry.init({dsn: "https://ba050977b865461497954ae331877145@sentry.io/5187820"});
+
 
 const BasicLayout = ({ location, children }) => {
   const [companyInfo, setCompanyInfo] = useState({ companyName: 'Loading...', logo: '' });
