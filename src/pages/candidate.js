@@ -204,13 +204,13 @@ class App extends Component {
                   defaultValue={this.state.rating}
                 />{' '}
                 <br /> <br />
-                <RadioGroup onChange={this.onChange} value={value}>
+                {/* <RadioGroup onChange={this.onChange} value={value}>
                   <Radio value={1}>Yes Interview</Radio>
                   <Radio value={2}>Maybe Interview</Radio>
                   <Radio value={3}>No Interview</Radio>
                 </RadioGroup>
                 <br />
-                <br />
+                <br /> */}
                 <TextArea
                   onChange={this.handleChange}
                   value={this.state.text}
