@@ -32,24 +32,13 @@ class InfoCard extends React.Component {
   };
 
   render() {
-    const { userName, setVideoData, userId: candidateEmail } = this.props;
-    const { candidateProfileData = {} } = this.state;
+    const { userName, userId: candidateEmail, interviewName} = this.props;
 
-    const { youTubeLinks } = candidateProfileData;
 
     return (
-      <Card style={{ marginBottom: '20px' }} hoverable title={userName}>
-        {youTubeLinks &&
-          youTubeLinks.map((item, index) => (
-            <Button
-              onClick={() => setVideoData(item, 'YouTube Video ' + (1 + index))}
-              style={{ margin: 2 }}
-              type="secondary"
-              icon="youtube"
-            >
-              Youtube Video {+1 + index}
-            </Button>
-          ))}
+      <Card style={{ marginBottom: '20px' }} hoverable title={userName} extra={ interviewName}>
+      
+   
         <Documents email={candidateEmail} />
       </Card>
     );

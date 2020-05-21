@@ -174,8 +174,9 @@ class App extends Component {
           <Col xs={{ span: 24, order: 2 }} sm={24} md={8} lg={8} xl={8}>
             <InfoCard
               userId={candidateData?.userId ? candidateData.userId : candidateData?.liveInterviewData.candidateEmail}
-              userName={hideInfo === true ? 'A Candidate' : (candidateData?.userName) ?  candidateData.userName:candidateData?.liveInterviewData.candidateName }
+              userName={hideInfo === true ? 'A Candidate' : (candidateData?.userName) ?  candidateData.userName : candidateData?.liveInterviewData.candidateName }
               setVideoData={this.setVideoData}
+              interviewName={candidateData?.interviewName}
             />
             {candidateData?.responses && <Card style={{ marginBottom: '20px' }} hoverable title="Questions">
               <Table
