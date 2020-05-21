@@ -174,8 +174,9 @@ class App extends Component {
           <Col xs={{ span: 24, order: 2 }} sm={24} md={8} lg={8} xl={8}>
             <InfoCard
               userId={candidateData?.userId ? candidateData.userId : candidateData?.liveInterviewData.candidateEmail}
-              userName={hideInfo === true ? 'A Candidate' : (candidateData?.userName) ?  candidateData.userName:candidateData?.liveInterviewData.candidateName }
+              userName={hideInfo === true ? 'A Candidate' : (candidateData?.userName) ?  candidateData.userName : candidateData?.liveInterviewData.candidateName }
               setVideoData={this.setVideoData}
+              interviewName={candidateData?.interviewName}
             />
             {candidateData?.responses && <Card style={{ marginBottom: '20px' }} hoverable title="Questions">
               <Table
@@ -204,13 +205,13 @@ class App extends Component {
                   defaultValue={this.state.rating}
                 />{' '}
                 <br /> <br />
-                <RadioGroup onChange={this.onChange} value={value}>
+                {/* <RadioGroup onChange={this.onChange} value={value}>
                   <Radio value={1}>Yes Interview</Radio>
                   <Radio value={2}>Maybe Interview</Radio>
                   <Radio value={3}>No Interview</Radio>
                 </RadioGroup>
                 <br />
-                <br />
+                <br /> */}
                 <TextArea
                   onChange={this.handleChange}
                   value={this.state.text}
