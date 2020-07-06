@@ -39,7 +39,7 @@ export const trackAnalytics = (id, data) => {
 export const sendEmail = (template, id, clientName, clientEmail, createdBy, description) => {
   var data = {
     template,
-    analyticsUrl: `https://recruiter.deephire.com/shortlists/shortlistanalytics/?id=${id}`,
+    analyticsUrl: `https://recruiter.deephire.com/sharelinks/analytics/?id=${id}`,
     clientName,
     recipients: [createdBy || 'noemail@deephire.com'],
     clientEmail,
