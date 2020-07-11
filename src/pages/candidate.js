@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import ReactPlayer from 'react-player';
 import InfoCard from '../components/InfoCard';
+
+import CandidateVideo from '@bit/russeii.deephire.candidate-video';
+import {useVideo} from '@bit/russeii.deephire.hooks';
+
 import qs from 'qs';
 import { router } from 'umi';
 import { trackAnalytics, sendEmail } from '@/services/api';
 import '@/global.css';
 
-import { Card, Col, Row, Icon, Table, Button, Rate, Radio, Input, message } from 'antd';
+import { Card, Col, Row, Icon, Table, Button, Rate, Input, message, PageHeader } from 'antd';
 
 import './App.css';
 import fetch from 'isomorphic-fetch';
@@ -14,25 +17,25 @@ import fetch from 'isomorphic-fetch';
 // require('es6-promise').polyfill();
 // require('isomorphic-fetch');
 
+
 const { TextArea } = Input;
 
-const RadioGroup = Radio.Group;
 
 // TODO REMOVE CUSTOM CODE FOR SUZANNE START
-const customCode = shortListData =>
-  shortListData.createdBy === 'suzanne@spectrumconsultancy.co.uk' && (
-    <Button
-      style={{ float: 'right' }}
-      onClick={() => window.open('https://goo.gl/forms/AJWubChCpv8Al2rj2', '_blank')}
-      type="primary"
-    >
-      Book This Candidate Now
-      <Icon type="schedule" />
-    </Button>
-  );
-// TODO REMOVE CUSTOM CODE FOR SUZANNE END
+// const customCode = shortListData =>
+//   shortListData.createdBy === 'suzanne@spectrumconsultancy.co.uk' && (
+//     <Button
+//       style={{ float: 'right' }}
+//       onClick={() => window.open('https://goo.gl/forms/AJWubChCpv8Al2rj2', '_blank')}
+//       type="primary"
+//     >
+//       Book This Candidate Now
+//       <Icon type="schedule" />
+//     </Button>
+//   );
+// // TODO REMOVE CUSTOM CODE FOR SUZANNE END
 
-const toShortlist = id => router.push(`/shortlist?shortlist=${id}`);
+// const toShortlist = id => router.push(`/shortlist?shortlist=${id}`);
 
 const columns = [
   {
@@ -158,27 +161,11 @@ class App extends Component {
     const { hideInfo } = shortListData;
     return (
       <div>
-        {shortListData.interviews.length !== 1 && (
-          <Row style={{ backgroundColor: '#F0F2F5', padding: '20px 20px 0px 20px' }} gutter={0}>
-            <Button onClick={() => toShortlist(shortListId)} type="secondary">
-              <Icon type="left" />
-              Back to Candidates
-            </Button>
-
-            {/* TODO REMOVE CUSTOM CODE FOR SUZANNE  START*/}
-            {customCode(shortListData)}
-            {/* TODO REMOVE CUSTOM CODE FOR SUZANNE END */}
-          </Row>
-        )}
-        <Row type="flex" style={{ backgroundColor: '#F0F2F5', padding: '20px' }} gutter={24}>
-          <Col xs={{ span: 24, order: 2 }} sm={24} md={8} lg={8} xl={8}>
-            <InfoCard
-              userId={candidateData?.userId ? candidateData.userId : candidateData?.liveInterviewData.candidateEmail}
-              userName={hideInfo === true ? 'A Candidate' : (candidateData?.userName) ?  candidateData.userName : candidateData?.liveInterviewData.candidateName }
-              setVideoData={this.setVideoData}
-              interviewName={candidateData?.interviewName}
-            />
-            {candidateData?.responses && <Card style={{ marginBottom: '20px' }} hoverable title="Questions">
+  
+        <Row type="flex" style={{ backgroundColor: '#F0F2F5' }} gutter={24}>
+          <Col xs={{ span: 24, order: 2 }} sm={24} md={10} lg={10} xl={10}>
+       
+            {candidateData?.responses && <Card style={{ marginBottom: '20px' }} title="Questions">
               <Table
                 showHeader={false}
                 onRow={(record, index) => ({
@@ -197,8 +184,15 @@ class App extends Component {
             </Card>
   }
 
+<InfoCard
+              userId={candidateData?.userId ? candidateData.userId : candidateData?.liveInterviewData.candidateEmail}
+              userName={hideInfo === true ? 'A Candidate' : (candidateData?.userName) ?  candidateData.userName : candidateData?.liveInterviewData.candidateName }
+              setVideoData={this.setVideoData}
+              interviewName={candidateData?.interviewName}
+            />
+
             {fb !== '0' && (
-              <Card style={{ marginBottom: '20px' }} hoverable title="Please Indicate Next Steps">
+              <Card style={{ marginBottom: '20px' }}  title="Please Indicate Next Steps">
                 <Rate
                   onChange={this.leaveRating}
                   allowClear={false}
@@ -230,12 +224,12 @@ class App extends Component {
           <Col
             xs={{ span: 24, order: 1 }}
             sm={{ span: 24, order: 1 }}
-            md={{ span: 16, order: 2 }}
-            lg={{ span: 16, order: 2 }}
-            xl={{ span: 16, order: 2 }}
+            md={{ span: 14, order: 2 }}
+            lg={{ span: 14, order: 2 }}
+            xl={{ span: 14, order: 2 }}
           >
-            <Card style={{ marginBottom: 20 }} title={currentQuestionText}>
-              <div className="playerWrapper">
+            <Card   title={currentQuestionText}>
+              {/* <div className="playerWrapper">
                 <ReactPlayer
                   onError={() =>
                     this.setState({
@@ -250,7 +244,7 @@ class App extends Component {
                   width="100%"
                   url={videoUrl}
                 />
-              </div>
+              </div> */}
             </Card>
           </Col>
         </Row>

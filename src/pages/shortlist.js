@@ -39,7 +39,6 @@ export default class Shortlist extends Component {
   componentDidMount() {
     const { location } = this.props;
     const id = qs.parse(location.search)['?shortlist'];
-    console.log(id);
     fetchShortlist(id).then(r => {
       this.setState(
         {
@@ -76,29 +75,15 @@ export default class Shortlist extends Component {
 
   render() {
     const { shortListData, id } = this.state;
-    console.log(shortListData);
     if (!shortListData) return null;
     const { hideInfo } = shortListData;
 
     return (
       <div>
-        <Card>
-          <Row type="flex">
-            <Col>
-              <div className={styles.pageHeader}>Short List of Candidates</div>
-            </Col>
-            <Col>
-              <div className={styles.divider}>|</div>
-            </Col>
-            <Col>
-              <div className={styles.pageSubHeading}>Created by {shortListData.createdBy}</div>
-            </Col>
-          </Row>
-        </Card>
+
         <div className={styles.cardList}>
           <List
             rowKey="id"
-            style={{ marginTop: 24 }}
             grid={{ gutter: 24, xl: 3, lg: 2, md: 1, sm: 1, xs: 1 }}
             //   loading={loading}
             dataSource={shortListData.interviews}

@@ -5,16 +5,15 @@ import styles from './index.less';
 
 const ShortListAnalyticsCard = ({ item, hideInfo, index }) => (
   <Card
-    hoverable
     id={item.id}
     className={styles.candidateAnalyticsCard}
     subTitle={hideInfo ? `Candidate ${item.key}` : item.userName}
     bordered={false}
+    hoverable
     style={{ backgroundColor: '#fff' }}
     title="Click to View Candidate"
     extra={ <Avatar shape="circle" size="large" icon="user" src={ item.responses?.[0].thumbnail100x100 }/>}
   >
-    {console.log(item)}
     <Row type="flex" justify="start" gutter={24}>
       <Col>
         <div className={styles.title}>{hideInfo ? `Candidate ${index}` : item.userName}</div>
