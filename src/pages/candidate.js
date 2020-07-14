@@ -78,7 +78,7 @@ class App extends Component {
             shortListData: data?.[0],
             activeQuestion: 0,
             currentQuestionText: data?.[0]?.interviews[num]?.responses?.[0]?.question,
-            videoUrl: data[0]?.interviews?.[num]?.responses?.[0]?.response ? data[0]?.interviews[num]?.responses?.[0]?.response : data[0].interviews[num].liveInterviewData.recordingUrl.splice(-1)[0],
+            videoUrl: data[0]?.interviews?.[num]?.responses?.[0]?.response ? data[0]?.interviews[num]?.responses?.[0]?.response : data[0].interviews[num].liveInterviewData.recordingUrl.slice(-1)[0],
             text: data?.[0]?.interviews[num]?.feedback,
             value: data?.[0]?.interviews[num]?.interest,
             rating: data?.[0]?.interviews[num]?.rating,
