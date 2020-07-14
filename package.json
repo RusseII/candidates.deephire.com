@@ -8,8 +8,9 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
-    "@bit/russeii.deephire.candidate-video": "^0.0.5",
-    "@bit/russeii.deephire.hooks": "^0.0.1",
+    "@bit/russeii.deephire.candidate-video": "^0.0.8",
+    "@bit/russeii.deephire.comments-card": "^0.0.2",
+    "@bit/russeii.deephire.hooks": "^0.0.2",
     "@sentry/browser": "^5.15.4",
     "antd": "4.4.0",
     "es6-promise": "4.2.6",

@@ -61,3 +61,11 @@ export const getCandidateProfile = id => {
     .then(response => response.json())
     .then(data => data);
 };
+
+export const getShortList = (shortlistId, num) => {
+  const url = 'https://a.deephire.com/v1/shortlists/';
+
+  return fetch(`${url}/${shortlistId}`)
+    .then(results => results.json())
+    
+}

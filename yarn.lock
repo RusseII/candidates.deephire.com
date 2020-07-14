@@ -908,28 +908,39 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@bit/russeii.deephire.candidate-video@^0.0.5":
-  version "0.0.5"
-  resolved "https://node.bit.dev/russeii.deephire.candidate-video/-/russeii.deephire.candidate-video-0.0.5.tgz#f593af2b4d6232f2644d8e2193473e5bef8c6853"
-  integrity sha1-9ZOvK01iMvJkTY4hk0c+W++MaFM=
+"@bit/russeii.deephire.candidate-video@^0.0.8":
+  version "0.0.8"
+  resolved "https://node.bit.dev/russeii.deephire.candidate-video/-/russeii.deephire.candidate-video-0.0.8.tgz#ab544d94ac3032f6033850e69ac14dee46cfca9e"
+  integrity sha1-q1RNlKwwMvYDOFDmmsFN7kbPyp4=
   dependencies:
     "@ant-design/icons" "^4.0.3"
-    "@bit/russeii.deephire.utils" "0.0.3"
+    "@bit/russeii.deephire.utils.utils" "0.0.1"
     antd "4.4.1"
     react "^16.5.1"
     react-player "2.5.0"
 
-"@bit/russeii.deephire.hooks@^0.0.1":
-  version "0.0.1"
-  resolved "https://node.bit.dev/russeii.deephire.hooks/-/russeii.deephire.hooks-0.0.1.tgz#5c3811e4816df4418074441c32cfa8485956d9da"
-  integrity sha1-XDgR5IFt9EGAdEQcMs+oSFlW2do=
+"@bit/russeii.deephire.comments-card@^0.0.2":
+  version "0.0.2"
+  resolved "https://node.bit.dev/russeii.deephire.comments-card/-/russeii.deephire.comments-card-0.0.2.tgz#7557f963c27785fc61d5677b1ebeb4a1e2cfb8df"
+  integrity sha1-dVf5Y8J3hfxh1Wd7Hr60oeLPuN8=
+  dependencies:
+    "@ant-design/icons" "^4.0.3"
+    "@bit/russeii.deephire.hooks" "0.0.2"
+    "@bit/russeii.deephire.utils.utils" "0.0.1"
+    antd "4.4.1"
+    react "^16.5.1"
+
+"@bit/russeii.deephire.hooks@0.0.2", "@bit/russeii.deephire.hooks@^0.0.2":
+  version "0.0.2"
+  resolved "https://node.bit.dev/russeii.deephire.hooks/-/russeii.deephire.hooks-0.0.2.tgz#004800cd54cc77817ca7f80d553552ab387f7eda"
+  integrity sha1-AEgAzVTMd4F8p/gNVTVSqzh/fto=
   dependencies:
     react "^16.5.1"
 
-"@bit/russeii.deephire.utils@0.0.3":
-  version "0.0.3"
-  resolved "https://node.bit.dev/russeii.deephire.utils/-/russeii.deephire.utils-0.0.3.tgz#bf67fda5cb809d8df3dffd644b245e0cb0479a26"
-  integrity sha1-v2f9pcuAnY3z3/1kSyReDLBHmiY=
+"@bit/russeii.deephire.utils.utils@0.0.1":
+  version "0.0.1"
+  resolved "https://node.bit.dev/russeii.deephire.utils.utils/-/russeii.deephire.utils.utils-0.0.1.tgz#fd91704e6698eaf32786e5adaf2cbd0263a0a03a"
+  integrity sha1-/ZFwTmaY6vMnhuWtryy9AmOgoDo=
   dependencies:
     antd "4.4.1"
     lodash.get "^4.4.2"
