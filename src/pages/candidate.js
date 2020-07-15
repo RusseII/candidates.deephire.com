@@ -90,9 +90,21 @@ class App extends Component {
       );
   }
 
-  setVideoData = (videoUrl, currentQuestionText) => {
+  setVideoData = async (videoUrl, currentQuestionText) => {
+    // console.log(videoUrl)
+    // const uuid = `v-${/((\w{4,12}-?)){5}/.exec(videoUrl)[0]}`
+    // console.log(uuid)
+    // // const url = await fetch(`https://a.deephire.com/v1/videos/proxy/${uuid}`)
+    // const url = `http://localhost:3000/v1/videos/proxy/${uuid}`
+  
     this.setState({ videoUrl, currentQuestionText });
   };
+
+  url = (videoUrl) => {
+    const uuid = `v-${/((\w{4,12}-?)){5}/.exec(videoUrl)[0]}`
+    const url = `https://a.deephire.com/v1/videos/proxy/${uuid}`
+    return url
+  }
 
   saveQuestionClick = () => {
     const { shortListData, num, shortListId, activeQuestion } = this.state;
@@ -237,10 +249,13 @@ class App extends Component {
             <Card style={{ marginBottom: 20 }} title={currentQuestionText}>
               <div className="playerWrapper">
                 <ReactPlayer
-                  onError={() =>
+           
+                  onError={(err) => {
+                    console.log("error", err)
                     this.setState({
                       errorinVid: true,
                     })
+                  }
                   }
                   preload
                   controls
@@ -248,7 +263,7 @@ class App extends Component {
                   className="reactPlayer"
                   height="100%"
                   width="100%"
-                  url={videoUrl}
+                  url={this.state.errorinVid ? this.url(videoUrl) : videoUrl}
                 />
               </div>
             </Card>
