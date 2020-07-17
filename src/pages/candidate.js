@@ -1,13 +1,16 @@
 import React, { useEffect, useState, useContext } from 'react';
-import InfoCard from '../components/InfoCard';
+// import InfoCard from '../components/InfoCard';
 
-import CandidateVideo from '@bit/russeii.deephire.candidate-video';
-import CommentsCard from '@bit/russeii.deephire.comments-card'
+import CandidateVideo from '@bit/russeii.deephire.candidate.video';
+import CommentsCard from '@bit/russeii.deephire.candidate.comments-card'
+import CandidateDataCard from '@bit/russeii.deephire.candidate.data-card'
+import CandidateQuestions from '@bit/russeii.deephire.candidate.questions'
+
 import { useVideo, useAsync } from '@bit/russeii.deephire.hooks';
 
 
 // import { router } from 'umi';
-import { trackAnalytics, getShortList } from '@/services/api';
+import { trackAnalytics, getShortList, getCandidateProfile} from '@/services/api';
 import '@/global.css';
 import 'antd/dist/antd.css'
 
@@ -52,18 +55,26 @@ const Candidate = () => {
 
   const shortList = useContext(ShortListContext)
   const shortListData = shortList.shortListData?.[0]?.interviews[num]
-  console.log(shortList)
+  // console.log(shortList)
   const liveInterview = shortListData?.liveInterviewData?.recordingUrl
   const oneWayInterview = shortListData?._id
   const liveInterviewUrl = liveInterview ? liveInterview[liveInterview.length - 1 ] : null
-  console.log(liveInterview, "li")
-  console.log(shortListData, "sd")
+  // console.log(liveInterview, "li")
+  // console.log(shortListData, "sd")
   const videoPlayerData = useVideo();
   // const [shortlistData, setShortlistData] = useState(null)
 
-  // useEffect(() => {
-  // execute(shortListId, num)
-  // }, [])
+  useEffect(() => {
+    if (shortListData) {
+    if (liveInterviewUrl) {
+
+    videoPlayerData.setVideoUrl(liveInterviewUrl);
+    }
+    else {
+    videoPlayerData.setVideoUrl(shortListData?.responses?.[0]?.response);
+    }
+  }
+  }, [shortListData])
 
 
   return (
@@ -74,6 +85,23 @@ const Candidate = () => {
           {/* <CandidateDocumentCard/> */}
         {!oneWayInterview &&
           <CommentsCard {...videoPlayerData} liveInterviewData={shortListData?.liveInterviewData} style={{marginBottom: 24}} />}
+          
+         {!liveInterview && 
+         <CandidateQuestions
+            candidateData={shortListData}
+            {...videoPlayerData}
+            style={{ marginBottom: 24 }}
+            />
+         }
+            <CandidateDataCard
+            userId={shortListData?.userId}
+            userName={shortListData?.hideInfo ? 'A Candidate' : (shortListData?.userName) ? shortListData.userName : shortListData?.liveInterviewData?.candidateName}
+            interviewName={shortListData?.interviewName ||shortListData?.liveInterviewData.interviewName }
+            email={shortListData?.candidateEmail || shortListData?.liveInterviewData?.candidateEmail}
+            getCandidateProfile={getCandidateProfile}
+            style={{marginBottom: 24}}
+           
+          />
           <FeedbackCard {...videoPlayerData} shortlistData={shortListData}  />
 
         </Col>
@@ -84,7 +112,9 @@ const Candidate = () => {
           lg={{ span: 12, order: 2 }}
           xl={{ span: 12, order: 2 }}
         >
-          <CandidateVideo {...videoPlayerData} videoUrl={liveInterviewUrl || 'https://s3.amazonaws.com/deephire.data.public/live/CJbcc9dcd7fc56ceb98cfc948bdf91bfd0.mp4'}  interval={10000} />
+
+        {console.log(videoPlayerData)}
+          <CandidateVideo {...videoPlayerData}  interval={10000} />
 
         </Col>
       </Row>

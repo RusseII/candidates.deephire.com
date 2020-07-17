@@ -908,21 +908,10 @@
     lodash "^4.17.11"
     to-fast-properties "^2.0.0"
 
-"@bit/russeii.deephire.candidate-video@^0.0.8":
-  version "0.0.8"
-  resolved "https://node.bit.dev/russeii.deephire.candidate-video/-/russeii.deephire.candidate-video-0.0.8.tgz#ab544d94ac3032f6033850e69ac14dee46cfca9e"
-  integrity sha1-q1RNlKwwMvYDOFDmmsFN7kbPyp4=
-  dependencies:
-    "@ant-design/icons" "^4.0.3"
-    "@bit/russeii.deephire.utils.utils" "0.0.1"
-    antd "4.4.1"
-    react "^16.5.1"
-    react-player "2.5.0"
-
-"@bit/russeii.deephire.comments-card@^0.0.2":
-  version "0.0.2"
-  resolved "https://node.bit.dev/russeii.deephire.comments-card/-/russeii.deephire.comments-card-0.0.2.tgz#7557f963c27785fc61d5677b1ebeb4a1e2cfb8df"
-  integrity sha1-dVf5Y8J3hfxh1Wd7Hr60oeLPuN8=
+"@bit/russeii.deephire.candidate.comments-card@0.0.1":
+  version "0.0.1"
+  resolved "https://node.bit.dev/russeii.deephire.candidate.comments-card/-/russeii.deephire.candidate.comments-card-0.0.1.tgz#c01bee7b74424f68290a10bd7db3f2eabc4501a0"
+  integrity sha1-wBvue3RCT2gpChC9fbPy6rxFAaA=
   dependencies:
     "@ant-design/icons" "^4.0.3"
     "@bit/russeii.deephire.hooks" "0.0.2"
@@ -930,10 +919,46 @@
     antd "4.4.1"
     react "^16.5.1"
 
-"@bit/russeii.deephire.hooks@0.0.2", "@bit/russeii.deephire.hooks@^0.0.2":
+"@bit/russeii.deephire.candidate.data-card@^0.0.1":
+  version "0.0.1"
+  resolved "https://node.bit.dev/russeii.deephire.candidate.data-card/-/russeii.deephire.candidate.data-card-0.0.1.tgz#6b4d3d33de62cbe1281c8cfacd37cf26ed44d72f"
+  integrity sha1-a009M95iy+EoHIz6zTfPJu1E1y8=
+  dependencies:
+    "@ant-design/icons" "^4.0.3"
+    antd "4.4.1"
+    prop-types "^15.5.10"
+    react "^16.5.1"
+
+"@bit/russeii.deephire.candidate.questions@^0.0.4":
+  version "0.0.4"
+  resolved "https://node.bit.dev/russeii.deephire.candidate.questions/-/russeii.deephire.candidate.questions-0.0.4.tgz#53922bb06483224eeeb33fcacc92a8f780ee5de5"
+  integrity sha1-U5IrsGSDIk7usz/KzJKo94DuXeU=
+  dependencies:
+    antd "4.4.1"
+    react "^16.5.1"
+
+"@bit/russeii.deephire.candidate.video@0.0.2":
+  version "0.0.2"
+  resolved "https://node.bit.dev/russeii.deephire.candidate.video/-/russeii.deephire.candidate.video-0.0.2.tgz#dab9b02379cf50dfcc0c2f8695be5aa57f74e889"
+  integrity sha1-2rmwI3nPUN/MDC+Glb5apX906Ik=
+  dependencies:
+    "@ant-design/icons" "^4.0.3"
+    "@bit/russeii.deephire.utils.utils" "0.0.1"
+    antd "4.4.1"
+    react "^16.5.1"
+    react-player "2.5.0"
+
+"@bit/russeii.deephire.hooks@0.0.2":
   version "0.0.2"
   resolved "https://node.bit.dev/russeii.deephire.hooks/-/russeii.deephire.hooks-0.0.2.tgz#004800cd54cc77817ca7f80d553552ab387f7eda"
   integrity sha1-AEgAzVTMd4F8p/gNVTVSqzh/fto=
+  dependencies:
+    react "^16.5.1"
+
+"@bit/russeii.deephire.hooks@^0.0.3":
+  version "0.0.3"
+  resolved "https://node.bit.dev/russeii.deephire.hooks/-/russeii.deephire.hooks-0.0.3.tgz#7ee4f673173beaa9aae2c18e3c3e497ab02c3580"
+  integrity sha1-fuT2cxc76qmq4sGOPD5JerAsNYA=
   dependencies:
     react "^16.5.1"
 
