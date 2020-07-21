@@ -102,7 +102,8 @@ const Candidate = () => {
             style={{marginBottom: 24}}
            
           />
-          <FeedbackCard {...videoPlayerData} shortlistData={shortListData}  />
+         {shortListData && 
+          <FeedbackCard  setShortListData={shortList.setShortListData} rating={shortListData.rating} feedback={shortListData.feedback} {...videoPlayerData} shortList={shortList} num={num} />}
 
         </Col>
         <Col
@@ -113,7 +114,6 @@ const Candidate = () => {
           xl={{ span: 12, order: 2 }}
         >
 
-        {console.log(videoPlayerData)}
           <CandidateVideo {...videoPlayerData}  interval={10000} />
 
         </Col>

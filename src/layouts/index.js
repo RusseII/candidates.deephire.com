@@ -30,7 +30,7 @@ const BasicLayout = ({  children }) => {
 
 
   const contextValue = () => {
-    return { companyInfo, shortListData }
+    return { companyInfo, shortListData, setShortListData }
   }
 
   const interviews = shortListData?.[0]?.interviews

@@ -1,5 +1,5 @@
 // import styles from './ShortListAnalytics.less';
-import { List,} from 'antd';
+import { List, } from 'antd';
 import { router } from 'umi';
 import ShortListCandidateCard from '@/components/ShortListCandidateCard';
 import { trackAnalytics, sendEmail } from '@/services/api';
@@ -19,6 +19,7 @@ const Shortlist = () => {
 
   const shortList = useContext(ShortListContext)
   const shortListData = shortList.shortListData?.[0]
+  const { setShortListData } = shortList
 
   console.log(shortListData)
 
@@ -28,9 +29,9 @@ const Shortlist = () => {
       if (shortListData.interviews.length === 1) {
         console.log("h")
         viewCandidate(id, 0)
+      }
+      saveShortListClick()
     }
-    saveShortListClick()
-  }
   }, [shortListData])
 
 
@@ -48,7 +49,7 @@ const Shortlist = () => {
     else {
       shortListData.interviews[index]['clicks'] = [new Date().toString()];
     }
-
+    setShortListData([shortListData])
     await trackAnalytics(id, shortListData);
   };
 
@@ -72,6 +73,8 @@ const Shortlist = () => {
       shortListData['clicks'] = [current.format()];
       sendEmail('share-link-has-been-viewed', id, name, email, createdBy, description);
     }
+    console.log(shortListData, "SL")
+    setShortListData([shortListData])
     trackAnalytics(id, shortListData);
   };
 
