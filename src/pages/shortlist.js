@@ -3,7 +3,7 @@ import { List, } from 'antd';
 import { router } from 'umi';
 import ShortListCandidateCard from '@/components/ShortListCandidateCard';
 import { trackAnalytics, sendEmail } from '@/services/api';
-import styles from './shortList.css';
+
 import { lowerCaseQueryParams } from '@bit/russeii.deephire.utils.utils'
 
 
@@ -85,7 +85,7 @@ const Shortlist = () => {
   }
   return (
     <div>
-      <div className={styles.cardList}>
+      <div>
         <List loading={!shortListData}
           rowKey="id"
           grid={{ gutter: 24, xl: 3, lg: 2, md: 1, sm: 1, xs: 1 }}
