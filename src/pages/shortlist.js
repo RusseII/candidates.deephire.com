@@ -1,20 +1,61 @@
 // import styles from './ShortListAnalytics.less';
-import { List, Card, Row, Col } from 'antd';
+import { List, } from 'antd';
 import { router } from 'umi';
 import ShortListCandidateCard from '@/components/ShortListCandidateCard';
-import { fetchShortlist, trackAnalytics, sendEmail } from '@/services/api';
-import styles from './shortlist.css';
+import { trackAnalytics, sendEmail } from '@/services/api';
+import styles from './shortList.css';
+import { lowerCaseQueryParams } from '@bit/russeii.deephire.utils.utils'
 
-import qs from 'qs';
+
 import moment from 'moment';
 
-import React, { Component } from 'react';
+import React, { useContext, useEffect } from 'react';
 
-export default class Shortlist extends Component {
-  state = { shortListData: null };
+import { ShortListContext } from '../layouts';
 
-  saveShortListClick = () => {
-    const { shortListData, id } = this.state;
+const Shortlist = () => {
+  // const num = qs.parse(window.location.search)['num']
+  const { shortlist: id } = lowerCaseQueryParams(window.location.search)
+
+  const shortList = useContext(ShortListContext)
+  const shortListData = shortList.shortListData?.[0]
+  const { setShortListData } = shortList
+
+  console.log(shortListData)
+
+  useEffect(() => {
+    console.log(shortListData, "s")
+    if (shortListData?.interviews) {
+      if (shortListData.interviews.length === 1) {
+        console.log("h")
+        viewCandidate(id, 0)
+      }
+      saveShortListClick()
+    }
+  }, [shortListData])
+
+
+
+
+  const viewCandidate = async (id, i) => {
+    await saveCandidateClick(i);
+    router.push(`candidate?shortList=${id}&num=${i}`);
+  };
+
+
+  const saveCandidateClick = async index => {
+    if (shortListData.interviews[index]['clicks'])
+      shortListData.interviews[index]['clicks'].push(new Date().toString());
+    else {
+      shortListData.interviews[index]['clicks'] = [new Date().toString()];
+    }
+    setShortListData([shortListData])
+    await trackAnalytics(id, shortListData);
+  };
+
+
+  const saveShortListClick = () => {
+    if (!shortListData) return
     const { createdBy, name, email, description } = shortListData;
 
     let current = new moment();
@@ -32,84 +73,37 @@ export default class Shortlist extends Component {
       shortListData['clicks'] = [current.format()];
       sendEmail('share-link-has-been-viewed', id, name, email, createdBy, description);
     }
-    this.setState({ shortListData });
+    console.log(shortListData, "SL")
+    setShortListData([shortListData])
     trackAnalytics(id, shortListData);
   };
 
-  componentDidMount() {
-    const { location } = this.props;
-    const id = qs.parse(location.search)['?shortlist'];
-    console.log(id);
-    fetchShortlist(id).then(r => {
-      this.setState(
-        {
-          shortListData: r[0],
-          id,
-        },
-        () => {
-          this.saveShortListClick();
-        }
-      );
-      if (r[0] && r[0].interviews) {
-        if (r[0].interviews.length === 1) {
-          this.viewCandidate(id, 0);
-        }
-      }
-    });
-  }
-
-  viewCandidate = async (id, i) => {
-    await this.saveCandidateClick(i);
-    router.push(`candidate?shortlist=${id}&num=${i}`);
-  };
-
-  saveCandidateClick = async index => {
-    const { shortListData, id } = this.state;
-    if (shortListData.interviews[index]['clicks'])
-      shortListData.interviews[index]['clicks'].push(new Date().toString());
-    else {
-      shortListData.interviews[index]['clicks'] = [new Date().toString()];
+  if (shortListData?.interviews) {
+    if (shortListData.interviews.length === 1) {
+      return null
     }
-    this.setState({ shortListData });
-    await trackAnalytics(id, shortListData);
-  };
-
-  render() {
-    const { shortListData, id } = this.state;
-    console.log(shortListData);
-    if (!shortListData) return null;
-    const { hideInfo } = shortListData;
-
-    return (
-      <div>
-        <Card>
-          <Row type="flex">
-            <Col>
-              <div className={styles.pageHeader}>Short List of Candidates</div>
-            </Col>
-            <Col>
-              <div className={styles.divider}>|</div>
-            </Col>
-            <Col>
-              <div className={styles.pageSubHeading}>Created by {shortListData.createdBy}</div>
-            </Col>
-          </Row>
-        </Card>
-        <div className={styles.cardList}>
-          <List
-            rowKey="id"
-            style={{ marginTop: 24 }}
-            grid={{ gutter: 24, xl: 3, lg: 2, md: 1, sm: 1, xs: 1 }}
-            //   loading={loading}
-            dataSource={shortListData.interviews}
-            renderItem={(item, index) => (
-              <List.Item onClick={() => this.viewCandidate(id, index)} key={index}>
-                <ShortListCandidateCard hideInfo={hideInfo} item={item} index={index + 1} />
-              </List.Item>
-            )}
-          />
-        </div>
-      </div>
-    );
   }
+  return (
+    <div>
+      <div className={styles.cardList}>
+        <List loading={!shortListData}
+          rowKey="id"
+          grid={{ gutter: 24, xl: 3, lg: 2, md: 1, sm: 1, xs: 1 }}
+          dataSource={shortListData?.interviews}
+          renderItem={(item, index) => (
+            <List.Item onClick={() => viewCandidate(id, index)} key={index}>
+              <ShortListCandidateCard hideInfo={shortListData?.hideInfo} item={item} index={index + 1} />
+            </List.Item>
+          )}
+        />
+      </div>
+    </div>
+  );
 }
+
+export default Shortlist
+
+
+
+
+

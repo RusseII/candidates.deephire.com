@@ -1,44 +1,59 @@
 import { fetchCompanyInfo, fetchShortlist } from '@/services/api';
-import { Col, Layout, Row } from 'antd';
+import { PageHeader } from 'antd';
+import { lowerCaseQueryParams } from '@bit/russeii.deephire.utils.utils'
 import * as Sentry from '@sentry/browser';
 
-import qs from 'qs';
 import React, { useEffect, useState } from 'react';
 import styles from './index.css';
-const Header = Layout.Header;
 
-Sentry.init({dsn: "https://ba050977b865461497954ae331877145@sentry.io/5187820"});
+import { router } from 'umi';
 
+Sentry.init({ dsn: "https://ba050977b865461497954ae331877145@sentry.io/5187820" });
 
-const BasicLayout = ({ location, children }) => {
+export const ShortListContext = React.createContext();
+
+const BasicLayout = ({  children }) => {
+  const [shortListData, setShortListData] = useState(null)
   const [companyInfo, setCompanyInfo] = useState({ companyName: 'Loading...', logo: '' });
-  const id = qs.parse(location.search)['?shortlist'];
+  const { shortlist: id } = lowerCaseQueryParams(window.location.search)
 
   useEffect(() => {
-    fetchShortlist(id).then(r => {
-      if (r) {
-        fetchCompanyInfo(r[0].companyId).then(r => setCompanyInfo(r || {}));
-      }
-    });
+    const getShortListData = async (id) => {
+      const data = await fetchShortlist(id)
+      setShortListData(data)
+      const { companyId } = data?.[0]
+      const companyData = await fetchCompanyInfo(companyId)
+      setCompanyInfo(companyData) 
+    }
+    getShortListData(id)
   }, []);
 
+
+  const contextValue = () => {
+    return { companyInfo, shortListData, setShortListData }
+  }
+
+  const interviews = shortListData?.[0]?.interviews
+
+  const multipleCandidates = interviews && interviews.length > 1
   return (
     <div style={{ backgroundColor: '#F0F2F5' }}>
-      <Header style={{ backgroundColor: 'white' }}>
-        <Row type="flex" justify="space-between">
-          <Col>Shared by: {companyInfo.companyName || 'DeepHire'}</Col>
-          <Col>
-            <img
-              src={companyInfo.logo || 'https://s3.amazonaws.com/deephire/dh_vertical.png'}
-              alt={companyInfo.companyName}
-              height="50px"
-            />
-          </Col>
-        </Row>
-      </Header>
-      <div />
-      <div className={styles.container}> {children}</div>
+      <ShortListContext.Provider value={contextValue()}>
+        <PageHeader ghost={false} extra={<img
+          src={companyInfo.logo || 'https://s3.amazonaws.com/deephire/dh_vertical.png'}
+          alt={companyInfo.companyName}
+          height="48px"
+          style={{marginTop: -8, marginBottom: -8 }}
+        />} title={companyInfo.companyName}
+
+  
+          onBack={window.location.pathname !== '/shortlist' && multipleCandidates ? () => router.push(`/shortlist?shortlist=${id}`) : null}
+
+        />
+        <div className={styles.container}> {children}</div>
+      </ShortListContext.Provider>
     </div>
+
   );
 };
 

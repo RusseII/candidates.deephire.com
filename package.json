@@ -8,15 +8,19 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
+    "@bit/russeii.deephire.candidate.comments-card": "0.0.1",
+    "@bit/russeii.deephire.candidate.questions": "^0.0.4",
+    "@bit/russeii.deephire.hooks": "^0.0.3",
     "@sentry/browser": "^5.15.4",
-    "antd": "3.15.0",
+    "antd": "4.4.0",
     "es6-promise": "4.2.6",
     "isomorphic-fetch": "2.2.1",
     "moment": "^2.24.0",
     "qs": "6.6.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-player": "1.9.3"
+    "@bit/russeii.deephire.candidate.video": "0.0.3",
+    "@bit/russeii.deephire.candidate.data-card": "0.0.2"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
@@ -40,5 +44,10 @@
   },
   "engines": {
     "node": ">=8.0.0"
+  },
+  "bit": {
+    "env": {},
+    "componentsDefaultDirectory": "src/components/{name}",
+    "packageManager": "yarn"
   }
 }
