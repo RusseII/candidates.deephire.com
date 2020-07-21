@@ -56,10 +56,11 @@ export const sendEmail = (template, id, clientName, clientEmail, createdBy, desc
   });
 };
 
-export const getCandidateProfile = id => {
-  return fetch(`${apiUrl}candidates/${id}`)
-    .then(response => response.json())
-    .then(data => data);
+export const getCandidateProfile = async id => {
+  const res = await fetch(`${apiUrl}candidates/${id}`)
+  if (!res.ok) return null
+  const data = await res.json()
+  return data
 };
 
 export const getShortList = (shortlistId, num) => {

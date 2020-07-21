@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import { Card, Rate, Input, Button, message, Form } from 'antd'
 import { trackAnalytics, sendEmail } from '@/services/api'
 
-
-
 const FeedbackCard = ({ shortList, setShortListData, num, rating, feedback, setControlKeys }) => {
 
     const [loading, setLoading] = useState(false)
@@ -26,9 +24,7 @@ const FeedbackCard = ({ shortList, setShortListData, num, rating, feedback, setC
             sendEmail('feeback-left-on-share-link', _id, name, email, createdBy, `sharelink: ${feedback}`);
             setFeedbackLeft(true)
         }
-
         setShortListData(shortListData)
-
     }
 
     return (
@@ -55,23 +51,5 @@ const FeedbackCard = ({ shortList, setShortListData, num, rating, feedback, setC
             </Form>
         </Card>)
 }
-
-
-// const leaveFeedBackButton = () => {
-//     message.success('Feedback Submitted');
-//     storeFeedback();
-//     if (this.state.feedbackEmailSent === false) {
-//         //   this.setState({ feedbackEmailSent: true });
-//         const { _id, name, email, createdBy, description } = this.state.shortlistData;
-//         sendEmail('feeback-left-on-share-link', _id, name, email, createdBy, description);
-//     }
-// };
-
-
-// const storeFeedback = (shortlistData, num, shortListId, feedback, rating) => {
-//     shortlistData.interviews[num]['feedback'] = text;
-//     shortlistData.interviews[num]['rating'] = rating;
-//     trackAnalytics(shortListId, shortlistData);
-// };
 
 export default FeedbackCard
