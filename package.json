@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "@bit/russeii.deephire.candidate.comments-card": "0.0.1",
+    "@bit/russeii.deephire.candidate.data-card": "0.0.2",
     "@bit/russeii.deephire.candidate.questions": "^0.0.4",
+    "@bit/russeii.deephire.candidate.video": "^0.0.3",
     "@bit/russeii.deephire.hooks": "^0.0.3",
     "@sentry/browser": "^5.15.4",
     "antd": "4.4.0",
@@ -18,9 +20,7 @@
     "moment": "^2.24.0",
     "qs": "6.6.0",
     "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "@bit/russeii.deephire.candidate.video": "0.0.3",
-    "@bit/russeii.deephire.candidate.data-card": "0.0.2"
+    "react-dom": "^16.8.4"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

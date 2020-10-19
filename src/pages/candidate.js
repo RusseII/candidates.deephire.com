@@ -25,6 +25,7 @@ const Candidate = () => {
   const { num } = lowerCaseQueryParams(window.location.search)
 
   const shortList = useContext(ShortListContext)
+
   const shortListData = shortList.shortListData?.[0]?.interviews[num]
   const liveInterview = shortListData?.liveInterviewData?.recordingUrl
   const oneWayInterview = shortListData?._id
@@ -61,10 +62,11 @@ const Candidate = () => {
             style={{ marginBottom: 24 }}
             />
          }
+         {console.log({shortListData})}
             <CandidateDataCard
             userId={shortListData?.userId}
             userName={shortListData?.hideInfo ? 'A Candidate' : (shortListData?.userName) ? shortListData.userName : shortListData?.liveInterviewData?.candidateName}
-            interviewName={shortListData?.interviewName ||shortListData?.liveInterviewData.interviewName }
+            interviewName={shortListData?.interviewName ||shortListData?.liveInterviewData?.interviewName }
             email={shortListData?.candidateEmail || shortListData?.liveInterviewData?.candidateEmail}
             getCandidateProfile={getCandidateProfile}
             style={{marginBottom: 24}}
