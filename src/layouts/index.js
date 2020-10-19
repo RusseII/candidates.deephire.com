@@ -8,6 +8,8 @@ import styles from './index.css';
 
 import { router } from 'umi';
 import AskName from '../components/AskName';
+import ShareLink from '../components/ShareLink';
+
 
 Sentry.init({ dsn: 'https://ba050977b865461497954ae331877145@sentry.io/5187820' });
 
@@ -15,8 +17,8 @@ export const ShortListContext = React.createContext();
 
 const BasicLayout = ({ children }) => {
   const [shortListData, setShortListData] = useState(null);
-  // const [name, setName] = useState(localStorage.getItem('name'));
-  const [name, setName] = useState(false);
+  const [name, setName] = useState(localStorage.getItem('name'));
+  // const [name, setName] = useState(false);
 
   const [companyInfo, setCompanyInfo] = useState({ companyName: 'Loading...', logo: '' });
   const { shortlist: id } = lowerCaseQueryParams(window.location.search);
@@ -31,7 +33,6 @@ const BasicLayout = ({ children }) => {
     };
     getShortListData(id);
   }, []);
-
 
   const contextValue = () => {
     return { companyInfo, shortListData, setShortListData };
@@ -51,7 +52,8 @@ const BasicLayout = ({ children }) => {
       <ShortListContext.Provider value={contextValue()}>
         <PageHeader
           ghost={false}
-          extra={
+          extra={<ShareLink/>}
+          title={
             <img
               src={companyInfo.logo || 'https://s3.amazonaws.com/deephire/dh_vertical.png'}
               alt={companyInfo.companyName}
@@ -59,14 +61,15 @@ const BasicLayout = ({ children }) => {
               style={{ marginTop: -8, marginBottom: -8 }}
             />
           }
-          title={companyInfo.companyName}
           onBack={
             window.location.pathname !== '/shortlist' && multipleCandidates
               ? () => router.push(`/shortlist?shortlist=${id}`)
               : null
           }
         />
-        {shortListData?.[0]?.requireName && <AskName companyName={companyInfo.companyName} visible={!name} onSuccess={onSuccess} />}
+        {shortListData?.[0]?.requireName && (
+          <AskName companyName={companyInfo.companyName} visible={!name} onSuccess={onSuccess} />
+        )}
         <div className={styles.container}> {children}</div>
       </ShortListContext.Provider>
     </div>
