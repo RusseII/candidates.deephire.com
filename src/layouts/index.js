@@ -15,9 +15,8 @@ export const ShortListContext = React.createContext();
 
 const BasicLayout = ({ children }) => {
   const [shortListData, setShortListData] = useState(null);
-  // TODO - get from localstorageHere
-  const [name, setName] = useState(localStorage.getItem('name'));
-    // const [name, setName] = useState(false);
+  // const [name, setName] = useState(localStorage.getItem('name'));
+  const [name, setName] = useState(false);
 
   const [companyInfo, setCompanyInfo] = useState({ companyName: 'Loading...', logo: '' });
   const { shortlist: id } = lowerCaseQueryParams(window.location.search);
@@ -32,6 +31,7 @@ const BasicLayout = ({ children }) => {
     };
     getShortListData(id);
   }, []);
+
 
   const contextValue = () => {
     return { companyInfo, shortListData, setShortListData };
@@ -66,7 +66,7 @@ const BasicLayout = ({ children }) => {
               : null
           }
         />
-        <AskName companyName={companyInfo.companyName} visible={!name} onSuccess={onSuccess} />
+        {shortListData?.[0]?.requireName && <AskName companyName={companyInfo.companyName} visible={!name} onSuccess={onSuccess} />}
         <div className={styles.container}> {children}</div>
       </ShortListContext.Provider>
     </div>
