@@ -18,6 +18,8 @@ const Shortlist = () => {
   const { shortlist: id } = lowerCaseQueryParams(window.location.search)
 
   const shortList = useContext(ShortListContext)
+  const {name: viewerName} = shortList
+
   const shortListData = shortList.shortListData?.[0]
   const { setShortListData } = shortList
 
@@ -65,12 +67,17 @@ const Shortlist = () => {
       let prev = moment(shortListData['clicks'][len - 1]);
       if (moment.duration(current.diff(prev)).as('minutes') > '30') {
         shortListData['clicks'].push(current.format());
+        shortListData['trackedClicks'].push({name: viewerName, timestamp: current.format()});
+
         sendEmail('share-link-has-been-viewed', id, name, email, createdBy, description);
       } else {
         shortListData['clicks'][len - 1] = current.format();
+        shortListData['trackedClicks'].push({name: viewerName, timestamp: current.format()});
       }
     } else {
       shortListData['clicks'] = [current.format()];
+      shortListData['trackedClicks'] = [{name: viewerName, timestamp: current.format()}];
+
       sendEmail('share-link-has-been-viewed', id, name, email, createdBy, description);
     }
     console.log(shortListData, "SL")

@@ -17,7 +17,7 @@ export const ShortListContext = React.createContext();
 
 const BasicLayout = ({ children }) => {
   const [shortListData, setShortListData] = useState(null);
-  const [name, setName] = useState(localStorage.getItem('name'));
+  const [name, setName] = useState(localStorage.getItem('name') || '');
   // const [name, setName] = useState(false);
 
   const [companyInfo, setCompanyInfo] = useState({ companyName: 'Loading...', logo: '' });
@@ -35,7 +35,7 @@ const BasicLayout = ({ children }) => {
   }, []);
 
   const contextValue = () => {
-    return { companyInfo, shortListData, setShortListData };
+    return { companyInfo, shortListData, setShortListData, name };
   };
 
   const onSuccess = values => {
