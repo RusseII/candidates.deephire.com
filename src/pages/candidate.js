@@ -6,7 +6,6 @@ import CommentsCard from '@bit/russeii.deephire.candidate.comments-card';
 import CandidateDataCard from '@bit/russeii.deephire.candidate.data-card';
 import CandidateQuestions from '@bit/russeii.deephire.candidate.questions';
 
-import { useVideo } from '@bit/russeii.deephire.hooks';
 
 import { getCandidateProfile } from '@/services/api';
 import '@/global.css';
@@ -24,7 +23,7 @@ const Candidate = () => {
   const { num } = lowerCaseQueryParams(window.location.search);
 
   const shortList = useContext(ShortListContext);
-  const { name } = shortList;
+  const { name, videoPlayerData } = shortList;
 
   const hideInfo = shortList?.shortListData?.[0]?.hideInfo;
   const shortListData = shortList.shortListData?.[0]?.interviews[num];
@@ -32,7 +31,6 @@ const Candidate = () => {
   const oneWayInterview = shortListData?._id;
   const liveInterviewUrl = liveInterview ? liveInterview[liveInterview.length - 1] : null;
 
-  const videoPlayerData = useVideo();
 
   useEffect(() => {
     if (shortListData) {
