@@ -77,7 +77,7 @@ const ShortListAnalyticsCard = ({ item, hideInfo, index }) => {
         <Col />
         <Col>
           <div className={styles.statHeading}>Rating Provided</div>
-          <Rate disabled defaultValue={item.rating} />
+          <Rate disabled defaultValue={item?.fb?.[name]?.rating} />
         </Col>
       </Row>
       <div>

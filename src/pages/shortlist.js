@@ -62,6 +62,11 @@ const Shortlist = () => {
 
     let current = new moment();
 
+
+    if (shortListData['trackedClicks']) {
+      shortListData['trackedClicks'].push({name: viewerName, timestamp: current.format()});
+      console.log("should track")
+    }
     if (shortListData['clicks']) {
       const len = shortListData['clicks'].length;
       let prev = moment(shortListData['clicks'][len - 1]);
@@ -72,7 +77,6 @@ const Shortlist = () => {
         sendEmail('share-link-has-been-viewed', id, name, email, createdBy, description);
       } else {
         shortListData['clicks'][len - 1] = current.format();
-        shortListData['trackedClicks'].push({name: viewerName, timestamp: current.format()});
       }
     } else {
       shortListData['clicks'] = [current.format()];
