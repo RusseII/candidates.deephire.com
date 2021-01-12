@@ -99,7 +99,7 @@ const Shortlist = () => {
       <div>
         <List loading={!shortListData}
           rowKey="id"
-          grid={{ gutter: 24, xl: 3, lg: 2, md: 1, sm: 1, xs: 1 }}
+          grid={{ gutter: 24, xxl: 3, xl: 3, lg: 2, md: 1, sm: 1, xs: 1 }}
           dataSource={shortListData?.interviews}
           renderItem={(item, index) => (
             <List.Item onClick={() => viewCandidate(id, index)} key={index}>
