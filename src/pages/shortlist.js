@@ -67,12 +67,16 @@ const Shortlist = () => {
       shortListData['trackedClicks'].push({name: viewerName, timestamp: current.format()});
       console.log("should track")
     }
+    else {
+      console.log("should track")
+      shortListData['trackedClicks'] = [{name: viewerName, timestamp: current.format()}];
+    }
     if (shortListData['clicks']) {
       const len = shortListData['clicks'].length;
       let prev = moment(shortListData['clicks'][len - 1]);
+      
       if (moment.duration(current.diff(prev)).as('minutes') > '30') {
         shortListData['clicks'].push(current.format());
-        shortListData['trackedClicks'].push({name: viewerName, timestamp: current.format()});
 
         sendEmail('share-link-has-been-viewed', id, name, email, createdBy, description);
       } else {
@@ -80,7 +84,6 @@ const Shortlist = () => {
       }
     } else {
       shortListData['clicks'] = [current.format()];
-      shortListData['trackedClicks'] = [{name: viewerName, timestamp: current.format()}];
 
       sendEmail('share-link-has-been-viewed', id, name, email, createdBy, description);
     }

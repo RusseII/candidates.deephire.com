@@ -62,7 +62,6 @@ const Candidate = () => {
               style={{ marginBottom: 24 }}
             />
           )}
-          {console.log({ shortListData })}
           <CandidateDataCard
             userId={shortListData?.userId}
             userName={
