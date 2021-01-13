@@ -9,6 +9,7 @@ import styles from './index.css';
 import { router } from 'umi';
 import AskName from '../components/AskName';
 import ShareLink from '../components/ShareLink';
+import { useVideo } from '@bit/russeii.deephire.hooks';
 
 
 Sentry.init({ dsn: 'https://ba050977b865461497954ae331877145@sentry.io/5187820' });
@@ -16,8 +17,10 @@ Sentry.init({ dsn: 'https://ba050977b865461497954ae331877145@sentry.io/5187820' 
 export const ShortListContext = React.createContext();
 
 const BasicLayout = ({ children }) => {
+  const videoPlayerData = useVideo();
+
   const [shortListData, setShortListData] = useState(null);
-  const [name, setName] = useState(localStorage.getItem('name'));
+  const [name, setName] = useState(localStorage.getItem('name') || '');
   // const [name, setName] = useState(false);
 
   const [companyInfo, setCompanyInfo] = useState({ companyName: 'Loading...', logo: '' });
@@ -35,7 +38,7 @@ const BasicLayout = ({ children }) => {
   }, []);
 
   const contextValue = () => {
-    return { companyInfo, shortListData, setShortListData };
+    return { companyInfo, shortListData, setShortListData, name, videoPlayerData };
   };
 
   const onSuccess = values => {
@@ -67,8 +70,8 @@ const BasicLayout = ({ children }) => {
               : null
           }
         />
-        {shortListData?.[0]?.requireName && (
-          <AskName companyName={companyInfo.companyName} visible={!name} onSuccess={onSuccess} />
+        {shortListData?.[0]?.requireName  && (
+          <AskName {...videoPlayerData} companyName={companyInfo.companyName} visible={!name} onSuccess={onSuccess} />
         )}
         <div className={styles.container}> {children}</div>
       </ShortListContext.Provider>

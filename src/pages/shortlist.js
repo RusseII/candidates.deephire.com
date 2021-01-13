@@ -18,6 +18,8 @@ const Shortlist = () => {
   const { shortlist: id } = lowerCaseQueryParams(window.location.search)
 
   const shortList = useContext(ShortListContext)
+  const {name: viewerName} = shortList
+
   const shortListData = shortList.shortListData?.[0]
   const { setShortListData } = shortList
 
@@ -60,17 +62,29 @@ const Shortlist = () => {
 
     let current = new moment();
 
+
+    if (shortListData['trackedClicks']) {
+      shortListData['trackedClicks'].push({name: viewerName, timestamp: current.format()});
+      console.log("should track")
+    }
+    else {
+      console.log("should track")
+      shortListData['trackedClicks'] = [{name: viewerName, timestamp: current.format()}];
+    }
     if (shortListData['clicks']) {
       const len = shortListData['clicks'].length;
       let prev = moment(shortListData['clicks'][len - 1]);
+      
       if (moment.duration(current.diff(prev)).as('minutes') > '30') {
         shortListData['clicks'].push(current.format());
+
         sendEmail('share-link-has-been-viewed', id, name, email, createdBy, description);
       } else {
         shortListData['clicks'][len - 1] = current.format();
       }
     } else {
       shortListData['clicks'] = [current.format()];
+
       sendEmail('share-link-has-been-viewed', id, name, email, createdBy, description);
     }
     console.log(shortListData, "SL")
@@ -88,7 +102,7 @@ const Shortlist = () => {
       <div>
         <List loading={!shortListData}
           rowKey="id"
-          grid={{ gutter: 24, xl: 3, lg: 2, md: 1, sm: 1, xs: 1 }}
+          grid={{ gutter: 24, xxl: 3, xl: 3, lg: 2, md: 1, sm: 1, xs: 1 }}
           dataSource={shortListData?.interviews}
           renderItem={(item, index) => (
             <List.Item onClick={() => viewCandidate(id, index)} key={index}>
