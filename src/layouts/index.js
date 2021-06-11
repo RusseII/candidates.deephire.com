@@ -15,6 +15,8 @@ Sentry.init({ dsn: 'https://ba050977b865461497954ae331877145@sentry.io/5187820' 
 
 export const ShortListContext = React.createContext();
 
+const logoStyle = { marginTop: -8, marginBottom: -8 };
+
 const BasicLayout = ({ children }) => {
   const videoPlayerData = useVideo();
 
@@ -23,7 +25,6 @@ const BasicLayout = ({ children }) => {
   // const [name, setName] = useState(false);
 
   const [companyInfo, setCompanyInfo] = useState({ companyName: 'Loading...', logo: '' });
-  const [logoStyle, setLogoStyle] = useState({ marginTop: -8, marginBottom: -8 });
 
   const { shortlist: id } = lowerCaseQueryParams(window.location.search);
 
@@ -37,7 +38,7 @@ const BasicLayout = ({ children }) => {
       if (recruiterCompany) {
         companyData.logo = companyData.brands[recruiterCompany].logo;
         companyData.companyName = companyData.brands[recruiterCompany].name;
-        setLogoStyle({});
+        companyData.brand = true;
       }
       setCompanyInfo(companyData);
     };
@@ -68,7 +69,7 @@ const BasicLayout = ({ children }) => {
               src={companyInfo.logo || 'https://s3.amazonaws.com/deephire/dh_vertical.png'}
               alt={companyInfo.companyName}
               height="48px"
-              style={logoStyle}
+              style={companyInfo.brand ? logoStyle : {}}
             />
           }
           onBack={
