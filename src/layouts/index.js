@@ -11,10 +11,11 @@ import AskName from '../components/AskName';
 import ShareLink from '../components/ShareLink';
 import { useVideo } from '@bit/russeii.deephire.hooks';
 
-
 Sentry.init({ dsn: 'https://ba050977b865461497954ae331877145@sentry.io/5187820' });
 
 export const ShortListContext = React.createContext();
+
+const logoStyle = { marginTop: -8, marginBottom: -8 };
 
 const BasicLayout = ({ children }) => {
   const videoPlayerData = useVideo();
@@ -24,6 +25,7 @@ const BasicLayout = ({ children }) => {
   // const [name, setName] = useState(false);
 
   const [companyInfo, setCompanyInfo] = useState({ companyName: 'Loading...', logo: '' });
+
   const { shortlist: id } = lowerCaseQueryParams(window.location.search);
 
   useEffect(() => {
@@ -31,7 +33,13 @@ const BasicLayout = ({ children }) => {
       const data = await fetchShortlist(id);
       setShortListData(data);
       const { companyId } = data?.[0];
+      const { recruiterCompany } = data?.[0].interviews?.[0]?.completeInterviewData.interviewData;
       const companyData = await fetchCompanyInfo(companyId);
+      if (recruiterCompany) {
+        companyData.logo = companyData.brands[recruiterCompany].logo;
+        companyData.companyName = companyData.brands[recruiterCompany].name;
+        companyData.brand = true;
+      }
       setCompanyInfo(companyData);
     };
     getShortListData(id);
@@ -55,13 +63,13 @@ const BasicLayout = ({ children }) => {
       <ShortListContext.Provider value={contextValue()}>
         <PageHeader
           ghost={false}
-          extra={<ShareLink/>}
+          extra={<ShareLink />}
           title={
             <img
               src={companyInfo.logo || 'https://s3.amazonaws.com/deephire/dh_vertical.png'}
               alt={companyInfo.companyName}
               height="48px"
-              style={{ marginTop: -8, marginBottom: -8 }}
+              style={companyInfo.brand ? logoStyle : {}}
             />
           }
           onBack={
@@ -70,8 +78,13 @@ const BasicLayout = ({ children }) => {
               : null
           }
         />
-        {shortListData?.[0]?.requireName  && (
-          <AskName {...videoPlayerData} companyName={companyInfo.companyName} visible={!name} onSuccess={onSuccess} />
+        {shortListData?.[0]?.requireName && (
+          <AskName
+            {...videoPlayerData}
+            companyName={companyInfo.companyName}
+            visible={!name}
+            onSuccess={onSuccess}
+          />
         )}
         <div className={styles.container}> {children}</div>
       </ShortListContext.Provider>
