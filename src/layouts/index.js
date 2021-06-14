@@ -33,13 +33,25 @@ const BasicLayout = ({ children }) => {
       const data = await fetchShortlist(id);
       setShortListData(data);
       const { companyId } = data?.[0];
-      const { recruiterCompany } = data?.[0].interviews?.[0]?.completeInterviewData.interviewData;
       const companyData = await fetchCompanyInfo(companyId);
-      if (recruiterCompany) {
-        companyData.logo = companyData.brands[recruiterCompany].logo;
-        companyData.companyName = companyData.brands[recruiterCompany].name;
-        companyData.brand = true;
+      console.log(data);
+      const { liveInterviewData, completeInterviewData } = data?.[0].interviews?.[0];
+      if (completeInterviewData) {
+        const { recruiterCompany } = completeInterviewData.interviewData;
+        if (recruiterCompany) {
+          companyData.logo = companyData.brands[recruiterCompany].logo;
+          companyData.companyName = companyData.brands[recruiterCompany].name;
+          companyData.brand = true;
+        }
+      } else if (liveInterviewData) {
+        const { recruiterCompany } = liveInterviewData;
+        if (recruiterCompany) {
+          companyData.logo = companyData.brands[recruiterCompany].logo;
+          companyData.companyName = companyData.brands[recruiterCompany].name;
+          companyData.brand = true;
+        }
       }
+
       setCompanyInfo(companyData);
     };
     getShortListData(id);
@@ -69,7 +81,7 @@ const BasicLayout = ({ children }) => {
               src={companyInfo.logo || 'https://s3.amazonaws.com/deephire/dh_vertical.png'}
               alt={companyInfo.companyName}
               height="48px"
-              style={companyInfo.brand ? logoStyle : {}}
+              style={companyInfo.brand ? {} : logoStyle}
             />
           }
           onBack={
