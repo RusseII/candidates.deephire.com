@@ -34,7 +34,6 @@ const BasicLayout = ({ children }) => {
       setShortListData(data);
       const { companyId } = data?.[0];
       const companyData = await fetchCompanyInfo(companyId);
-      console.log(data);
       const { liveInterviewData, completeInterviewData } = data?.[0].interviews?.[0];
       if (completeInterviewData) {
         const { recruiterCompany } = completeInterviewData.interviewData;
