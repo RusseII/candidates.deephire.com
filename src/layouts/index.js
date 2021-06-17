@@ -34,21 +34,20 @@ const BasicLayout = ({ children }) => {
       setShortListData(data);
       const { companyId } = data?.[0];
       const companyData = await fetchCompanyInfo(companyId);
-      const { liveInterviewData, completeInterviewData } = data?.[0]?.interviews?.[0] || {}
+      const { liveInterviewData, completeInterviewData } = data?.[0]?.interviews?.[0] || {};
+
+      let recruiterCompany;
+      if (liveInterviewData) {
+        ({ recruiterCompany } = liveInterviewData);
+      }
       if (completeInterviewData) {
-        const { recruiterCompany } = completeInterviewData.interviewData;
-        if (recruiterCompany) {
-          companyData.logo = companyData.brands[recruiterCompany].logo;
-          companyData.companyName = companyData.brands[recruiterCompany].name;
-          companyData.brand = true;
-        }
-      } else if (liveInterviewData) {
-        const { recruiterCompany } = liveInterviewData;
-        if (recruiterCompany) {
-          companyData.logo = companyData.brands[recruiterCompany].logo;
-          companyData.companyName = companyData.brands[recruiterCompany].name;
-          companyData.brand = true;
-        }
+        ({ recruiterCompany } = completeInterviewData.interviewData);
+      }
+      if (recruiterCompany) {
+        const branding = companyData?.brands?.[recruiterCompany];
+        companyData.logo = branding?.logo;
+        companyData.companyName = branding?.name;
+        companyData.brand = true;
       }
 
       setCompanyInfo(companyData);
