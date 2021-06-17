@@ -33,13 +33,23 @@ const BasicLayout = ({ children }) => {
       const data = await fetchShortlist(id);
       setShortListData(data);
       const { companyId } = data?.[0];
-      const { recruiterCompany } = data?.[0].interviews?.[0]?.completeInterviewData.interviewData;
       const companyData = await fetchCompanyInfo(companyId);
+      const { liveInterviewData, completeInterviewData } = data?.[0]?.interviews?.[0] || {};
+
+      let recruiterCompany;
+      if (liveInterviewData) {
+        ({ recruiterCompany } = liveInterviewData);
+      }
+      if (completeInterviewData) {
+        ({ recruiterCompany } = completeInterviewData.interviewData);
+      }
       if (recruiterCompany) {
-        companyData.logo = companyData.brands[recruiterCompany].logo;
-        companyData.companyName = companyData.brands[recruiterCompany].name;
+        const branding = companyData?.brands?.[recruiterCompany];
+        companyData.logo = branding?.logo;
+        companyData.companyName = branding?.name;
         companyData.brand = true;
       }
+
       setCompanyInfo(companyData);
     };
     getShortListData(id);
@@ -69,7 +79,7 @@ const BasicLayout = ({ children }) => {
               src={companyInfo.logo || 'https://s3.amazonaws.com/deephire/dh_vertical.png'}
               alt={companyInfo.companyName}
               height="48px"
-              style={companyInfo.brand ? logoStyle : {}}
+              style={companyInfo.brand ? {} : logoStyle}
             />
           }
           onBack={
