@@ -6,7 +6,6 @@ import CommentsCard from '@bit/russeii.deephire.candidate.comments-card';
 import CandidateDataCard from '@bit/russeii.deephire.candidate.data-card';
 import CandidateQuestions from '@bit/russeii.deephire.candidate.questions';
 
-
 import { getCandidateProfile } from '@/services/api';
 import '@/global.css';
 import 'antd/dist/antd.css';
@@ -30,7 +29,6 @@ const Candidate = () => {
   const liveInterview = shortListData?.liveInterviewData?.recordingUrl;
   const oneWayInterview = shortListData?._id;
   const liveInterviewUrl = liveInterview ? liveInterview[liveInterview.length - 1] : null;
-
 
   useEffect(() => {
     if (shortListData) {
