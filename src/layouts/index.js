@@ -1,4 +1,4 @@
-import { fetchCompanyInfo, fetchShortlist } from '@/services/api';
+import { fetchCompanyInfo, fetchShortlist, trackAnalytics } from '@/services/api';
 import { PageHeader } from 'antd';
 import { lowerCaseQueryParams } from '@bit/russeii.deephire.utils.utils';
 import * as Sentry from '@sentry/browser';
@@ -10,6 +10,8 @@ import { router } from 'umi';
 import AskName from '../components/AskName';
 import ShareLink from '../components/ShareLink';
 import { useVideo } from '@bit/russeii.deephire.hooks';
+
+import moment from 'moment';
 
 Sentry.init({ dsn: 'https://ba050977b865461497954ae331877145@sentry.io/5187820' });
 
@@ -45,6 +47,25 @@ const BasicLayout = ({ children }) => {
     getShortListData(id);
   }, []);
 
+  const saveShortListClick = viewerName => {
+    if (!shortListData) return;
+    let current = new moment();
+
+    const shortListLength = shortListData['trackedClicks'];
+
+    if (shortListData['trackedClicks']) {
+      shortListData['trackedClicks'][shortListLength - 1] = {
+        name: viewerName,
+        timestamp: current.format(),
+      };
+    } else {
+      console.log('should track');
+      shortListData['trackedClicks'] = [{ name: viewerName, timestamp: current.format() }];
+    }
+
+    trackAnalytics(id, shortListData);
+  };
+
   const contextValue = () => {
     return { companyInfo, shortListData, setShortListData, name, videoPlayerData };
   };
@@ -52,6 +73,7 @@ const BasicLayout = ({ children }) => {
   const onSuccess = values => {
     const { name } = values;
     localStorage.setItem('name', name);
+    saveShortListClick(name);
     setName(name);
   };
 

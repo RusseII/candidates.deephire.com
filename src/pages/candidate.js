@@ -6,7 +6,6 @@ import CommentsCard from '@bit/russeii.deephire.candidate.comments-card';
 import CandidateDataCard from '@bit/russeii.deephire.candidate.data-card';
 import CandidateQuestions from '@bit/russeii.deephire.candidate.questions';
 
-
 import { getCandidateProfile } from '@/services/api';
 import '@/global.css';
 import 'antd/dist/antd.css';
@@ -31,22 +30,6 @@ const Candidate = () => {
   const oneWayInterview = shortListData?._id;
   const liveInterviewUrl = liveInterview ? liveInterview[liveInterview.length - 1] : null;
 
-  const saveShortListClick = () => {
-    if (!shortListData) return
-    const { createdBy, name, email, description } = shortListData;
-
-     const shortListLength = shortListData['trackedClicks']
-
-    if (shortListData['trackedClicks']) {
-      shortListData['trackedClicks'][shortListLength - 1] ={name: viewerName, timestamp: current.format()};
-    }
-    else {
-      console.log("should track")
-      shortListData['trackedClicks'] = [{name: viewerName, timestamp: current.format()}];
-    }
-    
-    trackAnalytics(id, shortListData);
-  };
   useEffect(() => {
     if (shortListData) {
       if (liveInterviewUrl) {
